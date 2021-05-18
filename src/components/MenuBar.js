@@ -1,11 +1,30 @@
 import React from 'react';
 import axios from 'axios';
-import Button from '@material-ui/core/Button';
-import {useHistory} from 'react-router-dom';
+import {Link as RouterLink} from 'react-router-dom';
+import {
+    Drawer,
+    List,
+    ListItem,
+    CssBaseline,
+    makeStyles,
+    ListItemText
+} from '@material-ui/core';
+
+const drawerWidth = 200;
+const useStyles = makeStyles((theme) => ({
+    drawer: {
+        width: drawerWidth,
+        flexShrink: 0,
+    },
+    drawerPaper: {
+        width: drawerWidth,
+    },
+}))
 
 export default function MenuBar() {
+    const classes = useStyles();
+
     const isAdmin = localStorage.getItem("admin-flag");
-    const history = useHistory();
 
     function logout() {
         localStorage.removeItem("AUTH_TOKEN");
@@ -13,16 +32,45 @@ export default function MenuBar() {
         if (window.location.pathname === "/") {
             window.location.reload();
         } else {
-            history.push("/");
+            window.location.replace(`${window.location.origin}/`);
         }
     }
 
     return (
-        <Button 
-            onClick={logout}
-            variant="outlined"
+        <React.Fragment>
+            <CssBaseline />
+            <Drawer
+                className={classes.drawer}
+                variant="permanent"
+                anchor="left"
+                classes={{
+                    paper: classes.drawerPaper,
+                }}
             >
-            Logout
-        </Button>
+                <List>
+                    <ListItem button key="all-vehicles">
+                        <ListItemText primary="All vehicles" />
+                    </ListItem>
+                    <ListItem button key="book-vehicle">
+                        <ListItemText primary="Book a vehicle" />
+                    </ListItem>
+                    <ListItem button key="my-bookings">
+                        <ListItemText primary="My bookings" />
+                    </ListItem>
+                    <ListItem button key="my-vehicles">
+                        <ListItemText primary="My vehicles" />
+                    </ListItem>
+                    <ListItem button key="manage-employees">
+                        <ListItemText primary="Manage employees" />
+                    </ListItem>
+                    <ListItem button key="admin-panel">
+                        <ListItemText primary="Admin panel" />
+                    </ListItem>
+                    <ListItem button key="logout" onClick={logout}>
+                        <ListItemText primary="Logout" />
+                    </ListItem>
+                </List>
+            </Drawer>
+        </React.Fragment>
     )
 }
