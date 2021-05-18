@@ -48,24 +48,28 @@ export default function MenuBar() {
                 }}
             >
                 <List>
-                    <ListItem button key="all-vehicles">
+                    <ListItem button key="all-vehicles" to="/" component={RouterLink}>
                         <ListItemText primary="All vehicles" />
                     </ListItem>
-                    <ListItem button key="book-vehicle">
+                    <ListItem button key="book-vehicle" to="/book-vehicle" component={RouterLink}>
                         <ListItemText primary="Book a vehicle" />
                     </ListItem>
-                    <ListItem button key="my-bookings">
+                    <ListItem button key="my-bookings" to="/my-bookings" component={RouterLink}>
                         <ListItemText primary="My bookings" />
                     </ListItem>
-                    <ListItem button key="my-vehicles">
+                    <ListItem button key="my-vehicles" to="/my-vehicles" component={RouterLink}>
                         <ListItemText primary="My vehicles" />
                     </ListItem>
-                    <ListItem button key="manage-employees">
+                    { isAdmin &&
+                    <ListItem button key="manage-employees" to="/manage-employees" component={RouterLink}>
                         <ListItemText primary="Manage employees" />
                     </ListItem>
-                    <ListItem button key="admin-panel">
+                    }
+                    { isAdmin &&
+                    <ListItem button key="admin-panel" to="/admin-panel" component={RouterLink}>
                         <ListItemText primary="Admin panel" />
                     </ListItem>
+                    }
                     <ListItem button key="logout" onClick={logout}>
                         <ListItemText primary="Logout" />
                     </ListItem>

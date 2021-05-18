@@ -52,6 +52,7 @@ export default function LoginPrompt() {
             <Button 
                 onClick={doLogin}
                 variant="outlined"
+                size="large"
             >
                 Login
             </Button>
