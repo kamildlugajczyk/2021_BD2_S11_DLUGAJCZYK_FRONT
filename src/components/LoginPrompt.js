@@ -20,31 +20,38 @@ export default function LoginPrompt() {
         .then((response) => {
             localStorage.setItem(`AUTH_TOKEN`, response.data);
             axios.defaults.headers.common["Authorization"] = response.data;
+            window.location.reload();
         })
         .catch(() => {
             localStorage.setItem('AUTH_TOKEN', "Bearer nosiema");
-            
+            window.location.reload();
         });
-        window.location.reload();
     }
 
     return(
-        <div>
+        <form>
             <TextField
                 id="login"
                 label="Login"
                 name="login"
+                variant="outlined"
+                required
+                autoComplete="login"
                 onChange={(l) => { setLogin(l.target.value) }}
             />
             <TextField
                 id="password"
                 label="Password"
                 name="password"
+                type="password"
+                variant="outlined"
+                required
+                autoComplete="current-password"
                 onChange={(l) => { setPassword(l.target.value) }}
             />
             <Button onClick={doLogin}>
                 Login
             </Button>
-        </div>
+        </form>
     );
 }
