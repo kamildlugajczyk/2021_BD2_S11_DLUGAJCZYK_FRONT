@@ -49,7 +49,10 @@ export default function LoginPrompt() {
                 autoComplete="current-password"
                 onChange={(l) => { setPassword(l.target.value) }}
             />
-            <Button onClick={doLogin}>
+            <Button 
+                onClick={doLogin}
+                variant="outlined"
+            >
                 Login
             </Button>
         </form>
