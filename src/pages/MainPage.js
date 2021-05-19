@@ -1,6 +1,4 @@
 import React, { Suspense } from 'react';
-//import LoginPage from './LoginPage';
-//import VehicleList from './VehicleList';
 
 const LoginPage = React.lazy(() => import('./LoginPage'));
 const VehicleList = React.lazy(() => import('./VehicleListPage'));
