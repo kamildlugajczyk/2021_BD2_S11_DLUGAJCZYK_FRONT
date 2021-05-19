@@ -11,22 +11,22 @@ import AdminPanelPage from "../pages/AdminPanelPage";
 export default function App() {
   return (
     <BrowserRouter>
-      <Route path="/">
+      <Route exact path="/">
         <MainPage />
       </Route>
-      <Route path="/book-vehicle">
+      <Route exact path="/book-vehicle">
         <BookVehiclePage />
       </Route>
-      <Route path="/my-bookings">
+      <Route exact path="/my-bookings">
         <MyBookingsPage />
       </Route>
-      <Route path="/my-vehicles">
+      <Route exact path="/my-vehicles">
         <MyVehiclesPage />
       </Route>
-      <Route path="/manage-employees">
+      <Route exact path="/manage-employees">
         <ManageEmployeesPage />
       </Route>
-      <Route path="/admin-panel">
+      <Route exact path="/admin-panel">
         <AdminPanelPage />
       </Route>
     </BrowserRouter>

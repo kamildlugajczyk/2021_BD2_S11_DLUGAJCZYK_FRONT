@@ -6,7 +6,7 @@ export default function VehicleListPage() {
 
     return (
         <div>
-            {/* <MenuBar /> */}
+            <MenuBar />
             <VehiclePicker />
         </div>
     )
