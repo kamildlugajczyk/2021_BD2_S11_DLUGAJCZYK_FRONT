@@ -4,6 +4,6 @@ import MenuBar from '../components/MenuBar';
 export default function ManageEmployeesPage() {
 
     return (
-        <MenuBar/>
+        <MenuBar selected="manage-employees" />
     )
 }

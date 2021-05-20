@@ -4,6 +4,6 @@ import MenuBar from '../components/MenuBar';
 export default function AdminPanelPage() {
 
     return (
-        <MenuBar/>
+        <MenuBar selected="admin-panel" />
     )
 }

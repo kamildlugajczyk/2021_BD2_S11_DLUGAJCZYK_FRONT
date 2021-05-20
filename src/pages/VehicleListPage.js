@@ -6,7 +6,7 @@ export default function VehicleListPage() {
 
     return (
         <div>
-            <MenuBar />
+            <MenuBar selected="all-vehicles" />
             <VehiclePicker url="/get-all-vehicles" />
         </div>
     )
