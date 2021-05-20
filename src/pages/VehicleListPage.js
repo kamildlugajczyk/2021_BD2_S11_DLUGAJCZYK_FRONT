@@ -7,7 +7,7 @@ export default function VehicleListPage() {
     return (
         <div>
             <MenuBar />
-            <VehiclePicker />
+            <VehiclePicker url="/get-all-vehicles" />
         </div>
     )
 }

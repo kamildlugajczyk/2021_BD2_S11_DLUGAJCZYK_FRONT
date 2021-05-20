@@ -12,13 +12,13 @@ const useStyles = makeStyles((theme) => ({
     },
   }));
 
-export default function VehiclePicker() {
+export default function VehiclePicker(props) {
     const classes = useStyles();
     const [selectedId, setSelectedId] = useState(0);
     const [vehicleList, setVehicleList] = useState([]);
 
     useEffect(() => {
-        axios.get("/get-all-vehicles")
+        axios.get(props.url)
             .then((response) => {
                 setVehicleList(response);
             })
@@ -36,7 +36,7 @@ export default function VehiclePicker() {
                     }
                 ]);
             })
-    }, []);
+    }, [props.url]);
 
     const handleListItemClick = (event, id) => {
         setSelectedId(id);
