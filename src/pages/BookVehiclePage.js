@@ -1,11 +1,13 @@
 import React from 'react';
 import MenuBar from '../components/MenuBar';
+import VehiclePicker from '../components/VehiclePicker';
 
 export default function BookVehiclePage() {
 
     return (
         <div>
-            <MenuBar />
+            <MenuBar selected="book-vehicle" />
+            <VehiclePicker url="/get-all-vehicles" />
         </div>
     )
 }
