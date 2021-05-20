@@ -49,6 +49,7 @@ export default function VehiclePicker(props) {
                     return (
                     <ListItem
                         button
+                        key={vehicle.id}
                         selected={selectedId === vehicle.id}
                         onClick={(event) => handleListItemClick(event, vehicle.id)}
                     >
