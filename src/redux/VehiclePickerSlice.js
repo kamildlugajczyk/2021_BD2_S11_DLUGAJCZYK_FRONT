@@ -3,11 +3,11 @@ import { createSlice } from '@reduxjs/toolkit';
 export const vehiclePickerSlice = createSlice({
     name: 'vehiclePicker',
     initialState: {
-        selectedId: 0
+        selectedVehicleId: 0
     },
     reducers: {
         setSelected: (state, action) => {
-            state.selectedId = action.payload;
+            state.selectedVehicleId = action.payload;
         }
     }
 })

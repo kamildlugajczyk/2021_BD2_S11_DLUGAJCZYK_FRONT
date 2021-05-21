@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function VehiclePicker(props) {
     const classes = useStyles();
-    const selectedId = useSelector(selectSelectedId);
+    const selectedVehicleId = useSelector(selectSelectedId);
     const dispatch = useDispatch();
     const [vehicleList, setVehicleList] = useState([]);
 
@@ -38,8 +38,9 @@ export default function VehiclePicker(props) {
                         model: "test2m"
                     }
                 ]);
-            })
-    }, [props.url]);
+            });
+        dispatch(setSelected(0));
+    }, [props.url, dispatch]);
 
     return (
         <div className={classes.root}>
@@ -49,7 +50,7 @@ export default function VehiclePicker(props) {
                     <ListItem
                         button
                         key={vehicle.id}
-                        selected={selectedId === vehicle.id}
+                        selected={selectedVehicleId === vehicle.id}
                         onClick={() => dispatch(setSelected(vehicle.id))}
                     >
                         <ListItemText 
