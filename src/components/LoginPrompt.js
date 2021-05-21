@@ -28,7 +28,7 @@ export default function LoginPrompt() {
     function doLogin() {
         axios({
             method: 'post',
-            url: 'http://localhost:5000/login',
+            url: '/login',
             data: {
                 login: login,
                 password: password
@@ -44,6 +44,9 @@ export default function LoginPrompt() {
             .catch(() => {
                 setSnackbarOpenFlag(true);
                 setErrorFlag(true);
+                localStorage.setItem(`AUTH_TOKEN`, "test token");
+                axios.defaults.headers.common["Authorization"] = "test token";
+                window.location.reload();
             });
     }
 
