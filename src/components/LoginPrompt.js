@@ -25,7 +25,7 @@ export default function LoginPrompt() {
     function doLogin() {
         axios({
             method: 'post',
-            url: 'no nie wiem',
+            url: 'http://localhost:5000/login',
             data: {
                 login: login,
                 password: password
@@ -37,8 +37,7 @@ export default function LoginPrompt() {
                 window.location.reload();
             })
             .catch(() => {
-                localStorage.setItem('AUTH_TOKEN', "Bearer nosiema");
-                window.location.reload();
+                console.log("login error");
             });
     }
 
