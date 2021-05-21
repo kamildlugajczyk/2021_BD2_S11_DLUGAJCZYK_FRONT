@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import {
     Drawer,
@@ -22,39 +21,17 @@ const useStyles = makeStyles((theme) => ({
 
 export default function MenuBar(props) {
     const classes = useStyles();
-    const [isAdmin, setIsAdmin] = useState(false);
+    const isAdmin = (localStorage.getItem("user-permissions") === "admin");
 
     function logout() {
         localStorage.removeItem("AUTH_TOKEN");
-        delete axios.defaults.headers.common["Authorization"];
+        localStorage.removeItem("user-permissions");
         if (window.location.pathname === "/") {
             window.location.reload();
         } else {
             window.location.replace(`${window.location.origin}/`);
         }
     }
-
-    useEffect(() => {
-        axios({
-            method: "GET",
-            url: "http://localhost:5000/my-permissions",
-            headers: {
-                'Access-Control-Allow-Origin': '*',
-                'Content-Type': 'application/json',
-                'Authorization': localStorage.getItem("AUTH_TOKEN")
-            }
-        })
-        .then((response) => {
-            if (response.data.permissions === "admin") {
-                setIsAdmin(true);
-            } else {
-                setIsAdmin(false);
-            }
-        })
-        .catch(() => {
-            setIsAdmin(false);
-        })
-    }, [])
 
     return (
         <Drawer

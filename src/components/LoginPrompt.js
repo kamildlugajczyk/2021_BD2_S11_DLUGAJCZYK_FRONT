@@ -24,6 +24,7 @@ export default function LoginPrompt() {
     const [password, setPassword] = useState();
     const [errorFlag, setErrorFlag] = useState(false);
     const [snackbarOpenFlag, setSnackbarOpenFlag] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("Error");
 
     function doLogin() {
         axios({
@@ -42,9 +43,30 @@ export default function LoginPrompt() {
             setSnackbarOpenFlag(false);
             setErrorFlag(false);
             localStorage.setItem(`AUTH_TOKEN`, response.data);
-            window.location.reload();
+            // fetching user permissions and storing them in localStorage
+            // localStorage can be modified by the user but this would only allow rendering of admin options
+            axios({
+                method: "GET",
+                url: "http://localhost:5000/my-permissions",
+                headers: {
+                    'Access-Control-Allow-Origin': '*',
+                    'Content-Type': 'application/json',
+                    'Authorization': localStorage.getItem("AUTH_TOKEN")
+                }
+            })
+            .then((response2) => {
+                localStorage.setItem("user-permissions", response2.data.permissions);
+                window.location.reload();
+            })
+            .catch(() => {
+                setErrorMessage("Login failed (perm)")
+                setSnackbarOpenFlag(true);
+                setErrorFlag(true);
+            })
+            
         })
         .catch(() => {
+            setErrorMessage("Login failed (main)")
             setSnackbarOpenFlag(true);
             setErrorFlag(true);
         });
@@ -55,6 +77,7 @@ export default function LoginPrompt() {
             return;
         }
         setSnackbarOpenFlag(false);
+        setErrorFlag(false);
     }
 
     return (
@@ -104,7 +127,7 @@ export default function LoginPrompt() {
                 onClose={handleSnackbarClose}
             >
                 <Alert onClose={handleSnackbarClose} severity="error">
-                    Login error
+                    {errorMessage}
                 </Alert>
             </Snackbar>
         </div>
