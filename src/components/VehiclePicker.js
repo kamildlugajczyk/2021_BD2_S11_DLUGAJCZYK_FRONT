@@ -2,6 +2,8 @@ import { List, ListItem, ListItemText } from '@material-ui/core';
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import { useDispatch, useSelector } from 'react-redux';
+import { setSelected, selectSelectedId } from '../redux/VehiclePickerSlice';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -14,7 +16,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function VehiclePicker(props) {
     const classes = useStyles();
-    const [selectedId, setSelectedId] = useState(0);
+    const selectedId = useSelector(selectSelectedId);
+    const dispatch = useDispatch();
     const [vehicleList, setVehicleList] = useState([]);
 
     useEffect(() => {
@@ -38,10 +41,6 @@ export default function VehiclePicker(props) {
             })
     }, [props.url]);
 
-    const handleListItemClick = (event, id) => {
-        setSelectedId(id);
-    }
-
     return (
         <div className={classes.root}>
             <List component="nav">
@@ -51,7 +50,7 @@ export default function VehiclePicker(props) {
                         button
                         key={vehicle.id}
                         selected={selectedId === vehicle.id}
-                        onClick={(event) => handleListItemClick(event, vehicle.id)}
+                        onClick={() => dispatch(setSelected(vehicle.id))}
                     >
                         <ListItemText 
                             primary={[vehicle.brand, vehicle.model].join(" ")}
