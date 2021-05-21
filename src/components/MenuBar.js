@@ -26,7 +26,7 @@ export default function MenuBar(props) {
 
     function logout() {
         localStorage.removeItem("AUTH_TOKEN");
-        axios.defaults.headers.common["Authorization"] = null;
+        delete axios.defaults.headers.common["Authorization"];
         if (window.location.pathname === "/") {
             window.location.reload();
         } else {
@@ -35,7 +35,15 @@ export default function MenuBar(props) {
     }
 
     useEffect(() => {
-        axios.get("/my-permissions")
+        axios({
+            method: "GET",
+            url: "http://localhost:5000/my-permissions",
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+                'Content-Type': 'application/json',
+                'Authorization': localStorage.getItem("AUTH_TOKEN")
+            }
+        })
         .then((response) => {
             if (response.data.permissions === "admin") {
                 setIsAdmin(true);
@@ -44,8 +52,7 @@ export default function MenuBar(props) {
             }
         })
         .catch(() => {
-            //setIsAdmin(false);
-            setIsAdmin(true);
+            setIsAdmin(false);
         })
     }, [])
 

@@ -7,7 +7,7 @@ export default function BookVehiclePage() {
     return (
         <div>
             <MenuBar selected="book-vehicle" />
-            <VehiclePicker url="/get-all-vehicles" />
+            <VehiclePicker url="http://localhost:5000/all-vehicles" />
         </div>
     )
 }

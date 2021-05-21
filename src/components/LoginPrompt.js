@@ -28,26 +28,26 @@ export default function LoginPrompt() {
     function doLogin() {
         axios({
             method: 'post',
-            url: '/login',
+            url: 'http://localhost:5000/login',
             data: {
                 login: login,
                 password: password
+            },
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+                'Content-Type': 'application/json',
             }
         })
-            .then((response) => {
-                setSnackbarOpenFlag(false);
-                setErrorFlag(false);
-                localStorage.setItem(`AUTH_TOKEN`, response.data);
-                axios.defaults.headers.common["Authorization"] = response.data;
-                window.location.reload();
-            })
-            .catch(() => {
-                setSnackbarOpenFlag(true);
-                setErrorFlag(true);
-                localStorage.setItem(`AUTH_TOKEN`, "test token");
-                axios.defaults.headers.common["Authorization"] = "test token";
-                window.location.reload();
-            });
+        .then((response) => {
+            setSnackbarOpenFlag(false);
+            setErrorFlag(false);
+            localStorage.setItem(`AUTH_TOKEN`, response.data);
+            window.location.reload();
+        })
+        .catch(() => {
+            setSnackbarOpenFlag(true);
+            setErrorFlag(true);
+        });
     }
 
     const handleSnackbarClose = (event, reason) => {
@@ -98,8 +98,8 @@ export default function LoginPrompt() {
                     </form>
                 </div>
             </Container>
-            <Snackbar 
-                open={snackbarOpenFlag} 
+            <Snackbar
+                open={snackbarOpenFlag}
                 autoHideDuration={6000}
                 onClose={handleSnackbarClose}
             >

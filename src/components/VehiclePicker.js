@@ -21,24 +21,18 @@ export default function VehiclePicker(props) {
     const [vehicleList, setVehicleList] = useState([]);
 
     useEffect(() => {
-        axios.get(props.url)
-            .then((response) => {
-                setVehicleList(response);
-            })
-            .catch(() => {
-                setVehicleList([
-                    {
-                        id: 1,
-                        brand: "test",
-                        model: "testm"
-                    },
-                    {
-                        id: 2,
-                        brand: "test2",
-                        model: "test2m"
-                    }
-                ]);
-            });
+        axios({
+            method: "GET",
+            url: props.url,
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+                'Content-Type': 'application/json',
+                'Authorization': localStorage.getItem("AUTH_TOKEN")
+            }
+        })
+        .then((response) => {
+            setVehicleList(response.data);
+        })
         dispatch(setSelected(0));
     }, [props.url, dispatch]);
 
@@ -55,7 +49,7 @@ export default function VehiclePicker(props) {
                     >
                         <ListItemText 
                             primary={[vehicle.brand, vehicle.model].join(" ")}
-                            secondary="secondary" 
+                            secondary={[vehicle.type, vehicle.equipmentlevel, vehicle.purpose].join(" | ")} 
                         />
                     </ListItem>
                     )
