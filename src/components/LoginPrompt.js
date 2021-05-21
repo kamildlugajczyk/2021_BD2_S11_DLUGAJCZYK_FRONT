@@ -3,7 +3,8 @@ import { useState } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import axios from 'axios';
-import { Container, CssBaseline, makeStyles } from '@material-ui/core';
+import { Container, CssBaseline, makeStyles, Snackbar } from '@material-ui/core';
+import { Alert } from '@material-ui/lab';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -21,6 +22,8 @@ export default function LoginPrompt() {
     const classes = useStyles();
     const [login, setLogin] = useState();
     const [password, setPassword] = useState();
+    const [errorFlag, setErrorFlag] = useState(false);
+    const [snackbarOpenFlag, setSnackbarOpenFlag] = useState(false);
 
     function doLogin() {
         axios({
@@ -32,52 +35,75 @@ export default function LoginPrompt() {
             }
         })
             .then((response) => {
+                setSnackbarOpenFlag(false);
+                setErrorFlag(false);
                 localStorage.setItem(`AUTH_TOKEN`, response.data);
                 axios.defaults.headers.common["Authorization"] = response.data;
                 window.location.reload();
             })
             .catch(() => {
-                console.log("login error");
+                setSnackbarOpenFlag(true);
+                setErrorFlag(true);
             });
     }
 
+    const handleSnackbarClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setSnackbarOpenFlag(false);
+    }
+
     return (
-        <Container component="main" maxwidth="xs">
-            <CssBaseline />
-            <div className={classes.paper}>
-                <form>
-                    <TextField
-                        className={classes.textInput}
-                        id="login"
-                        label="Login"
-                        name="login"
-                        variant="outlined"
-                        required
-                        fullWidth
-                        autoComplete="login"
-                        onChange={(l) => { setLogin(l.target.value) }}
-                    />
-                    <TextField
-                        className={classes.textInput}
-                        id="password"
-                        label="Password"
-                        name="password"
-                        type="password"
-                        variant="outlined"
-                        required
-                        fullWidth
-                        autoComplete="current-password"
-                        onChange={(l) => { setPassword(l.target.value) }}
-                    />
-                    <Button
-                        onClick={doLogin}
-                        variant="contained"
-                        fullWidth
-                    >
-                        Login
+        <div>
+            <Container component="main" maxwidth="xs">
+                <CssBaseline />
+                <div className={classes.paper}>
+                    <form>
+                        <TextField
+                            error={errorFlag}
+                            className={classes.textInput}
+                            id="login"
+                            label="Login"
+                            name="login"
+                            variant="outlined"
+                            required
+                            fullWidth
+                            autoComplete="login"
+                            onChange={(l) => { setLogin(l.target.value) }}
+                        />
+                        <TextField
+                            error={errorFlag}
+                            className={classes.textInput}
+                            id="password"
+                            label="Password"
+                            name="password"
+                            type="password"
+                            variant="outlined"
+                            required
+                            fullWidth
+                            autoComplete="current-password"
+                            onChange={(l) => { setPassword(l.target.value) }}
+                        />
+                        <Button
+                            onClick={doLogin}
+                            variant="contained"
+                            fullWidth
+                        >
+                            Login
                     </Button>
-                </form>
-            </div>
-        </Container>
+                    </form>
+                </div>
+            </Container>
+            <Snackbar 
+                open={snackbarOpenFlag} 
+                autoHideDuration={6000}
+                onClose={handleSnackbarClose}
+            >
+                <Alert onClose={handleSnackbarClose} severity="error">
+                    Login error
+                </Alert>
+            </Snackbar>
+        </div>
     );
 }

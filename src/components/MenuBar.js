@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link as RouterLink } from 'react-router-dom';
 import {
@@ -22,8 +22,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function MenuBar(props) {
     const classes = useStyles();
-
-    const isAdmin = localStorage.getItem("admin-flag");
+    const [isAdmin, setIsAdmin] = useState(false);
 
     function logout() {
         localStorage.removeItem("AUTH_TOKEN");
@@ -34,6 +33,20 @@ export default function MenuBar(props) {
             window.location.replace(`${window.location.origin}/`);
         }
     }
+
+    useEffect(() => {
+        axios.get("http://localhost:5000/my-permissions")
+        .then((response) => {
+            if (response.data.permissions === "admin") {
+                setIsAdmin(true);
+            } else {
+                setIsAdmin(false);
+            }
+        })
+        .catch(() => {
+            setIsAdmin(false);
+        })
+    }, [])
 
     return (
         <Drawer
@@ -57,12 +70,12 @@ export default function MenuBar(props) {
                 <ListItem button key="my-vehicles" selected={props.selected === "my-vehicles"} to="/my-vehicles" component={RouterLink}>
                     <ListItemText primary="My vehicles" />
                 </ListItem>
-                {isAdmin &&
+                {isAdmin === true &&
                     <ListItem button key="manage-employees" selected={props.selected === "manage-employees"} to="/manage-employees" component={RouterLink}>
                         <ListItemText primary="Manage employees" />
                     </ListItem>
                 }
-                {isAdmin &&
+                {isAdmin === true &&
                     <ListItem button key="admin-panel" selected={props.selected === "admin-panel"} to="/admin-panel" component={RouterLink}>
                         <ListItemText primary="Admin panel" />
                     </ListItem>
