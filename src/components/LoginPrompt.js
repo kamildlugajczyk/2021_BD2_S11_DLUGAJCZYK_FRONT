@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import axios from 'axios';
@@ -20,8 +20,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function LoginPrompt() {
     const classes = useStyles();
-    const [login, setLogin] = useState();
-    const [password, setPassword] = useState();
+    const [login, setLogin] = useState("");
+    const [password, setPassword] = useState("");
     const [errorFlag, setErrorFlag] = useState(false);
     const [snackbarOpenFlag, setSnackbarOpenFlag] = useState(false);
     const [errorMessage, setErrorMessage] = useState("Error");
@@ -77,8 +77,21 @@ export default function LoginPrompt() {
             return;
         }
         setSnackbarOpenFlag(false);
-        setErrorFlag(false);
     }
+
+    // support for the enter key without reloading the page
+    useEffect(() => {
+        const listener = event => {
+          if (event.code === "Enter" || event.code === "NumpadEnter") {
+            event.preventDefault();
+            doLogin();
+          }
+        };
+        document.addEventListener("keydown", listener);
+        return () => {
+          document.removeEventListener("keydown", listener);
+        };
+      }, [doLogin]);
 
     return (
         <div>
