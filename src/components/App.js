@@ -1,10 +1,10 @@
 import React from 'react';
 import { Route, BrowserRouter } from 'react-router-dom';
 
-import MainPage from "../pages/MainPage";
-import BookVehiclePage from "../pages/BookVehiclePage";
-import MyBookingsPage from "../pages/MyBookingsPage";
-import MyVehiclesPage from "../pages/MyVehiclesPage";
+import VehicleListGate from "../pages/VehicleListPage";
+import BookVehicleGate from "../pages/BookVehiclePage";
+import MyBookingsGate from "../pages/MyBookingsPage";
+import MyVehiclesGate from "../pages/MyVehiclesPage";
 import ManageEmployeesPage from "../pages/ManageEmployeesPage";
 import AdminPanelPage from "../pages/AdminPanelPage";
 
@@ -12,16 +12,16 @@ export default function App() {
   return (
     <BrowserRouter>
       <Route exact path="/">
-        <MainPage />
+        <VehicleListGate />
       </Route>
       <Route exact path="/book-vehicle">
-        <BookVehiclePage />
+        <BookVehicleGate />
       </Route>
       <Route exact path="/my-bookings">
-        <MyBookingsPage />
+        <MyBookingsGate />
       </Route>
       <Route exact path="/my-vehicles">
-        <MyVehiclesPage />
+        <MyVehiclesGate />
       </Route>
       <Route exact path="/manage-employees">
         <ManageEmployeesPage />

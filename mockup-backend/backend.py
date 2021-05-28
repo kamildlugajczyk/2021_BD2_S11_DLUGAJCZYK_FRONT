@@ -64,8 +64,11 @@ def my_permissions():
     if request.headers.get('authorization') == 'Bearer testadmintoken':
         resp = make_response("{\"permissions\": \"admin\"}", 200)
         return resp
-    else:
+    elif request.headers.get('authorization') == 'Bearer testusertoken':
         resp = make_response("{\"permissions\": \"user\"}", 200)
+        return resp
+    else:
+        resp = make_response("", 400)
         return resp
 
 

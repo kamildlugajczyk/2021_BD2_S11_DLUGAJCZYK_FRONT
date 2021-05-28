@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import axios from 'axios';
@@ -26,7 +26,8 @@ export default function LoginPrompt() {
     const [snackbarOpenFlag, setSnackbarOpenFlag] = useState(false);
     const [errorMessage, setErrorMessage] = useState("Error");
 
-    function doLogin() {
+    // The 'doLogin' function makes the dependencies of useEffect Hook (at line 73) change on every render. To fix this, wrap the definition of 'doLogin' in its own useCallback() Hook
+    const doLogin = useCallback(() => {
         axios({
             method: 'post',
             url: 'http://localhost:5000/login',
@@ -43,34 +44,15 @@ export default function LoginPrompt() {
             setSnackbarOpenFlag(false);
             setErrorFlag(false);
             localStorage.setItem(`AUTH_TOKEN`, response.data);
-            // fetching user permissions and storing them in localStorage
-            // localStorage can be modified by the user but this would only allow rendering of admin options
-            axios({
-                method: "GET",
-                url: "http://localhost:5000/my-permissions",
-                headers: {
-                    'Access-Control-Allow-Origin': '*',
-                    'Content-Type': 'application/json',
-                    'Authorization': localStorage.getItem("AUTH_TOKEN")
-                }
-            })
-            .then((response2) => {
-                localStorage.setItem("user-permissions", response2.data.permissions);
-                window.location.reload();
-            })
-            .catch(() => {
-                setErrorMessage("Login failed (perm)")
-                setSnackbarOpenFlag(true);
-                setErrorFlag(true);
-            })
-            
+            window.location.reload();         
         })
         .catch(() => {
             setErrorMessage("Login failed (main)")
             setSnackbarOpenFlag(true);
             setErrorFlag(true);
         });
-    }
+    }, [login, password])
+
 
     const handleSnackbarClose = (event, reason) => {
         if (reason === 'clickaway') {
