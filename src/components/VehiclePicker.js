@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { setSelected, selectSelectedId } from '../redux/VehiclePickerSlice';
+import config from '../config';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -20,10 +21,11 @@ export default function VehiclePicker(props) {
     const dispatch = useDispatch();
     const [vehicleList, setVehicleList] = useState([]);
 
+
     useEffect(() => {
         axios({
             method: "GET",
-            url: props.url,
+            url: `${config.API_URL}${props.url}`,
             headers: {
                 'Access-Control-Allow-Origin': '*',
                 'Content-Type': 'application/json',

@@ -3,6 +3,7 @@ import axios from 'axios';
 import MenuBar from '../components/MenuBar';
 import VehiclePicker from '../components/VehiclePicker';
 import LoginPage from './LoginPage';
+import config from '../config';
 
 
 
@@ -14,7 +15,7 @@ export default function MyVehiclesGate() {
     useEffect(() => {
         axios({
             method: "GET",
-            url: "http://localhost:5000/my-permissions",
+            url: `${config.API_URL}/my-permissions`,
             headers: {
                 'Access-Control-Allow-Origin': '*',
                 'Content-Type': 'application/json',

@@ -72,7 +72,7 @@ def my_permissions():
         return resp
 
 
-@app.route('/all-vehicles', methods=['GET'])
+@app.route('/vehicles', methods=['GET'])
 @cross_origin()
 def get_all_vehicles():
     resp = make_response(jsonify(all_vehicles), 200)

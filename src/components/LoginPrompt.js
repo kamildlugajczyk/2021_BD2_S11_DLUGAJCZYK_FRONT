@@ -5,6 +5,7 @@ import Button from '@material-ui/core/Button';
 import axios from 'axios';
 import { Container, CssBaseline, makeStyles, Snackbar } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
+import config from '../config';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -30,7 +31,7 @@ export default function LoginPrompt() {
     const doLogin = useCallback(() => {
         axios({
             method: 'post',
-            url: 'http://localhost:5000/login',
+            url: `${config.API_URL}/login`,
             data: {
                 login: login,
                 password: password
