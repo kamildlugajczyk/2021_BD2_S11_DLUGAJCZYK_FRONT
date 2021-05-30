@@ -17,7 +17,6 @@ export default function MyVehiclesGate() {
             method: "GET",
             url: `${config.API_URL}/my-permissions`,
             headers: {
-                'Access-Control-Allow-Origin': '*',
                 'Content-Type': 'application/json',
                 'Authorization': localStorage.getItem("AUTH_TOKEN")
             }

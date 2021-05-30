@@ -16,7 +16,6 @@ export default function MyBookingsGate() {
             method: "GET",
             url: `${config.API_URL}/my-permissions`,
             headers: {
-                'Access-Control-Allow-Origin': '*',
                 'Content-Type': 'application/json',
                 'Authorization': localStorage.getItem("AUTH_TOKEN")
             }

@@ -26,8 +26,8 @@ export default function VehiclePicker(props) {
         axios({
             method: "GET",
             url: `${config.API_URL}${props.url}`,
+            //url: `https://fleet-management-develop.herokuapp.com${props.url}`,
             headers: {
-                'Access-Control-Allow-Origin': '*',
                 'Content-Type': 'application/json',
                 'Authorization': localStorage.getItem("AUTH_TOKEN")
             }
