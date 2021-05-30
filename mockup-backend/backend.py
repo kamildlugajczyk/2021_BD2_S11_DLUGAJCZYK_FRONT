@@ -42,6 +42,43 @@ all_vehicles = [
     }
 ]
 
+employees = [
+    {
+        'id': 1,
+        'firstname': 'Jerzy',
+        'lastname': 'Kiler',
+        'phonenumber': '123456789',
+        'function': 'Driver'
+    },
+    {
+        'id': 2,
+        'firstname': 'Stefan',
+        'lastname': 'Siarzewski',
+        'phonenumber': '456789123',
+        'function': 'Driver'
+    },
+    {
+        'id': 3,
+        'firstname': 'Jerzy',
+        'lastname': 'Ryba',
+        'phonenumber': '132435465',
+        'function': 'Driver'
+    },
+    {
+        'id': 4,
+        'firstname': 'Ferdynand',
+        'lastname': 'Lipski',
+        'phonenumber': '111111111',
+        'function': 'Driver'
+    },
+    {
+        'id': 5,
+        'firstname': 'Ryszarda',
+        'lastname': 'Siarzewska',
+        'phonenumber': '223344556',
+        'function': 'Driver'
+    },
+]
 
 @app.route('/login', methods=['POST'])
 @cross_origin()
@@ -73,6 +110,12 @@ def my_permissions():
 @cross_origin()
 def get_all_vehicles():
     resp = make_response(jsonify(all_vehicles), 200)
+    return resp
+
+@app.route('/employees', methods=['GET'])
+@cross_origin()
+def get_employees():
+    resp = make_response(jsonify(employees), 200)
     return resp
 
 
