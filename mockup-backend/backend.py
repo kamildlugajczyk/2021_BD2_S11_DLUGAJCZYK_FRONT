@@ -112,7 +112,7 @@ def get_all_vehicles():
     resp = make_response(jsonify(all_vehicles), 200)
     return resp
 
-@app.route('/employees', methods=['GET'])
+@app.route('/manage-employees', methods=['GET'])
 @cross_origin()
 def get_employees():
     resp = make_response(jsonify(employees), 200)
