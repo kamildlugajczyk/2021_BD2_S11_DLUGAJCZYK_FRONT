@@ -1,9 +1,8 @@
 import { DataGrid } from '@material-ui/data-grid';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { makeStyles } from '@material-ui/core/styles';
-import { useDispatch, useSelector } from 'react-redux';
-import { setSelected, selectSelectedEmployeeId } from '../redux/EmployeesListSlice';
+import { useDispatch } from 'react-redux';
+import { setSelected } from '../redux/EmployeesListSlice';
 
 const columns = [
   { field: 'id', headerName: 'ID', width: 100 },
