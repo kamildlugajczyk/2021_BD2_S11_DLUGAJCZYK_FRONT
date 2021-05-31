@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
-import { setSelected, selectSelectedId } from '../redux/EmployeesListSlice';
+import { setSelected, selectSelectedEmployeeId } from '../redux/EmployeesListSlice';
 
 const columns = [
   { field: 'id', headerName: 'ID', width: 100 },
@@ -14,9 +14,17 @@ const columns = [
 ];
 
 export default function EmployeesList(props) {
-    const selectedEmployeeId = useSelector(selectSelectedId);
     const dispatch = useDispatch();
-    const [employeesArray, setEmployeesArray] = useState([]);
+    const [employeesArray, setEmployeesArray] = useState([
+        {
+            id: 1,
+            firstName: "test",
+            lastName: "test",
+            phoneNumber: 0,
+            function: "test"
+        }
+    ]);
+
     useEffect(() => {
         axios({
             method: "GET",
@@ -44,9 +52,8 @@ export default function EmployeesList(props) {
         }]);
     });
     return (
-
         <div style={{height: '700px', marginLeft: '200px' }}>
-            <DataGrid rows={rows} columns={columns} checkboxSelection />
+            <DataGrid rows={rows} columns={columns} disableMultipleSelection={true} onRowSelected={(row) => {dispatch(setSelected(row.data.id))}} />
         </div>
     );
 }

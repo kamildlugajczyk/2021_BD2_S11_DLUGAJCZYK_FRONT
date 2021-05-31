@@ -3,7 +3,7 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
-import { setSelected, selectSelectedId } from '../redux/VehiclePickerSlice';
+import { setSelected, selectSelectedVehicleId } from '../redux/VehiclePickerSlice';
 import config from '../config';
 
 const useStyles = makeStyles((theme) => ({
@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function VehiclePicker(props) {
     const classes = useStyles();
-    const selectedVehicleId = useSelector(selectSelectedId);
+    const selectedVehicleId = useSelector(selectSelectedVehicleId);
     const dispatch = useDispatch();
     const [vehicleList, setVehicleList] = useState([]);
 

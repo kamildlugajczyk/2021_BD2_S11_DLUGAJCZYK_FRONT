@@ -14,4 +14,4 @@ export const vehiclePickerSlice = createSlice({
 
 export const { setSelected } = vehiclePickerSlice.actions;
 export default vehiclePickerSlice.reducer;
-export const selectSelectedId = (state) => state.vehiclePicker.selectedVehicleId;
+export const selectSelectedVehicleId = (state) => state.rootReducer.vehiclePicker.selectedVehicleId;

@@ -14,4 +14,4 @@ export const employeesListSlice = createSlice({
 
 export const { setSelected } = employeesListSlice.actions;
 export default employeesListSlice.reducer;
-export const selectSelectedId = (state) => state.selectedEmployeeId;
+export const selectSelectedEmployeeId = (state) => state.rootReducer.employeesList.selectedEmployeeId;
