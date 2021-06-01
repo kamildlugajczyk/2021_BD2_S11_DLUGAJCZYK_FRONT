@@ -44,7 +44,7 @@ function VehicleListPage() {
     return (
         <div>
             <MenuBar selected="all-vehicles" />
-            <VehiclePicker url="/vehicles" />
+            <VehiclePicker url="/vehicle" />
         </div>
     )
 }
