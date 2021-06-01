@@ -29,7 +29,7 @@ export default function VehiclePicker(props) {
             //url: `https://fleet-management-develop.herokuapp.com${props.url}`,
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': localStorage.getItem("AUTH_TOKEN")
+                'Authorization': `Bearer ${localStorage.getItem("AUTH_TOKEN")}`
             }
         })
         .then((response) => {

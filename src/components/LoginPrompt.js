@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function LoginPrompt() {
     const classes = useStyles();
-    const [login, setLogin] = useState("");
+    const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [errorFlag, setErrorFlag] = useState(false);
     const [snackbarOpenFlag, setSnackbarOpenFlag] = useState(false);
@@ -33,7 +33,7 @@ export default function LoginPrompt() {
             method: 'post',
             url: `${config.API_URL}/login`,
             data: {
-                login: login,
+                username: username,
                 password: password
             },
             headers: {
@@ -43,7 +43,8 @@ export default function LoginPrompt() {
         .then((response) => {
             setSnackbarOpenFlag(false);
             setErrorFlag(false);
-            localStorage.setItem(`AUTH_TOKEN`, response.data);
+            console.log(response.data);
+            localStorage.setItem(`AUTH_TOKEN`, response.data.jwt);
             window.location.reload();         
         })
         .catch(() => {
@@ -51,7 +52,7 @@ export default function LoginPrompt() {
             setSnackbarOpenFlag(true);
             setErrorFlag(true);
         });
-    }, [login, password])
+    }, [username, password])
 
 
     const handleSnackbarClose = (event, reason) => {
@@ -84,14 +85,14 @@ export default function LoginPrompt() {
                         <TextField
                             error={errorFlag}
                             className={classes.textInput}
-                            id="login"
-                            label="Login"
-                            name="login"
+                            id="username"
+                            label="Username"
+                            name="username"
                             variant="outlined"
                             required
                             fullWidth
-                            autoComplete="login"
-                            onChange={(l) => { setLogin(l.target.value) }}
+                            autoComplete="username"
+                            onChange={(l) => { setUsername(l.target.value) }}
                         />
                         <TextField
                             error={errorFlag}

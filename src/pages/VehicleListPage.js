@@ -14,14 +14,13 @@ export default function VehicleListGate() {
     useEffect(() => {
         axios({
             method: "GET",
-            url: `${config.API_URL}/my-permissions`,
+            url: `${config.API_URL}/authorities`,
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': localStorage.getItem("AUTH_TOKEN")
+                'Authorization': `Bearer ${localStorage.getItem("AUTH_TOKEN")}`
             }
         })
         .then((response) => {
-            localStorage.setItem("user-permissions", response.data.permissions);
+            localStorage.setItem("user-permissions", response.data.authority);
             setIsTokenValid(true);
         })
         .catch(() => {

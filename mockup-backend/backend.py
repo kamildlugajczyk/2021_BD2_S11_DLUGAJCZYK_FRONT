@@ -118,10 +118,10 @@ employees = [
 @app.route('/login', methods=['POST'])
 @cross_origin()
 def login():
-    if request.json['login'] == 'admin' and request.json['password'] == 'admin':
+    if request.json['username'] == 'admin' and request.json['password'] == 'admin':
         resp = make_response("Bearer testadmintoken", 200)
         return resp
-    elif request.json['login'] == 'user' and request.json['password'] == 'user':
+    elif request.json['username'] == 'user' and request.json['password'] == 'user':
         resp = make_response("Bearer testusertoken", 200)
         return resp
     else:
@@ -129,7 +129,7 @@ def login():
         return resp
 
 
-@app.route('/my-permissions', methods=['GET'])
+@app.route('/authorities', methods=['GET'])
 @cross_origin()
 def my_permissions():
     print(request.headers.get('authorization'))

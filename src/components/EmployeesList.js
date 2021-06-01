@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { setSelected } from '../redux/EmployeesListSlice';
+import config from '../config';
 
 const columns = [
   { field: 'id', headerName: 'ID', width: 100 },
@@ -27,11 +28,10 @@ export default function EmployeesList(props) {
     useEffect(() => {
         axios({
             method: "GET",
-            url: props.url,
+            url: `${config.API_URL}${props.url}`,
             headers: {
-                'Access-Control-Allow-Origin': '*',
                 'Content-Type': 'application/json',
-                'Authorization': localStorage.getItem("AUTH_TOKEN")
+                'Authorization': `Bearer ${localStorage.getItem("AUTH_TOKEN")}`
             }
         })
         .then((response) => {
