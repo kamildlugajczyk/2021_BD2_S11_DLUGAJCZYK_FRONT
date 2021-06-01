@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { setSelected } from '../redux/EmployeesListSlice';
 import config from '../config';
+import { makeStyles } from '@material-ui/core';
 
 const columns = [
   { field: 'id', headerName: 'ID', width: 100 },
@@ -13,7 +14,15 @@ const columns = [
   { field: 'function', headerName: 'Function', width: 150},
 ];
 
+const useStyles = makeStyles((theme) => ({
+    root: {
+        height: window.innerHeight*0.8, //80% doesnt work
+        marginLeft: '200px'
+    },
+}))
+
 export default function EmployeesList() {
+    const classes = useStyles();
     const dispatch = useDispatch();
     const [employeesArray, setEmployeesArray] = useState([
         {
@@ -46,12 +55,12 @@ export default function EmployeesList() {
             id: employee.id,
             firstName: employee.firstname,
             lastName: employee.lastname,
-            phoneNumber: employee.phonenumber,
+            phoneNumber: employee.phoneNumber,
             function: employee.function.name,
         }]);
     });
     return (
-        <div style={{height: '700px', marginLeft: '200px' }}>
+        <div className={classes.root}>
             <DataGrid rows={rows} columns={columns} disableMultipleSelection={true} onRowSelected={(row) => {dispatch(setSelected(row.data.id))}} />
         </div>
     );
