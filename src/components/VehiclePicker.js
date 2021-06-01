@@ -50,8 +50,8 @@ export default function VehiclePicker(props) {
                         onClick={() => dispatch(setSelected(vehicle.id))}
                     >
                         <ListItemText 
-                            primary={[vehicle.brand, vehicle.model].join(" ")}
-                            secondary={[vehicle.type, vehicle.equipmentlevel, vehicle.purpose].join(" | ")} 
+                            primary={[vehicle.brandmodel.brand, vehicle.brandmodel.model].join(" ")}
+                            secondary={[vehicle.type.name, vehicle.equipmentLevel, vehicle.purpose.name].join(" | ")} 
                         />
                     </ListItem>
                     )

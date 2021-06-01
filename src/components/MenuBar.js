@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function MenuBar(props) {
     const classes = useStyles();
-    const isAdmin = (localStorage.getItem("user-permissions") === "admin");
+    const isAdmin = (localStorage.getItem("user-permissions") === "ROLE_ADMIN");
 
     function logout() {
         localStorage.removeItem("AUTH_TOKEN");

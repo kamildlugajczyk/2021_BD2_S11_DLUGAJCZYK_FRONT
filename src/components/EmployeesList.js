@@ -13,7 +13,7 @@ const columns = [
   { field: 'function', headerName: 'Function', width: 150},
 ];
 
-export default function EmployeesList(props) {
+export default function EmployeesList() {
     const dispatch = useDispatch();
     const [employeesArray, setEmployeesArray] = useState([
         {
@@ -28,7 +28,7 @@ export default function EmployeesList(props) {
     useEffect(() => {
         axios({
             method: "GET",
-            url: `${config.API_URL}${props.url}`,
+            url: `${config.API_URL}/person`,
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${localStorage.getItem("AUTH_TOKEN")}`
@@ -38,16 +38,16 @@ export default function EmployeesList(props) {
             setEmployeesArray(response.data);
         })
         dispatch(setSelected(0));
-    }, [props.url, dispatch]);
+    }, [dispatch]);
 
     let rows = [];
-    employeesArray.map((employee) => {
+    employeesArray.forEach((employee) => {
         rows = rows.concat([{
             id: employee.id,
             firstName: employee.firstname,
             lastName: employee.lastname,
             phoneNumber: employee.phonenumber,
-            function: employee.function,
+            function: employee.function.name,
         }]);
     });
     return (

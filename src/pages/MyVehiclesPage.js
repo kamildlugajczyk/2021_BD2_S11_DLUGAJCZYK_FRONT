@@ -21,7 +21,7 @@ export default function MyVehiclesGate() {
             }
         })
         .then((response) => {
-            localStorage.setItem("user-permissions", response.data.authority);
+            localStorage.setItem("user-permissions", response.data[0].authority);
             setIsTokenValid(true);
         })
         .catch(() => {

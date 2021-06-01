@@ -7,7 +7,7 @@ export default function ManageEmployeesPage() {
     return (
         <div>
             <MenuBar selected="manage-employees" />
-            <EmployeesList url="/manage-employees" />
+            <EmployeesList />
         </div>
     )
 }
