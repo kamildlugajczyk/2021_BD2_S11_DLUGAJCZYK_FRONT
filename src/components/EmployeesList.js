@@ -24,15 +24,7 @@ const useStyles = makeStyles((theme) => ({
 export default function EmployeesList() {
     const classes = useStyles();
     const dispatch = useDispatch();
-    const [employeesArray, setEmployeesArray] = useState([
-        {
-            id: 1,
-            firstName: "test",
-            lastName: "test",
-            phoneNumber: 0,
-            function: "test"
-        }
-    ]);
+    const [employeesArray, setEmployeesArray] = useState([]);
 
     useEffect(() => {
         axios({
