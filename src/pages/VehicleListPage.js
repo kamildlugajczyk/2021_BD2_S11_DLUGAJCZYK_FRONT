@@ -47,14 +47,22 @@ export default function VehicleListGate() {
 
 const useStyles = makeStyles((theme) => ({
     picker: {
-        width: (window.innerWidth - 200) * 0.4, //% values dont work for datagrid for some reason
         height: window.innerHeight - 100
+    },
+    addButtonDiv: {
+        display: 'flex',
+        justifyContent: 'center',
+        paddingTop: 10
+    },
+    pickerAddBlock: {
+        width: (window.innerWidth - 200) * 0.4
     },
     calendar: {
         height: window.innerHeight * 0.5
     },
     details: {
-        height: window.innerHeight * 0.5
+        height: window.innerHeight * 0.5,
+        marginTop: 30
     },
     calendarDetailsBlock: {
         width: (window.innerWidth - 200) * 0.4,
@@ -75,18 +83,23 @@ function VehicleListPage() {
         <div>
             <MenuBar selected="all-vehicles" />
             <div className={classes.page}>
-                <div className={classes.picker}>
-                    <VehiclePicker url="/vehicle" />
+                <div className={classes.pickerAddBlock}>
+                    <div className={classes.picker}>
+                        <VehiclePicker url="/vehicle" />
+                    </div>
+                    <div className={classes.addButtonDiv}>
+                        <p>add button goes here</p>
+                    </div>
                 </div>
                 {selectedVehicleId !== 0 &&
-                <div className={classes.calendarDetailsBlock}>
-                    <div className={classes.calendar}>
-                        <VehicleCalendar />
+                    <div className={classes.calendarDetailsBlock}>
+                        <div className={classes.calendar}>
+                            <VehicleCalendar />
+                        </div>
+                        <div className={classes.details}>
+                            vehicle details here
+                        </div>
                     </div>
-                    <div className={classes.details}>
-                        vehicle details here
-                    </div>
-                </div>
                 }
             </div>
         </div>

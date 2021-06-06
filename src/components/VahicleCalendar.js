@@ -1,16 +1,24 @@
-import react, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { useSelector } from 'react-redux';
 import { selectSelectedVehicleId } from '../redux/VehiclePickerSlice';
+import { makeStyles } from '@material-ui/core';
 import moment from 'moment';
 import config from '../config';
+
+const useStyles = makeStyles((theme) => ({
+    'rbc-calendar': {
+        fontFamily: 'sans-serif'
+    }
+}))
 
 export default function VehicleCalendar(props) {
     const localizer = momentLocalizer(moment);
     const selectedVehicleId = useSelector(selectSelectedVehicleId);
     const [serviceList, setServiceList] = useState([]);
+    const classes = useStyles();
     let events = [];
 
     useEffect(() => {
@@ -38,10 +46,10 @@ export default function VehicleCalendar(props) {
 
     return (
         <Calendar
+            className={classes['rbc-calendar']}
             localizer={localizer}
             events={events}
             views={['month']}
-            style={{fontFamily: 'Roboto'}}
         />
     )
 }

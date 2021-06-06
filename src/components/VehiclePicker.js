@@ -2,9 +2,8 @@
 import { DataGrid } from '@material-ui/data-grid';
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import { useDispatch, useSelector } from 'react-redux';
-import { setSelected, selectSelectedVehicleId } from '../redux/VehiclePickerSlice';
+import { useDispatch } from 'react-redux';
+import { setSelected } from '../redux/VehiclePickerSlice';
 import config from '../config';
 
 const columns = [
@@ -47,26 +46,4 @@ export default function VehiclePicker(props) {
     return (
         <DataGrid rows={rows} columns={columns} disableMultipleSelection={true} onRowSelected={(row) => {dispatch(setSelected(row.data.id))}}/>
     )
-
-    // return (
-    //     <div className={classes.root}>
-    //         <List component="nav">
-    //             {vehicleList.map((vehicle) => {
-    //                 return (
-    //                 <ListItem
-    //                     button
-    //                     key={vehicle.id}
-    //                     selected={selectedVehicleId === vehicle.id}
-    //                     onClick={() => dispatch(setSelected(vehicle.id))}
-    //                 >
-    //                     <ListItemText 
-    //                         primary={[vehicle.brandmodel.brand, vehicle.brandmodel.model].join(" ")}
-    //                         secondary={[vehicle.type.name, vehicle.equipmentLevel, vehicle.purpose.name].join(" | ")} 
-    //                     />
-    //                 </ListItem>
-    //                 )
-    //             })}
-    //         </List>
-    //     </div>
-    // )
 }
