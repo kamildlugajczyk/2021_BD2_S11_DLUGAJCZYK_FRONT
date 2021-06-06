@@ -14,17 +14,7 @@ const columns = [
     {field: 'purpose', headerName: 'Purpose', width: 300}
 ]
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-      width: (window.innerWidth-200)*0.4, //% values dont work for datagrid for some reason
-      marginLeft: '200px',
-      height: window.innerHeight
-    },
-  }));
-
 export default function VehiclePicker(props) {
-    const classes = useStyles();
-    const selectedVehicleId = useSelector(selectSelectedVehicleId);
     const dispatch = useDispatch();
     const [vehicleList, setVehicleList] = useState([]);
 
@@ -55,9 +45,7 @@ export default function VehiclePicker(props) {
     })
 
     return (
-        <div className={classes.root}>
-            <DataGrid rows={rows} columns={columns} disableMultipleSelection={true} onRowSelected={(row) => {dispatch(setSelected(row.data.id))}}/>
-        </div>
+        <DataGrid rows={rows} columns={columns} disableMultipleSelection={true} onRowSelected={(row) => {dispatch(setSelected(row.data.id))}}/>
     )
 
     // return (
