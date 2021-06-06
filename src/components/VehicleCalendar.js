@@ -10,7 +10,7 @@ import config from '../config';
 
 const useStyles = makeStyles((theme) => ({
     'rbc-calendar': {
-        fontFamily: 'sans-serif'
+        fontFamily: 'Roboto, Helvetica, sans-serif'
     }
 }))
 
