@@ -47,21 +47,27 @@ export default function VehicleListGate() {
 
 const useStyles = makeStyles((theme) => ({
     picker: {
-        height: window.innerHeight - 100
+        height: '100%'
     },
     addButtonDiv: {
+        height: 60,
         display: 'flex',
         justifyContent: 'center',
         paddingTop: 10
     },
     pickerAddBlock: {
-        width: (window.innerWidth - 200) * 0.4
+        width: (window.innerWidth - 200) * 0.4,
+        height: window.innerHeight - 20,
+        display: 'flex',
+        flexDirection: 'column'
     },
     calendar: {
-        height: window.innerHeight * 0.5
+        height: (window.innerHeight - 20) * 0.5
     },
     details: {
-        marginTop: 30
+        height: (window.innerHeight - 60) * 0.5,
+        display: 'flex',
+        justifyContent: 'center'
     },
     calendarDetailsBlock: {
         width: (window.innerWidth - 200) * 0.4,
