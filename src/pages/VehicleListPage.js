@@ -3,7 +3,7 @@ import axios from 'axios';
 import MenuBar from '../components/MenuBar';
 import VehiclePicker from '../components/VehiclePicker';
 import LoginPage from './LoginPage';
-import VehicleCalendar from '../components/VahicleCalendar';
+import VehicleCalendar from '../components/VehicleCalendar';
 import { useSelector } from 'react-redux';
 import { selectSelectedVehicleId } from '../redux/VehiclePickerSlice';
 import { makeStyles } from '@material-ui/core';
@@ -61,7 +61,6 @@ const useStyles = makeStyles((theme) => ({
         height: window.innerHeight * 0.5
     },
     details: {
-        height: window.innerHeight * 0.5,
         marginTop: 30
     },
     calendarDetailsBlock: {

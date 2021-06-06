@@ -7,7 +7,7 @@ import { makeStyles } from '@material-ui/core';
 import config from '../config';
 import { useSelector } from 'react-redux';
 import { selectSelectedVehicleId } from '../redux/VehiclePickerSlice';
-import VehicleCalendar from '../components/VahicleCalendar';
+import VehicleCalendar from '../components/VehicleCalendar';
 
 
 export default function BookVehicleGate() {
@@ -23,22 +23,22 @@ export default function BookVehicleGate() {
                 'Authorization': `Bearer ${localStorage.getItem("AUTH_TOKEN")}`
             }
         })
-        .then((response) => {
-            localStorage.setItem("user-permissions", response.data[0].authority);
-            setIsTokenValid(true);
-        })
-        .catch(() => {
-            setIsTokenValid(false);
-        })
+            .then((response) => {
+                localStorage.setItem("user-permissions", response.data[0].authority);
+                setIsTokenValid(true);
+            })
+            .catch(() => {
+                setIsTokenValid(false);
+            })
     }, [])
 
-    if(isTokenValid === null) {
+    if (isTokenValid === null) {
         return <div>Loading...</div>
     }
 
     return (
         <div>
-            {isTokenValid === true ? <BookVehiclePage/> : <LoginPage/>}
+            {isTokenValid === true ? <BookVehiclePage /> : <LoginPage />}
         </div>
     )
 }
@@ -47,13 +47,13 @@ export default function BookVehicleGate() {
 const useStyles = makeStyles((theme) => ({
     picker: {
         width: (window.innerWidth - 200) * 0.4, //% values dont work for datagrid for some reason
-        height: window.innerHeight - 100
+        height: window.innerHeight - 20
     },
     calendar: {
         height: window.innerHeight * 0.5
     },
     details: {
-        height: window.innerHeight * 0.5
+        marginTop: 30
     },
     calendarDetailsBlock: {
         width: (window.innerWidth - 200) * 0.4,
@@ -78,14 +78,14 @@ function BookVehiclePage() {
                     <VehiclePicker url="/vehicle" />
                 </div>
                 {selectedVehicleId !== 0 &&
-                <div className={classes.calendarDetailsBlock}>
-                    <div className={classes.calendar}>
-                        <VehicleCalendar />
+                    <div className={classes.calendarDetailsBlock}>
+                        <div className={classes.calendar}>
+                            <VehicleCalendar />
+                        </div>
+                        <div className={classes.details}>
+                            booking dialog here
+                        </div>
                     </div>
-                    <div className={classes.details}>
-                        booking dialog here
-                    </div>
-                </div>
                 }
             </div>
         </div>
