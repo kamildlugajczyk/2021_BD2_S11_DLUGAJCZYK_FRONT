@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux';
 import { selectSelectedVehicleId } from '../redux/VehiclePickerSlice';
 import { makeStyles } from '@material-ui/core';
 import config from '../config';
+import VehicleDetails from '../components/VehicleDetails';
 
 
 export default function VehicleListGate() {
@@ -95,7 +96,7 @@ function VehicleListPage() {
                             <VehicleCalendar />
                         </div>
                         <div className={classes.details}>
-                            vehicle details here
+                            <VehicleDetails />
                         </div>
                     </div>
                 }
