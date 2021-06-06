@@ -18,6 +18,7 @@ export default function MainPage() {
             }
         })
         .then((response) => {
+            localStorage.setItem("user-permissions", response.data[0].authority);
             setIsTokenValid(true);
         })
         .catch(() => {
