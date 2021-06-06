@@ -13,6 +13,7 @@ import VehicleCalendar from '../components/VehicleCalendar';
 export default function BookVehicleGate() {
 
     const [isTokenValid, setIsTokenValid] = useState(null);
+    const [userPermissions, setUserPermissions] = useState(null);
 
     //fetching user permissions to check if the locally stored token is still valid
     useEffect(() => {
@@ -24,7 +25,7 @@ export default function BookVehicleGate() {
             }
         })
             .then((response) => {
-                localStorage.setItem("user-permissions", response.data[0].authority);
+                setUserPermissions(response.data[0].authority);
                 setIsTokenValid(true);
             })
             .catch(() => {

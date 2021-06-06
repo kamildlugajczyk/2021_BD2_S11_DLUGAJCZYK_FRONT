@@ -20,7 +20,6 @@ export default function MyBookingsGate() {
             }
         })
         .then((response) => {
-            localStorage.setItem("user-permissions", response.data[0].authority);
             setIsTokenValid(true);
         })
         .catch(() => {
