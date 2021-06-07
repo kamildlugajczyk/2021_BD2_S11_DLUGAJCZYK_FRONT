@@ -6,7 +6,7 @@ import LoginPage from './LoginPage';
 import VehicleCalendar from '../components/VehicleCalendar';
 import { useSelector } from 'react-redux';
 import { selectSelectedVehicleId } from '../redux/VehiclePickerSlice';
-import { makeStyles } from '@material-ui/core';
+import { Button, makeStyles } from '@material-ui/core';
 import config from '../config';
 import VehicleDetails from '../components/VehicleDetails';
 
@@ -49,13 +49,14 @@ const useStyles = makeStyles((theme) => ({
     picker: {
         height: '100%'
     },
-    addButtonDiv: {
+    adminButtons: {
         height: 60,
         display: 'flex',
-        justifyContent: 'center',
+        alignItems: 'center',
+        justifyContent: 'space-around',
         paddingTop: 10
     },
-    pickerAddBlock: {
+    pickerAdminBlock: {
         width: (window.innerWidth - 200) * 0.4,
         height: window.innerHeight - 20,
         display: 'flex',
@@ -66,8 +67,6 @@ const useStyles = makeStyles((theme) => ({
     },
     details: {
         height: (window.innerHeight - 60) * 0.5,
-        display: 'flex',
-        justifyContent: 'center'
     },
     calendarDetailsBlock: {
         width: (window.innerWidth - 200) * 0.4,
@@ -88,12 +87,24 @@ function VehicleListPage() {
         <div>
             <MenuBar selected="all-vehicles" />
             <div className={classes.page}>
-                <div className={classes.pickerAddBlock}>
+                <div className={classes.pickerAdminBlock}>
                     <div className={classes.picker}>
                         <VehiclePicker url="/vehicle" />
                     </div>
-                    <div className={classes.addButtonDiv}>
-                        <p>add button goes here</p>
+                    <div className={classes.adminButtons}>
+                        <Button variant="contained">
+                            Add vehicle
+                        </Button>
+                        {selectedVehicleId !== 0 &&
+                            <Button variant="contained">
+                                Edit vehicle
+                            </Button>
+                        }
+                        {selectedVehicleId !== 0 &&
+                            <Button variant="contained">
+                                 Delete vehicle
+                            </Button>
+                        }
                     </div>
                 </div>
                 {selectedVehicleId !== 0 &&
