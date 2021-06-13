@@ -59,7 +59,7 @@ export function getAllVehicles() {
 //   "typeId": Integer,
 //   "vin": String
 // }
-export function editVehicle(params) {
+export function editVehicle(id, params) {
     return axios({
         method: "PUT",
         url: `${config.API_URL}/vehicle/${id}`,

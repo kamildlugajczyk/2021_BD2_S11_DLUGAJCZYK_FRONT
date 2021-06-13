@@ -2,18 +2,15 @@ import axios from 'axios';
 import config from '../config';
 
 
-
 // params:
 // {
-//     "brand": "string",
 //     "id": 0,
-//     "model": "string",
-//     "modelYear": "string"
+//     "name": "string"
 // }
-export function addBrandModel(params) {
+export function addVehiclePurpose(params) {
     return axios({
         method: "POST",
-        url: `${config.API_URL}/brandmodel`,
+        url: `${config.API_URL}/vehicle/purpose`,
         data: params,
         headers: {
             "Authorization": `Bearer ${localStorage.getItem("AUTH_TOKEN")}`
@@ -21,20 +18,20 @@ export function addBrandModel(params) {
     })
 }
 
-export function getBrandModel(id) {
+export function getVehiclePurpose(id) {
     return axios({
         method: "GET",
-        url: `${config.API_URL}/brandmodel/${id}`,
+        url: `${config.API_URL}/vehicle/purpose/${id}`,
         headers: {
             "Authorization": `Bearer ${localStorage.getItem("AUTH_TOKEN")}`
         }
     })
 }
 
-export function getAllBrandModels() {
+export function getAllVehiclePurposes() {
     return axios({
         method: "GET",
-        url: `${config.API_URL}/brandmodel`,
+        url: `${config.API_URL}/vehicle/purpose`,
         headers: {
             "Authorization": `Bearer ${localStorage.getItem("AUTH_TOKEN")}`
         }
@@ -43,15 +40,13 @@ export function getAllBrandModels() {
 
 // params:
 // {
-//     "brand": "string",
 //     "id": 0,
-//     "model": "string",
-//     "modelYear": "string"
+//     "name": "string"
 // }
-export function editBrandModel(id, params) {
+export function editVehiclePurpose(id, params) {
     return axios({
         method: "PUT",
-        url: `${config.API_URL}/brandmodel/${id}`,
+        url: `${config.API_URL}/vehicle/purpose/${id}`,
         data: params,
         headers: {
             "Authorization": `Bearer ${localStorage.getItem("AUTH_TOKEN")}`
@@ -59,10 +54,10 @@ export function editBrandModel(id, params) {
     })
 }
 
-export function deleteBrandModel(id) {
+export function deleteVehiclePurpose(id) {
     return axios({
         method: "DELETE",
-        url: `${config.API_URL}/brandmodel/${id}`,
+        url: `${config.API_URL}/vehicle/purpose/${id}`,
         headers: {
             "Authorization": `Bearer ${localStorage.getItem("AUTH_TOKEN")}`
         }
