@@ -6,9 +6,10 @@ import LoginPage from './LoginPage';
 import VehicleCalendar from '../components/VehicleCalendar';
 import { useSelector } from 'react-redux';
 import { selectSelectedVehicleId } from '../redux/VehiclePickerSlice';
-import { Button, makeStyles } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 import config from '../config';
 import VehicleDetails from '../components/VehicleDetails';
+import ButtonModal from '../components/ButtonModal';
 
 
 export default function VehicleListGate() {
@@ -83,6 +84,8 @@ function VehicleListPage() {
     const selectedVehicleId = useSelector(selectSelectedVehicleId);
     const classes = useStyles();
 
+    const isAdmin = localStorage.getItem("user-permissions") === "ROLE_ADMIN";
+
     return (
         <div>
             <MenuBar selected="all-vehicles" />
@@ -91,21 +94,29 @@ function VehicleListPage() {
                     <div className={classes.picker}>
                         <VehiclePicker url="/vehicle" />
                     </div>
-                    <div className={classes.adminButtons}>
-                        <Button variant="contained">
-                            Add vehicle
-                        </Button>
-                        {selectedVehicleId !== 0 &&
-                            <Button variant="contained">
-                                Edit vehicle
-                            </Button>
-                        }
-                        {selectedVehicleId !== 0 &&
-                            <Button variant="contained">
-                                 Delete vehicle
-                            </Button>
-                        }
-                    </div>
+                    {isAdmin &&
+                        <div className={classes.adminButtons}>
+                            <ButtonModal buttonLabel="Add vehicle">
+                                <div>
+                                    test
+                                </div>
+                            </ButtonModal>
+                            {selectedVehicleId !== 0 &&
+                                <ButtonModal buttonLabel="Edit vehicle">
+                                    <div>
+                                        test
+                                    </div>
+                                </ButtonModal>
+                            }
+                            {selectedVehicleId !== 0 &&
+                                <ButtonModal buttonLabel="Delete vehicle">
+                                    <div>
+                                        test
+                                    </div>
+                                </ButtonModal>
+                            }
+                        </div>
+                    }
                 </div>
                 {selectedVehicleId !== 0 &&
                     <div className={classes.calendarDetailsBlock}>
