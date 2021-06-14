@@ -1,9 +1,13 @@
 import React from 'react';
+import AdminControlPanel from '../components/AdminControlPanel';
 import MenuBar from '../components/MenuBar';
 
 export default function AdminPanelPage() {
 
     return (
-        <MenuBar selected="admin-panel" />
+        <div>
+            <MenuBar selected="admin-panel" />
+            <AdminControlPanel />
+        </div>
     )
 }
