@@ -1,9 +1,9 @@
 import React from 'react';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import axios from 'axios';
-import { Container, CssBaseline, makeStyles, Snackbar } from '@material-ui/core';
+import { Container, CssBaseline, makeStyles } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function genericAdder(item) {
+export default function GenericAdder(item) {
     const classes = useStyles();
     const [input, setInput] = useState("");
     
@@ -45,16 +45,21 @@ export default function genericAdder(item) {
             windowHeader.concat('employee\'s function');
             break;
     }
-    const newId = useCallback(() => {
+    const newId = useMemo(() => {
         axios({
             method: 'get',
             url: `${config.API_URL}${path}`,
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem("AUTH_TOKEN")}`
+            }
         })
         .then((response) => {
-                    
+            console.log(Array.length(response.data));
+            return Array.length(response.data);       
         })
         .catch(() => {
-            
+
         });
     });
     const addItem = useCallback((path) => {
@@ -78,6 +83,10 @@ export default function genericAdder(item) {
         });
     }, [newId, input])
 
+    const cancelAdding = (() => {
+
+    });
+
     // support for the enter key without reloading the page
     useEffect(() => {
         const listener = event => {
@@ -98,16 +107,17 @@ export default function genericAdder(item) {
                 <CssBaseline />
                 <div className={classes.paper}>
                     <form>
+                        <h1 alignItems='center'>{windowHeader}</h1>
                         <TextField
                             error={errorFlag}
                             className={classes.textInput}
-                            id="username"
-                            label="Username"
-                            name="username"
+                            id="input"
+                            label="Name"
+                            name="name"
                             variant="outlined"
                             required
                             fullWidth
-                            autoComplete="username"
+                            autoComplete="name"
                             onChange={(l) => { setInput(l.target.value) }}
                         />
                         <Button
@@ -115,10 +125,10 @@ export default function genericAdder(item) {
                             variant="contained"
                             fullWidth
                         >
-                            Login
+                            Add
                         </Button>
                         <Button
-                            onClick={}
+                            onClick={cancelAdding}
                             variant="contained"
                             fullWidth
                         >
