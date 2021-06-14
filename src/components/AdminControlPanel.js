@@ -1,7 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
-import GenericAdder from './GenericAdder';
+import BasicAdder from './BasicAdder';
 
 const useStyles = makeStyles((theme) => ({
     page: {
@@ -30,7 +30,7 @@ export default function AdminControlPanel(){
     const genericAdd = (itemType) => {
         return(
             <div>
-                <GenericAdder item={itemType}/>
+                <BasicAdder item={itemType}/>
             </div>
         )
     }
