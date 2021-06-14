@@ -26,58 +26,60 @@ const useStyles = makeStyles((theme) => ({
 
 export default function AdminControlPanel(){
     const classes = useStyles();
+    const genericAdd = (item) => {
 
+    }
+    const genericDelete = (item) => {
+
+    }
+    const addSubcontractor = () => {
+
+    }
     return (
         <div className={classes.page}>
-            <div className={classes.buttonsColumn}>
-                <Button className={classes.button} variant="contained">
-                    Add brand
-                </Button>       
-                <Button className={classes.button} variant="contained">
+            <div className={classes.buttonsColumn}>    
+                <Button onClick={() => genericAdd('model')} className={classes.button} variant="contained">
                     Add model
                 </Button>
-                <Button className={classes.button} variant="contained">
+                <Button onClick={() => genericAdd('vehicle type')} className={classes.button} variant="contained">
                     Add vehicle type
                 </Button>       
-                <Button className={classes.button} variant="contained">
+                <Button onClick={() => genericAdd('purpose')} className={classes.button} variant="contained">
                     Add purpose
                 </Button>
-                <Button className={classes.button} variant="contained">
+                <Button onClick={() => genericAdd('operation type')} className={classes.button} variant="contained">
                     Add operation type
                 </Button>
-                <Button className={classes.button} variant="contained">
+                <Button onClick={() => genericAdd('service type')} className={classes.button} variant="contained">
                     Add service type
                 </Button>       
-                <Button className={classes.button} variant="contained">
+                <Button onClick={() => genericAdd('employee\'s function')} className={classes.button} variant="contained">
                     Add employee's function
                 </Button>
-                <Button className={classes.button} variant="contained">
+                <Button onClick={() => addSubcontractor()} className={classes.button} variant="contained">
                     Add subcontractor
                 </Button>
             </div>
-            <div className={classes.buttonsColumn}>
-                <Button className={classes.button} variant="contained">
-                    Delete brand
-                </Button>       
-                <Button className={classes.button} variant="contained">
+            <div className={classes.buttonsColumn}>     
+                <Button onClick={() => genericDelete('model')} className={classes.button} variant="contained">
                     Delete model
                 </Button>
-                <Button className={classes.button} variant="contained">
+                <Button onClick={() => genericDelete('vehicle type')} className={classes.button} variant="contained">
                     Delete vehicle type
                 </Button>       
-                <Button className={classes.button} variant="contained">
+                <Button onClick={() => genericDelete('purpose')} className={classes.button} variant="contained">
                     Delete purpose
                 </Button>
-                <Button className={classes.button} variant="contained">
+                <Button onClick={() => genericDelete('operation type')} className={classes.button} variant="contained">
                     Delete operation type
                 </Button>
-                <Button className={classes.button} variant="contained">
+                <Button onClick={() => genericDelete('service type')} className={classes.button} variant="contained">
                     Delete service type
                 </Button>       
-                <Button className={classes.button} variant="contained">
+                <Button onClick={() => genericDelete('employee\'s function')} className={classes.button} variant="contained">
                     Delete employee's function
                 </Button>
-                <Button className={classes.button} variant="contained">
+                <Button onClick={() => genericDelete('subcontractor')} className={classes.button} variant="contained">
                     Delete subcontractor
                 </Button>
             </div>
