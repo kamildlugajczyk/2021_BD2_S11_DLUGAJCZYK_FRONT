@@ -13,7 +13,7 @@ import config from '../config';
 export function addBrandModel(params) {
     return axios({
         method: "POST",
-        url: `${config.API_URL}/brandmodel`,
+        url: `${config.API_URL}/vehicle/brandmodel`,
         data: params,
         headers: {
             "Authorization": `Bearer ${localStorage.getItem("AUTH_TOKEN")}`
@@ -24,7 +24,7 @@ export function addBrandModel(params) {
 export function getBrandModel(id) {
     return axios({
         method: "GET",
-        url: `${config.API_URL}/brandmodel/${id}`,
+        url: `${config.API_URL}/vehicle/brandmodel/${id}`,
         headers: {
             "Authorization": `Bearer ${localStorage.getItem("AUTH_TOKEN")}`
         }
@@ -34,7 +34,7 @@ export function getBrandModel(id) {
 export function getAllBrandModels() {
     return axios({
         method: "GET",
-        url: `${config.API_URL}/brandmodel`,
+        url: `${config.API_URL}/vehicle/brandmodel`,
         headers: {
             "Authorization": `Bearer ${localStorage.getItem("AUTH_TOKEN")}`
         }
@@ -51,7 +51,7 @@ export function getAllBrandModels() {
 export function editBrandModel(id, params) {
     return axios({
         method: "PUT",
-        url: `${config.API_URL}/brandmodel/${id}`,
+        url: `${config.API_URL}/vehicle/brandmodel/${id}`,
         data: params,
         headers: {
             "Authorization": `Bearer ${localStorage.getItem("AUTH_TOKEN")}`
@@ -62,7 +62,7 @@ export function editBrandModel(id, params) {
 export function deleteBrandModel(id) {
     return axios({
         method: "DELETE",
-        url: `${config.API_URL}/brandmodel/${id}`,
+        url: `${config.API_URL}/vehicle/brandmodel/${id}`,
         headers: {
             "Authorization": `Bearer ${localStorage.getItem("AUTH_TOKEN")}`
         }

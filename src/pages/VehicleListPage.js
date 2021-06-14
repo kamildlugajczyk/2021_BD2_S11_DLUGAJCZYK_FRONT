@@ -10,6 +10,7 @@ import { makeStyles } from '@material-ui/core';
 import config from '../config';
 import VehicleDetails from '../components/VehicleDetails';
 import ButtonModal from '../components/ButtonModal';
+import AddVehicleDialog from '../components/dialogs/AddVehicleDialog';
 
 
 export default function VehicleListGate() {
@@ -98,7 +99,7 @@ function VehicleListPage() {
                         <div className={classes.adminButtons}>
                             <ButtonModal buttonLabel="Add vehicle">
                                 <div>
-                                    test
+                                    <AddVehicleDialog />
                                 </div>
                             </ButtonModal>
                             {selectedVehicleId !== 0 &&
