@@ -33,7 +33,8 @@ const useStyles = makeStyles((theme) => ({
     },
     picker: {
         height: '100%',
-        flex: "1"
+        flex: "1",
+        paddingRight: "0.5%"
     },
     adminButtons: {
         display: 'flex',
@@ -62,7 +63,7 @@ const useStyles = makeStyles((theme) => ({
         display: "flex",
         alignItems: "center",
         justifyContent: "center"
-    }
+    },
 }));
 
 

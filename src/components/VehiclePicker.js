@@ -2,8 +2,8 @@
 import { DataGrid } from '@material-ui/data-grid';
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { setSelected } from '../redux/VehiclePickerSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectSelectedVehicleId, setSelected } from '../redux/VehiclePickerSlice';
 import config from '../config';
 import { CircularProgress, makeStyles } from '@material-ui/core';
 
@@ -27,6 +27,7 @@ const columns = [
 export default function VehiclePicker(props) {
     const classes = useStyles();
     const dispatch = useDispatch();
+    const selectedVehicleId = useSelector(selectSelectedVehicleId);
     const [vehicleList, setVehicleList] = useState(null);
     let rows = [];
 
@@ -43,7 +44,7 @@ export default function VehiclePicker(props) {
                 const sorted = [...response.data].sort((a, b) => { return a.id - b.id })
                 setVehicleList(sorted);
             })
-        dispatch(setSelected(0));
+        //dispatch(setSelected(0));
     }, [props.url, dispatch]);
 
 
@@ -74,6 +75,7 @@ export default function VehiclePicker(props) {
                     dispatch(setSelected(row.data.id))
                 }
             }
+            selectionModel={[selectedVehicleId]}
         />
     )
 }
