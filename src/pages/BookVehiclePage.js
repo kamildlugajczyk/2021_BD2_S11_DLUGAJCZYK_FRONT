@@ -3,15 +3,47 @@ import axios from 'axios';
 import MenuBar from '../components/MenuBar';
 import VehiclePicker from '../components/VehiclePicker';
 import LoginPage from './LoginPage';
-import { makeStyles } from '@material-ui/core';
+import { CircularProgress, makeStyles } from '@material-ui/core';
 import config from '../config';
 import { useSelector } from 'react-redux';
 import { selectSelectedVehicleId } from '../redux/VehiclePickerSlice';
 import VehicleCalendar from '../components/VehicleCalendar';
 
 
+const useStyles = makeStyles((theme) => ({
+    picker: {
+        width: (window.innerWidth - 200) * 0.4, //% values dont work for datagrid for some reason
+        height: window.innerHeight - 20
+    },
+    calendar: {
+        height: window.innerHeight * 0.5
+    },
+    details: {
+        marginTop: 30
+    },
+    calendarDetailsBlock: {
+        width: (window.innerWidth - 200) * 0.4,
+        margin: '0px 100px 0px 100px'
+    },
+    page: {
+        display: 'flex',
+        marginLeft: 200
+    },
+    loading: {
+        position: "fixed",
+        top: "50%",
+        left: "50%",
+        transform: "translate(-50%, -50%)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center"
+    }
+}));
+
+
 export default function BookVehicleGate() {
 
+    const classes = useStyles();
     const [isTokenValid, setIsTokenValid] = useState(null);
 
     //fetching user permissions to check if the locally stored token is still valid
@@ -33,7 +65,11 @@ export default function BookVehicleGate() {
     }, [])
 
     if (isTokenValid === null) {
-        return <div>Loading...</div>
+        return (
+            <div className={classes.loading}>
+                <CircularProgress />
+            </div>
+        )
     }
 
     return (
@@ -43,27 +79,6 @@ export default function BookVehicleGate() {
     )
 }
 
-
-const useStyles = makeStyles((theme) => ({
-    picker: {
-        width: (window.innerWidth - 200) * 0.4, //% values dont work for datagrid for some reason
-        height: window.innerHeight - 20
-    },
-    calendar: {
-        height: window.innerHeight * 0.5
-    },
-    details: {
-        marginTop: 30
-    },
-    calendarDetailsBlock: {
-        width: (window.innerWidth - 200) * 0.4,
-        margin: '0px 100px 0px 100px'
-    },
-    page: {
-        display: 'flex',
-        marginLeft: 200
-    }
-}));
 
 
 function BookVehiclePage() {

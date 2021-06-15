@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import { makeStyles } from '@material-ui/core';
+import React, { useState } from 'react';
+import { makeStyles, Modal } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import BasicAdder from './BasicAdder';
 import Modal from '@material-ui/core/Modal';
@@ -25,13 +25,13 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 
-export default function AdminControlPanel(){
+export default function AdminControlPanel() {
     const classes = useStyles();
-    const [chosenItem, setChosenItem] = useState('');
-    const [openBasic, setOpenBasic] = useState(false);
+    const [itemType, setItemType] = useState(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const genericAdd = (itemType) => {
-        setChosenItem(itemType);
-        setOpenBasic(true);
+        setItemType(itemType);
+        setIsModalOpen(true);
     }
     const genericDelete = (item) => {
 
@@ -47,13 +47,13 @@ export default function AdminControlPanel(){
     }
     return (
         <div className={classes.page}>
-            <div className={classes.buttonsColumn}>    
+            <div className={classes.buttonsColumn}>
                 <Button onClick={() => addModel()} className={classes.button} variant="contained">
                     Add model
                 </Button>
                 <Button onClick={() => genericAdd('Type')} className={classes.button} variant="contained">
                     Add vehicle type
-                </Button>       
+                </Button>
                 <Button onClick={() => genericAdd('Purpose')} className={classes.button} variant="contained">
                     Add purpose
                 </Button>
@@ -62,7 +62,7 @@ export default function AdminControlPanel(){
                 </Button>
                 <Button onClick={() => genericAdd('ServiceTypes')} className={classes.button} variant="contained">
                     Add service type
-                </Button>       
+                </Button>
                 <Button onClick={() => genericAdd('Function')} className={classes.button} variant="contained">
                     Add employee's function
                 </Button>
@@ -70,13 +70,13 @@ export default function AdminControlPanel(){
                     Add subcontractor
                 </Button>
             </div>
-            <div className={classes.buttonsColumn}>     
+            <div className={classes.buttonsColumn}>
                 <Button onClick={() => genericDelete('BrandModel')} className={classes.button} variant="contained">
                     Delete model
                 </Button>
                 <Button onClick={() => genericDelete('Type')} className={classes.button} variant="contained">
                     Delete vehicle type
-                </Button>       
+                </Button>
                 <Button onClick={() => genericDelete('Purpose')} className={classes.button} variant="contained">
                     Delete purpose
                 </Button>
@@ -85,7 +85,7 @@ export default function AdminControlPanel(){
                 </Button>
                 <Button onClick={() => genericDelete('ServiceType')} className={classes.button} variant="contained">
                     Delete service type
-                </Button>       
+                </Button>
                 <Button onClick={() => genericDelete('Function')} className={classes.button} variant="contained">
                     Delete employee's function
                 </Button>
@@ -93,13 +93,16 @@ export default function AdminControlPanel(){
                     Delete subcontractor
                 </Button>
             </div>
-            {chosenItem !== '' &&
-                <div>
-                    <Modal open={openBasic} onClose={handleClose}>
-                        <BasicAdder item={chosenItem}/>
+            <div>
+                {itemType !== null &&
+                    <Modal
+                        open={isModalOpen}
+                        onClose={() => { setIsModalOpen(false) }}
+                    >
+                        <BasicAdder item={itemType} />
                     </Modal>
-                </div>
-            }
+                }
+            </div>
         </div>
     );
 }

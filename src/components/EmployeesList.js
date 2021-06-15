@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { setSelected } from '../redux/EmployeesListSlice';
 import config from '../config';
-import { makeStyles } from '@material-ui/core';
+import { CircularProgress, makeStyles } from '@material-ui/core';
 
 const columns = [
   { field: 'id', headerName: 'ID', width: 100 },
@@ -19,12 +19,18 @@ const useStyles = makeStyles((theme) => ({
         height: window.innerHeight*0.8, //80% doesnt work
         marginLeft: '200px'
     },
+    loading: {
+        height: window.innerHeight,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center"
+    }
 }))
 
 export default function EmployeesList() {
     const classes = useStyles();
     const dispatch = useDispatch();
-    const [employeesArray, setEmployeesArray] = useState([]);
+    const [employeesArray, setEmployeesArray] = useState(null);
 
     useEffect(() => {
         axios({
@@ -40,6 +46,14 @@ export default function EmployeesList() {
         })
         dispatch(setSelected(0));
     }, [dispatch]);
+
+    if (!employeesArray) {
+        return (
+            <div className={classes.loading}>
+                <CircularProgress />
+            </div>
+        )
+    }
 
     let rows = [];
     employeesArray.forEach((employee) => {

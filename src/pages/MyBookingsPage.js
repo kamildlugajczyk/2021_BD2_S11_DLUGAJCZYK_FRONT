@@ -4,10 +4,24 @@ import MenuBar from '../components/MenuBar';
 import VehiclePicker from '../components/VehiclePicker';
 import LoginPage from './LoginPage';
 import config from '../config';
+import { CircularProgress, makeStyles } from '@material-ui/core';
 
+
+const useStyles = makeStyles((theme) => ({
+    loading: {
+        position: "fixed",
+        top: "50%",
+        left: "50%",
+        transform: "translate(-50%, -50%)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center"
+    }
+}))
 
 export default function MyBookingsGate() {
 
+    const classes = useStyles();
     const [isTokenValid, setIsTokenValid] = useState(null);
 
     //fetching user permissions to check if the locally stored token is still valid
@@ -29,7 +43,11 @@ export default function MyBookingsGate() {
     }, [])
 
     if(isTokenValid === null) {
-        return <div>Loading...</div>
+        return (
+            <div className={classes.loading}>
+                <CircularProgress />
+            </div>
+        )
     }
 
     return (

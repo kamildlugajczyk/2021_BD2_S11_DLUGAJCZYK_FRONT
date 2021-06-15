@@ -20,13 +20,13 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function BasicAdder(item) {
+export default function BasicAdder(props) {
     const classes = useStyles();
     const [input, setInput] = useState("");
     const [newId, setNewId] = useState(0);
     var path = '/';
     var windowHeader = 'Add '
-    switch(item){
+    switch(props.item){
         case 'Type':
             path+='vehicle/type';
             windowHeader+='vehicle type';
