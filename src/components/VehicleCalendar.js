@@ -23,26 +23,25 @@ const useStyles = makeStyles((theme) => ({
 export default function VehicleCalendar(props) {
     const localizer = momentLocalizer(moment);
     const selectedVehicleId = useSelector(selectSelectedVehicleId);
-    const [serviceList, setServiceList] = useState(null);
+    const [unavailabilityList, setUnavailabilityList] = useState(null);
     const classes = useStyles();
     let events = [];
 
     useEffect(() => {
         axios({
             method: "GET",
-            url: `${config.API_URL}/service/vehicle/${selectedVehicleId}`,
+            url: `${config.API_URL}/unavailability/${selectedVehicleId}`,
             headers: {
-                'Content-Type': 'application/json',
                 'Authorization': `Bearer ${localStorage.getItem("AUTH_TOKEN")}`
             }
         })
         .then((response) => {
-            setServiceList(response.data);
+            setUnavailabilityList(response.data);
         })
     }, [selectedVehicleId])
 
 
-    if (!serviceList) {
+    if (!unavailabilityList) {
         return (
             <div className={classes.loading}>
                 <CircularProgress />
@@ -50,11 +49,11 @@ export default function VehicleCalendar(props) {
         )
     }
 
-    serviceList.forEach((service) => {
+    unavailabilityList.forEach((entry) => {
         events = events.concat([{
-            title: "Service",
-            start: service.vehicleUnavailability.startDate,
-            end: service.vehicleUnavailability.endDate,
+            title: "Unavailable",
+            start: entry.startDate,
+            end: entry.endDate,
             allDay: true
         }])
     })

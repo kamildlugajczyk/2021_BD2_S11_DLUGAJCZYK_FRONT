@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { Button, CircularProgress, FormControl, InputAdornment, InputLabel, makeStyles, MenuItem, Select, Snackbar, TextField } from "@material-ui/core";
+import { Button, CircularProgress, FormControl, InputAdornment, InputLabel, makeStyles, MenuItem, Select, Snackbar, TextField, Typography } from "@material-ui/core";
 import { useCallback, useEffect, useState } from "react";
 import { getAllBrandModels } from "../../services/BrandModel";
 import { addVehicle, editVehicle, getAllVehicles, getVehicle } from "../../services/Vehicle";
@@ -166,6 +166,11 @@ export default function AddVehicleDialog(props) {
     return (
         <form className={classes.root}>
             <div className={classes.flexRow}>
+                <Typography variant="h6" color="textSecondary">
+                    {props.edit ? "Edit vehicle" : "Add vehicle"}
+                </Typography>
+            </div>
+            <div className={classes.flexRow}>
                 <TextField
                     className={clsx(classes.spaceAround, classes.idField)}
                     disabled
@@ -174,7 +179,6 @@ export default function AddVehicleDialog(props) {
                     InputLabelProps={{
                         shrink: true
                     }}
-                    size="small"
                 />
                 <FormControl className={clsx(classes.spaceAround, classes.select)}>
                     <InputLabel shrink>Model</InputLabel>
