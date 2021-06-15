@@ -28,7 +28,8 @@ export default function VehiclePicker(props) {
             }
         })
         .then((response) => {
-            setVehicleList(response.data);
+            const sorted = [...response.data].sort((a, b) => {return a.id - b.id})
+            setVehicleList(sorted);
         })
         dispatch(setSelected(0));
     }, [props.url, dispatch]);

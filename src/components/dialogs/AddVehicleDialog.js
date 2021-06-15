@@ -1,12 +1,13 @@
 import clsx from 'clsx';
-import { Button, FormControl, InputAdornment, InputLabel, makeStyles, MenuItem, Select, TextField } from "@material-ui/core";
-import { useEffect, useState } from "react";
+import { Button, FormControl, InputAdornment, InputLabel, makeStyles, MenuItem, Select, Snackbar, TextField } from "@material-ui/core";
+import { useCallback, useEffect, useState } from "react";
 import { getAllBrandModels } from "../../services/BrandModel";
-import { getAllVehicles, getVehicle } from "../../services/Vehicle";
+import { addVehicle, editVehicle, getAllVehicles, getVehicle } from "../../services/Vehicle";
 import { getAllVehiclePurposes } from "../../services/VehiclePurpose";
 import { getAllVehicleTypes } from "../../services/VehicleType";
 import { useSelector } from 'react-redux';
 import { selectSelectedVehicleId } from '../../redux/VehiclePickerSlice';
+import { Alert } from '@material-ui/lab';
 
 
 
@@ -42,6 +43,7 @@ function getSmallestFreeVehicleId(vehicleArray) {
 export default function AddVehicleDialog(props) {
     const classes = useStyles();
     const selectedVehicleId = useSelector(selectSelectedVehicleId);
+    const [snackbarOpenFlag, setSnackbarOpenFlag] = useState(false);
 
     const [avgFuelConsumption, setAvgFuelConsumption] = useState(null);
     const [brandModelId, setBrandModelId] = useState(null);
@@ -58,14 +60,49 @@ export default function AddVehicleDialog(props) {
     const [types, setTypes] = useState(null);
 
 
+    const doAdd = useCallback(() => {
+        addVehicle({
+            avgFuelConsumption: avgFuelConsumption,
+            brandModelId: brandModelId,
+            equipmentLevel: equipmentLevel,
+            id: id,
+            mileage: mileage,
+            plates: plates,
+            purposeId: purposeId,
+            typeId: typeId,
+            vin: vin
+        }).then(() => {
+            window.location.reload();
+        }).catch(() => {
+            setSnackbarOpenFlag(true);
+        })
+    }, [avgFuelConsumption, brandModelId, equipmentLevel, id, mileage, plates, purposeId, typeId, vin])
 
-    function doAdd() {
+    const doEdit = useCallback(() => {
+        editVehicle(id, {
+            avgFuelConsumption: avgFuelConsumption,
+            brandModelId: brandModelId,
+            equipmentLevel: equipmentLevel,
+            id: id,
+            mileage: mileage,
+            plates: plates,
+            purposeId: purposeId,
+            typeId: typeId,
+            vin: vin
+        }).then(() => {
+            window.location.reload();
+        }).catch(() => {
+            setSnackbarOpenFlag(true);
+        })
+    }, [avgFuelConsumption, brandModelId, equipmentLevel, id, mileage, plates, purposeId, typeId, vin])
 
+    const handleSnackbarClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setSnackbarOpenFlag(false);
     }
 
-    function doEdit() {
-
-    }
 
     useEffect(() => {
         getAllBrandModels().then((response) => {
@@ -94,7 +131,8 @@ export default function AddVehicleDialog(props) {
         })
         if (!props.edit) {
             getAllVehicles().then((response) => {
-                setId(getSmallestFreeVehicleId(response.data));
+                const sorted = [...response.data].sort((a, b) => {return a.id - b.id})
+                setId(getSmallestFreeVehicleId(sorted));
             })
         }
         if (props.edit) {
@@ -264,6 +302,15 @@ export default function AddVehicleDialog(props) {
                     Confirm
                 </Button>
             </div>
+            <Snackbar
+                open={snackbarOpenFlag}
+                autoHideDuration={6000}
+                onClose={handleSnackbarClose}
+            >
+                <Alert onClose={handleSnackbarClose} severity="error">
+                    Error. Try reopening the dialog or refreshing the page.
+                </Alert>
+            </Snackbar>
         </form>
     )
 }
