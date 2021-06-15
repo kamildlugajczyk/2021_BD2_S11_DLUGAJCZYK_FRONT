@@ -1,8 +1,12 @@
-import { FormControl, InputLabel, makeStyles, Select, TextField } from "@material-ui/core";
+import clsx from 'clsx';
+import { Button, FormControl, InputAdornment, InputLabel, makeStyles, MenuItem, Select, TextField } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import { getAllBrandModels } from "../../services/BrandModel";
+import { getAllVehicles, getVehicle } from "../../services/Vehicle";
 import { getAllVehiclePurposes } from "../../services/VehiclePurpose";
 import { getAllVehicleTypes } from "../../services/VehicleType";
+import { useSelector } from 'react-redux';
+import { selectSelectedVehicleId } from '../../redux/VehiclePickerSlice';
 
 
 
@@ -17,11 +21,27 @@ const useStyles = makeStyles((theme) => ({
     },
     spaceAround: {
         margin: "10px"
+    },
+    idField: {
+        width: "50px"
+    },
+    select: {
+        minWidth: "100px"
     }
 }))
 
-export default function AddVehicleDialog() {
+function getSmallestFreeVehicleId(vehicleArray) {
+    for (let i = 0; i < vehicleArray.length; i++) {
+        if (i + 1 < vehicleArray[i].id) {
+            return i + 1;
+        }
+    }
+    return vehicleArray.length + 1;
+}
+
+export default function AddVehicleDialog(props) {
     const classes = useStyles();
+    const selectedVehicleId = useSelector(selectSelectedVehicleId);
 
     const [avgFuelConsumption, setAvgFuelConsumption] = useState(null);
     const [brandModelId, setBrandModelId] = useState(null);
@@ -36,6 +56,16 @@ export default function AddVehicleDialog() {
     const [brandModels, setBrandModels] = useState(null);
     const [purposes, setPurposes] = useState(null);
     const [types, setTypes] = useState(null);
+
+
+
+    function doAdd() {
+
+    }
+
+    function doEdit() {
+
+    }
 
     useEffect(() => {
         getAllBrandModels().then((response) => {
@@ -62,7 +92,25 @@ export default function AddVehicleDialog() {
             })
             setTypes(sorted);
         })
-    }, [])
+        if (!props.edit) {
+            getAllVehicles().then((response) => {
+                setId(getSmallestFreeVehicleId(response.data));
+            })
+        }
+        if (props.edit) {
+            getVehicle(selectedVehicleId).then((response) => {
+                setAvgFuelConsumption(response.data.avgFuelConsumption);
+                setBrandModelId(response.data.brandmodel.id);
+                setEquipmentLevel(response.data.equipmentLevel);
+                setId(response.data.id);
+                setMileage(response.data.mileage);
+                setPlates(response.data.plates);
+                setPurposeId(response.data.purpose.id);
+                setTypeId(response.data.type.id);
+                setVin(response.data.vin);
+            })
+        }
+    }, [props, selectedVehicleId])
 
     if (brandModels === null || purposes === null || types === null) {
         return <div>Loading...</div>
@@ -71,10 +119,20 @@ export default function AddVehicleDialog() {
     return (
         <form className={classes.root}>
             <div className={classes.flexRow}>
-                <FormControl className={classes.spaceAround}>
-                    <InputLabel>Model</InputLabel>
+                <TextField
+                    className={clsx(classes.spaceAround, classes.idField)}
+                    disabled
+                    label="ID"
+                    value={id}
+                    InputLabelProps={{
+                        shrink: true
+                    }}
+                    size="small"
+                />
+                <FormControl className={clsx(classes.spaceAround, classes.select)}>
+                    <InputLabel shrink>Model</InputLabel>
                     <Select
-                        native
+                        autoWidth
                         required
                         value={brandModelId}
                         onChange={(event) => { setBrandModelId(event.target.value) }}
@@ -82,18 +140,18 @@ export default function AddVehicleDialog() {
                         {
                             brandModels.map((brandModel) => {
                                 return (
-                                    <option value={brandModel.id}>
+                                    <MenuItem value={brandModel.id}>
                                         {`${brandModel.brand} ${brandModel.model} (${brandModel.modelYear})`}
-                                    </option>
+                                    </MenuItem>
                                 )
                             })
                         }
                     </Select>
                 </FormControl>
-                <FormControl className={classes.spaceAround}>
-                    <InputLabel>Type</InputLabel>
+                <FormControl className={clsx(classes.spaceAround, classes.select)}>
+                    <InputLabel shrink>Type</InputLabel>
                     <Select
-                        native
+                        autoWidth
                         required
                         value={typeId}
                         onChange={(event) => { setTypeId(event.target.value) }}
@@ -101,9 +159,9 @@ export default function AddVehicleDialog() {
                         {
                             types.map((type) => {
                                 return (
-                                    <option value={type.id}>
-                                        {`${type.name}`}
-                                    </option>
+                                    <MenuItem value={type.id}>
+                                        {type.name}
+                                    </MenuItem>
                                 )
                             })
                         }
@@ -111,7 +169,100 @@ export default function AddVehicleDialog() {
                 </FormControl>
             </div>
             <div className={classes.flexRow}>
-                
+                <TextField
+                    className={classes.spaceAround}
+                    required
+                    type="number"
+                    label="Mileage"
+                    value={mileage}
+                    onChange={(event) => { setMileage(event.target.value) }}
+                    InputProps={{
+                        endAdornment: <InputAdornment position="end">km</InputAdornment>,
+                    }}
+                    InputLabelProps={{
+                        shrink: true
+                    }}
+                />
+                <TextField
+                    className={classes.spaceAround}
+                    required
+                    label="License plates"
+                    value={plates}
+                    onChange={(event) => { setPlates(event.target.value) }}
+                    InputLabelProps={{
+                        shrink: true
+                    }}
+                />
+            </div>
+            <div className={classes.flexRow}>
+                <TextField
+                    className={classes.spaceAround}
+                    required
+                    type="number"
+                    label="Average fuel consumption"
+                    value={avgFuelConsumption}
+                    onChange={(event) => { setAvgFuelConsumption(event.target.value) }}
+                    InputProps={{
+                        endAdornment: <InputAdornment position="end">l/100km</InputAdornment>
+                    }}
+                    InputLabelProps={{
+                        shrink: true
+                    }}
+                />
+                <TextField
+                    className={classes.spaceAround}
+                    required
+                    label="Equipment level"
+                    value={equipmentLevel}
+                    onChange={(event) => { setEquipmentLevel(event.target.value) }}
+                    InputLabelProps={{
+                        shrink: true
+                    }}
+                />
+            </div>
+            <div className={classes.flexRow}>
+                <FormControl className={clsx(classes.spaceAround, classes.select)}>
+                    <InputLabel shrink>Purpose</InputLabel>
+                    <Select
+                        autoWidth
+                        required
+                        value={purposeId}
+                        onChange={(event) => { setPurposeId(event.target.value) }}
+                    >
+                        {
+                            purposes.map((purpose) => {
+                                return (
+                                    <MenuItem value={purpose.id}>
+                                        {purpose.name}
+                                    </MenuItem>
+                                )
+                            })
+                        }
+                    </Select>
+                </FormControl>
+                <TextField
+                    className={classes.spaceAround}
+                    required
+                    label="VIN"
+                    value={vin}
+                    onChange={(event) => { setVin(event.target.value) }}
+                    InputLabelProps={{
+                        shrink: true
+                    }}
+                />
+            </div>
+            <div className={classes.flexRow}>
+                <Button
+                    className={classes.spaceAround}
+                    variant="contained"
+                    disabled={
+                        !avgFuelConsumption || !brandModelId || !equipmentLevel || !id || !mileage || !plates
+                        || !purposeId || !typeId || !vin
+                    }
+                    onClick={props.edit ? doEdit : doAdd}
+                >
+                    Confirm
+                </Button>
             </div>
         </form>
     )

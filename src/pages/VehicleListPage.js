@@ -105,7 +105,7 @@ function VehicleListPage() {
                             {selectedVehicleId !== 0 &&
                                 <ButtonModal buttonLabel="Edit vehicle">
                                     <div>
-                                        test
+                                        <AddVehicleDialog edit/>
                                     </div>
                                 </ButtonModal>
                             }
