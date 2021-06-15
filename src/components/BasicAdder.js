@@ -18,13 +18,13 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function BasicAdder(item) {
+export default function BasicAdder(props) {
     const classes = useStyles();
     const [input, setInput] = useState("");
     
     var path = '/';
     var windowHeader = 'Add '
-    switch(item){
+    switch(props.item){
         case 'Type':
             path.concat('vehicle/type');
             windowHeader.concat('vehicle type');
