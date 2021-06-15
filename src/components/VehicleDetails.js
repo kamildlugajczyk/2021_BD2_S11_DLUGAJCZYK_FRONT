@@ -1,4 +1,4 @@
-import { List, ListItem, ListItemIcon, ListItemText, makeStyles } from "@material-ui/core";
+import { CircularProgress, List, ListItem, ListItemIcon, ListItemText, makeStyles } from "@material-ui/core";
 import { AccountTree, Build, DirectionsCar, Event, Gavel, LocalGasStation, SwapHoriz, Work } from "@material-ui/icons";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -11,6 +11,12 @@ const useStyles = makeStyles(() => ({
     root: {
         maxHeight: '100%',
         overflow: 'auto'
+    },
+    loading: {
+        height: "100%",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center"
     }
 }))
 
@@ -34,7 +40,11 @@ export default function VehicleDetails() {
     }, [selectedVehicleId])
 
     if (vehicle === null) {
-        return <div>Loading...</div>
+        return (
+            <div className={classes.loading}>
+                <CircularProgress />
+            </div>
+        )
     }
 
     return (

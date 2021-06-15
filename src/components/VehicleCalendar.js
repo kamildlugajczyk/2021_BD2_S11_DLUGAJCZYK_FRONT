@@ -4,20 +4,26 @@ import { Calendar, momentLocalizer } from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { useSelector } from 'react-redux';
 import { selectSelectedVehicleId } from '../redux/VehiclePickerSlice';
-import { makeStyles } from '@material-ui/core';
+import { CircularProgress, makeStyles } from '@material-ui/core';
 import moment from 'moment';
 import config from '../config';
 
 const useStyles = makeStyles((theme) => ({
     'rbc-calendar': {
         fontFamily: 'Roboto, Helvetica, sans-serif'
+    },
+    loading: {
+        height: "100%",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center"
     }
 }))
 
 export default function VehicleCalendar(props) {
     const localizer = momentLocalizer(moment);
     const selectedVehicleId = useSelector(selectSelectedVehicleId);
-    const [serviceList, setServiceList] = useState([]);
+    const [serviceList, setServiceList] = useState(null);
     const classes = useStyles();
     let events = [];
 
@@ -34,6 +40,15 @@ export default function VehicleCalendar(props) {
             setServiceList(response.data);
         })
     }, [selectedVehicleId])
+
+
+    if (!serviceList) {
+        return (
+            <div className={classes.loading}>
+                <CircularProgress />
+            </div>
+        )
+    }
 
     serviceList.forEach((service) => {
         events = events.concat([{

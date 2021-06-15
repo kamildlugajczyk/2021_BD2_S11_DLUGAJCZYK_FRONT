@@ -30,8 +30,10 @@ const useStyles = makeStyles((theme) => ({
         marginLeft: 200
     },
     loading: {
-        height: window.innerHeight,
-        width: window.innerWidth,
+        position: "fixed",
+        top: "50%",
+        left: "50%",
+        transform: "translate(-50%, -50%)",
         display: "flex",
         alignItems: "center",
         justifyContent: "center"
