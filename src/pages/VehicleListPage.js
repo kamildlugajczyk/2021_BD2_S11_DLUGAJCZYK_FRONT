@@ -14,35 +14,45 @@ import AddVehicleDialog from '../components/dialogs/AddVehicleDialog';
 
 
 const useStyles = makeStyles((theme) => ({
+    root: {
+        display: "flex",
+        position: "fixed",
+        height: "100%",
+        width: "100%"
+    },
+    content: {
+        display: 'flex',
+        flex: "1"
+    },
+    pickerAdminBlock: {
+        width: "40%",
+        height: "100%",
+        display: 'flex',
+        flexDirection: 'column',
+        flex: "40"
+    },
     picker: {
-        height: '100%'
+        height: '100%',
+        flex: "1"
     },
     adminButtons: {
-        height: 60,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-around',
-        paddingTop: 10
-    },
-    pickerAdminBlock: {
-        width: (window.innerWidth - 200) * 0.4,
-        height: window.innerHeight - 20,
-        display: 'flex',
-        flexDirection: 'column'
-    },
-    calendar: {
-        height: (window.innerHeight - 20) * 0.5
-    },
-    details: {
-        height: (window.innerHeight - 60) * 0.5,
+        paddingTop: 20,
+        paddingBottom: 30
     },
     calendarDetailsBlock: {
-        width: (window.innerWidth - 200) * 0.4,
-        margin: '0px 100px 0px 100px'
+        paddingLeft: "2%",
+        paddingRight: "1%",
+        height: "100%",
+        flex: "60"
     },
-    page: {
-        display: 'flex',
-        marginLeft: 200
+    calendar: {
+        height: "50%"
+    },
+    details: {
+        height: "45%"
     },
     loading: {
         position: "fixed",
@@ -101,9 +111,9 @@ function VehicleListPage() {
     const isAdmin = localStorage.getItem("user-permissions") === "ROLE_ADMIN";
 
     return (
-        <div>
+        <div className={classes.root}>
             <MenuBar selected="all-vehicles" />
-            <div className={classes.page}>
+            <div className={classes.content}>
                 <div className={classes.pickerAdminBlock}>
                     <div className={classes.picker}>
                         <VehiclePicker url="/vehicle" />

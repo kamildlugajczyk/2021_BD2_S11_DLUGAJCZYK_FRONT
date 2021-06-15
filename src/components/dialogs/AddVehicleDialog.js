@@ -18,13 +18,16 @@ const useStyles = makeStyles((theme) => ({
         alignItems: "center"
     },
     flexRow: {
-        display: "flex"
+        display: "flex",
+        width: "90%"
     },
     spaceAround: {
-        margin: "10px"
+        margin: "10px",
+        flex: "3"
     },
     idField: {
-        width: "50px"
+        width: "50px",
+        flex: "1"
     },
     select: {
         minWidth: "100px"
@@ -33,6 +36,9 @@ const useStyles = makeStyles((theme) => ({
         display: "flex",
         alignItems: "center",
         justifyContent: "center"
+    },
+    snackbar: {
+        position: "fixed"
     }
 }))
 

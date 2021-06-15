@@ -5,12 +5,12 @@ import { Button, Modal, makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
-        position: 'absolute',
-        width: window.innerWidth*0.2,
+        position: 'fixed',
+        width: "25%",
         backgroundColor: theme.palette.background.paper,
         border: '1px solid #000',
         boxShadow: theme.shadows[5],
-        padding: theme.spacing(2, 4, 3),
+        padding: theme.spacing(3, 4, 3),
         top: "50%",
         left: "50%",
         transform: "translate(-50%, -50%)"
