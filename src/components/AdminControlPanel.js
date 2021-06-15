@@ -1,7 +1,8 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { makeStyles } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import BasicAdder from './BasicAdder';
+import Modal from '@material-ui/core/Modal';
 
 const useStyles = makeStyles((theme) => ({
     page: {
@@ -20,19 +21,17 @@ const useStyles = makeStyles((theme) => ({
         width: 350,
         height: 50,
         marginBottom: '5%'
-        
     }
 }))
 
 
 export default function AdminControlPanel(){
     const classes = useStyles();
+    const [chosenItem, setChosenItem] = useState('');
+    const [openBasic, setOpenBasic] = useState(false);
     const genericAdd = (itemType) => {
-        return(
-            <div>
-                <BasicAdder item={itemType}/>
-            </div>
-        )
+        setChosenItem(itemType);
+        setOpenBasic(true);
     }
     const genericDelete = (item) => {
 
@@ -43,7 +42,9 @@ export default function AdminControlPanel(){
     const addModel = () => {
 
     }
-
+    const handleClose = () => {
+        setOpenBasic(false);
+    }
     return (
         <div className={classes.page}>
             <div className={classes.buttonsColumn}>    
@@ -92,6 +93,13 @@ export default function AdminControlPanel(){
                     Delete subcontractor
                 </Button>
             </div>
+            {chosenItem !== '' &&
+                <div>
+                    <Modal open={openBasic} onClose={handleClose}>
+                        <BasicAdder item={chosenItem}/>
+                    </Modal>
+                </div>
+            }
         </div>
     );
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import axios from 'axios';
@@ -8,8 +8,10 @@ import config from '../config';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
-        marginTop: theme.spacing(8),
+        marginTop: '20%',
+        width: '100%',
         display: 'flex',
+        background: 'white',
         flexDirection: 'column',
         alignItems: 'center'
     },
@@ -21,34 +23,39 @@ const useStyles = makeStyles((theme) => ({
 export default function BasicAdder(item) {
     const classes = useStyles();
     const [input, setInput] = useState("");
-    
+    const [newId, setNewId] = useState(0);
     var path = '/';
     var windowHeader = 'Add '
     switch(item){
         case 'Type':
-            path.concat('vehicle/type');
-            windowHeader.concat('vehicle type');
+            path+='vehicle/type';
+            windowHeader+='vehicle type';
             break;
         case 'Purpose':
-            path.concat('vehicle/purpose');
-            windowHeader.concat('vehicle purpose');
+            path+='vehicle/purpose';
+            windowHeader+='vehicle purpose';
             break;
         case 'OperationType':
-            path.concat('operation/type');
-            windowHeader.concat('operation type');
+            path+='operation/type';
+            windowHeader+='operation type';
             break;
         case 'ServiceTypes':
-            path.concat('service/type');
-            windowHeader.concat('service type');
+            path+='service/type';
+            windowHeader+='service type';
             break;
         case 'Function':
-            path.concat('person/function');
-            windowHeader.concat('employee\'s function');
+            path+='person/function';
+            windowHeader+='employee\'s function';
+            break;
+        default:
+            windowHeader+='default';
             break;
     }
-    const newId = useMemo(() => {
+    console.log(path);
+    console.log(windowHeader);
+    useEffect(() => {
         axios({
-            method: 'get',
+            method: 'GET',
             url: `${config.API_URL}${path}`,
             headers: {
                 'Content-Type': 'application/json',
@@ -56,8 +63,7 @@ export default function BasicAdder(item) {
             }
         })
         .then((response) => {
-            console.log(Array.length(response.data));
-            return Array.length(response.data);       
+            setNewId(Array.length(response.data));     
         })
         .catch(() => {
 
@@ -85,7 +91,7 @@ export default function BasicAdder(item) {
     }, [newId, input])
 
     const cancelAdding = (() => {
-
+        
     });
 
     // support for the enter key without reloading the page
@@ -103,8 +109,8 @@ export default function BasicAdder(item) {
       }, [addItem]);
 
     return (
-        <div>
-            <Container component="main" maxwidth="xs">
+        <div alignItems='center'>
+            <Container >
                 <CssBaseline />
                 <div className={classes.paper}>
                     <form>
@@ -124,6 +130,7 @@ export default function BasicAdder(item) {
                             onClick={addItem}
                             variant="contained"
                             fullWidth
+                            bottomMargin='50px'
                         >
                             Add
                         </Button>
