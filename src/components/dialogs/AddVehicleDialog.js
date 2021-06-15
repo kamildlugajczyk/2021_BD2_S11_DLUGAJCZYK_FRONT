@@ -36,19 +36,11 @@ const useStyles = makeStyles((theme) => ({
         display: "flex",
         alignItems: "center",
         justifyContent: "center"
-    },
-    snackbar: {
-        position: "fixed"
     }
 }))
 
 function getSmallestFreeVehicleId(vehicleArray) {
-    for (let i = 0; i < vehicleArray.length; i++) {
-        if (i + 1 < vehicleArray[i].id) {
-            return i + 1;
-        }
-    }
-    return vehicleArray.length + 1;
+    return vehicleArray[vehicleArray.length - 1].id + 1;
 }
 
 export default function AddVehicleDialog(props) {

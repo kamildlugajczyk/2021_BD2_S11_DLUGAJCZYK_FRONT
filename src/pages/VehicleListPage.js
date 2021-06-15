@@ -44,8 +44,8 @@ const useStyles = makeStyles((theme) => ({
         paddingBottom: 30
     },
     calendarDetailsBlock: {
-        paddingLeft: "2%",
-        paddingRight: "1%",
+        paddingLeft: "1%",
+        paddingRight: "1.5%",
         height: "100%",
         flex: "60"
     },
@@ -136,7 +136,14 @@ function VehicleListPage() {
                             {selectedVehicleId !== 0 &&
                                 <ButtonModal buttonLabel="Delete vehicle">
                                     <div>
-                                        test
+                                        delet
+                                    </div>
+                                </ButtonModal>
+                            }
+                            {selectedVehicleId !== 0 &&
+                                <ButtonModal buttonLabel="Change keeper">
+                                    <div>
+                                        change keper xd
                                     </div>
                                 </ButtonModal>
                             }
