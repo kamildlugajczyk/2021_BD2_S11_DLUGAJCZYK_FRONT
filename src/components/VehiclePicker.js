@@ -45,6 +45,15 @@ export default function VehiclePicker(props) {
     })
 
     return (
-        <DataGrid rows={rows} columns={columns} disableMultipleSelection={true} onRowSelected={(row) => {dispatch(setSelected(row.data.id))}}/>
+        <DataGrid 
+            rows={rows} 
+            columns={columns} 
+            disableMultipleSelection={true} 
+            onRowSelected={
+                (row) => {
+                    dispatch(setSelected(row.data.id))
+                }
+            }
+        />
     )
 }

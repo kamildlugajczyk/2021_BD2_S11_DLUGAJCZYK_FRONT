@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { Button, FormControl, InputAdornment, InputLabel, makeStyles, MenuItem, Select, Snackbar, TextField } from "@material-ui/core";
+import { Button, CircularProgress, FormControl, InputAdornment, InputLabel, makeStyles, MenuItem, Select, Snackbar, TextField } from "@material-ui/core";
 import { useCallback, useEffect, useState } from "react";
 import { getAllBrandModels } from "../../services/BrandModel";
 import { addVehicle, editVehicle, getAllVehicles, getVehicle } from "../../services/Vehicle";
@@ -28,6 +28,11 @@ const useStyles = makeStyles((theme) => ({
     },
     select: {
         minWidth: "100px"
+    },
+    loading: {
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center"
     }
 }))
 
@@ -131,7 +136,7 @@ export default function AddVehicleDialog(props) {
         })
         if (!props.edit) {
             getAllVehicles().then((response) => {
-                const sorted = [...response.data].sort((a, b) => {return a.id - b.id})
+                const sorted = [...response.data].sort((a, b) => { return a.id - b.id })
                 setId(getSmallestFreeVehicleId(sorted));
             })
         }
@@ -150,8 +155,12 @@ export default function AddVehicleDialog(props) {
         }
     }, [props, selectedVehicleId])
 
-    if (brandModels === null || purposes === null || types === null) {
-        return <div>Loading...</div>
+    if (brandModels === null || purposes === null || types === null || id === null) {
+        return (
+            <div className={classes.loading}>
+                <CircularProgress />
+            </div>
+        )
     }
 
     return (

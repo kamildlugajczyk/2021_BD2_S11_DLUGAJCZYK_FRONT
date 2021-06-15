@@ -6,45 +6,11 @@ import LoginPage from './LoginPage';
 import VehicleCalendar from '../components/VehicleCalendar';
 import { useSelector } from 'react-redux';
 import { selectSelectedVehicleId } from '../redux/VehiclePickerSlice';
-import { makeStyles } from '@material-ui/core';
+import { CircularProgress, makeStyles } from '@material-ui/core';
 import config from '../config';
 import VehicleDetails from '../components/VehicleDetails';
 import ButtonModal from '../components/ButtonModal';
 import AddVehicleDialog from '../components/dialogs/AddVehicleDialog';
-
-
-export default function VehicleListGate() {
-
-    const [isTokenValid, setIsTokenValid] = useState(null);
-
-    //fetching user permissions to check if the locally stored token is still valid
-    useEffect(() => {
-        axios({
-            method: "GET",
-            url: `${config.API_URL}/authorities`,
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem("AUTH_TOKEN")}`
-            }
-        })
-            .then((response) => {
-                localStorage.setItem("user-permissions", response.data[0].authority);
-                setIsTokenValid(true);
-            })
-            .catch(() => {
-                setIsTokenValid(false);
-            })
-    }, [])
-
-    if (isTokenValid === null) {
-        return <div>Loading...</div>
-    }
-
-    return (
-        <div>
-            {isTokenValid === true ? <VehicleListPage /> : <LoginPage />}
-        </div>
-    )
-}
 
 
 const useStyles = makeStyles((theme) => ({
@@ -77,8 +43,53 @@ const useStyles = makeStyles((theme) => ({
     page: {
         display: 'flex',
         marginLeft: 200
+    },
+    loading: {
+        height: window.innerHeight,
+        width: window.innerWidth,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center"
     }
 }));
+
+
+export default function VehicleListGate() {
+    const classes = useStyles();
+    const [isTokenValid, setIsTokenValid] = useState(null);
+
+    //fetching user permissions to check if the locally stored token is still valid
+    useEffect(() => {
+        axios({
+            method: "GET",
+            url: `${config.API_URL}/authorities`,
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("AUTH_TOKEN")}`
+            }
+        })
+            .then((response) => {
+                localStorage.setItem("user-permissions", response.data[0].authority);
+                setIsTokenValid(true);
+            })
+            .catch(() => {
+                setIsTokenValid(false);
+            })
+    }, [])
+
+    if (isTokenValid === null) {
+        return (
+            <div className={classes.loading}>
+                <CircularProgress />
+            </div>
+        ) 
+    }
+
+    return (
+        <div>
+            {isTokenValid === true ? <VehicleListPage /> : <LoginPage />}
+        </div>
+    )
+}
 
 
 function VehicleListPage() {
