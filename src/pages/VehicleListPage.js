@@ -11,6 +11,7 @@ import config from '../config';
 import VehicleDetails from '../components/VehicleDetails';
 //import ButtonModal from '../components/ButtonModal';
 import AddVehicleDialog from '../components/dialogs/AddVehicleDialog';
+import DeleteVehicleDialog from '../components/dialogs/DeleteVehicleDialog';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -214,7 +215,16 @@ function VehicleListPage() {
                                         onClose={() => { setIsDeleteModalOpen(false) }}
                                     >
                                         <div className={classes.modal}>
-                                            delet
+                                            <DeleteVehicleDialog 
+                                                onClose={
+                                                    (isListChanged) => {
+                                                        setIsDeleteModalOpen(false);
+                                                        if (isListChanged) {
+                                                            setVehicleListUpdater(!vehicleListUpdater);
+                                                        }
+                                                    }
+                                                }
+                                            />
                                         </div>
                                     </Modal>
                                 </div>
@@ -231,7 +241,7 @@ function VehicleListPage() {
                                         onClick={() => { setIsKeeperModalOpen(true) }}
                                     >
                                         Change keeper
-                                </Button>
+                                    </Button>
                                     <Modal
                                         open={isKeeperModalOpen}
                                         onClose={() => { setIsKeeperModalOpen(false) }}
