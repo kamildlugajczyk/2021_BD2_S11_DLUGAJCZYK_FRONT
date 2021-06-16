@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import MenuBar from '../components/MenuBar';
 import VehiclePicker from '../components/VehiclePicker';
 import LoginPage from './LoginPage';
@@ -7,12 +6,11 @@ import VehicleCalendar from '../components/VehicleCalendar';
 import { useSelector } from 'react-redux';
 import { selectSelectedVehicleId } from '../redux/VehiclePickerSlice';
 import { Button, CircularProgress, makeStyles, Modal } from '@material-ui/core';
-import config from '../config';
 import VehicleDetails from '../components/VehicleDetails';
-//import ButtonModal from '../components/ButtonModal';
 import AddVehicleDialog from '../components/dialogs/AddVehicleDialog';
 import DeleteVehicleDialog from '../components/dialogs/DeleteVehicleDialog';
 import ChangeKeeperDialog from '../components/dialogs/ChangeKeeperDialog';
+import { getMyPermissions } from '../services/UserAccount';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -27,11 +25,11 @@ const useStyles = makeStyles((theme) => ({
         flex: "1"
     },
     pickerAdminBlock: {
-        width: "40%",
+        width: "50%",
         height: "100%",
         display: 'flex',
         flexDirection: 'column',
-        flex: "40"
+        flex: "1"
     },
     picker: {
         height: '100%',
@@ -49,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
         paddingLeft: "1%",
         paddingRight: "1.5%",
         height: "100%",
-        flex: "60"
+        flex: "1"
     },
     calendar: {
         height: "50%"
@@ -86,13 +84,7 @@ export default function VehicleListGate() {
 
     //fetching user permissions to check if the locally stored token is still valid
     useEffect(() => {
-        axios({
-            method: "GET",
-            url: `${config.API_URL}/authorities`,
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem("AUTH_TOKEN")}`
-            }
-        })
+        getMyPermissions()
             .then((response) => {
                 localStorage.setItem("user-permissions", response.data[0].authority);
                 setIsTokenValid(true);

@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import LoginPage from './LoginPage';
 import VehicleList from './VehicleListPage';
-import config from '../config';
 import { makeStyles } from '@material-ui/core';
+import { getMyPermissions } from '../services/UserAccount';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -25,23 +24,17 @@ export default function MainPage() {
 
     //fetching user permissions to check if the locally stored token is still valid
     useEffect(() => {
-        axios({
-            method: "GET",
-            url: `${config.API_URL}/authorities`,
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem("AUTH_TOKEN")}`
-            }
-        })
-        .then((response) => {
-            localStorage.setItem("user-permissions", response.data[0].authority);
-            setIsTokenValid(true);
-        })
-        .catch(() => {
-            setIsTokenValid(false);
-        })
+        getMyPermissions()
+            .then((response) => {
+                localStorage.setItem("user-permissions", response.data[0].authority);
+                setIsTokenValid(true);
+            })
+            .catch(() => {
+                setIsTokenValid(false);
+            })
     }, [])
 
-    if(isTokenValid === null) {
+    if (isTokenValid === null) {
         return (
             <div className={classes.loading}>
                 <CircularProgress />
@@ -51,7 +44,7 @@ export default function MainPage() {
 
     return (
         <div>
-            {isTokenValid === true ? <VehicleList/> : <LoginPage/>}
+            {isTokenValid === true ? <VehicleList /> : <LoginPage />}
         </div>
     )
 }

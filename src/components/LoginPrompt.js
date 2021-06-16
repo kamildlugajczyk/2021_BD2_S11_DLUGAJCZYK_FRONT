@@ -2,10 +2,9 @@ import React from 'react';
 import { useState, useEffect, useCallback } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import axios from 'axios';
 import { CircularProgress, Container, CssBaseline, makeStyles, Snackbar } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
-import config from '../config';
+import { login } from '../services/UserAccount';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -41,16 +40,9 @@ export default function LoginPrompt() {
     // The 'doLogin' function makes the dependencies of useEffect Hook (at line 73) change on every render. To fix this, wrap the definition of 'doLogin' in its own useCallback() Hook
     const doLogin = useCallback(() => {
         setIsButtonDisabled(true);
-        axios({
-            method: 'post',
-            url: `${config.API_URL}/login`,
-            data: {
-                username: username,
-                password: password
-            },
-            headers: {
-                'Content-Type': 'application/json'
-            }
+        login({
+            username: username,
+            password: password
         })
             .then((response) => {
                 setSnackbarOpenFlag(false);
