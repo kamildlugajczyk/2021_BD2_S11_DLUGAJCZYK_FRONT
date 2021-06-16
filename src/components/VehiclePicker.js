@@ -10,7 +10,7 @@ import { CircularProgress, makeStyles } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
     loading: {
-        height: window.innerHeight,
+        height: "100%",
         display: "flex",
         alignItems: "center",
         justifyContent: "center"
