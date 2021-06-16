@@ -12,6 +12,7 @@ import VehicleDetails from '../components/VehicleDetails';
 //import ButtonModal from '../components/ButtonModal';
 import AddVehicleDialog from '../components/dialogs/AddVehicleDialog';
 import DeleteVehicleDialog from '../components/dialogs/DeleteVehicleDialog';
+import ChangeKeeperDialog from '../components/dialogs/ChangeKeeperDialog';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -129,7 +130,7 @@ function VehicleListPage() {
     const [isKeeperModalOpen, setIsKeeperModalOpen] = useState(false);
 
     // switch for updating VehiclePicker, listened to for changes by the internal useEffect of VehiclePicker
-    const [vehicleListUpdater, setVehicleListUpdater] = useState(false);
+    const [viewUpdater, setViewUpdater] = useState(false);
 
     return (
         <div className={classes.root}>
@@ -137,7 +138,7 @@ function VehicleListPage() {
             <div className={classes.content}>
                 <div className={classes.pickerAdminBlock}>
                     <div className={classes.picker}>
-                        <VehiclePicker url="/vehicle" updater={vehicleListUpdater} />
+                        <VehiclePicker url="/vehicle" updater={viewUpdater} />
                     </div>
                     {isAdmin &&
                         <div className={classes.adminButtons}>
@@ -158,7 +159,7 @@ function VehicleListPage() {
                                                 setIsAddModalOpen(false)
                                                 if (isListChanged) {
                                                     // flip the switch to update VehiclePicker
-                                                    setVehicleListUpdater(!vehicleListUpdater);
+                                                    setViewUpdater(!viewUpdater);
                                                 }
                                             }
                                         }
@@ -189,7 +190,7 @@ function VehicleListPage() {
                                                     (isListChanged) => {
                                                         setIsEditModalOpen(false)
                                                         if (isListChanged) {
-                                                            setVehicleListUpdater(!vehicleListUpdater);
+                                                            setViewUpdater(!viewUpdater);
                                                         }
                                                     }
                                                 }
@@ -221,7 +222,7 @@ function VehicleListPage() {
                                                     (isListChanged) => {
                                                         setIsDeleteModalOpen(false);
                                                         if (isListChanged) {
-                                                            setVehicleListUpdater(!vehicleListUpdater);
+                                                            setViewUpdater(!viewUpdater);
                                                         }
                                                     }
                                                 }
@@ -248,7 +249,16 @@ function VehicleListPage() {
                                         onClose={() => { setIsKeeperModalOpen(false) }}
                                     >
                                         <div className={classes.modal}>
-                                            chang keper xd
+                                            <ChangeKeeperDialog 
+                                                onClose={
+                                                    (isListChanged) => {
+                                                        setIsKeeperModalOpen(false);
+                                                        if (isListChanged) {
+                                                            setViewUpdater(!viewUpdater);
+                                                        }
+                                                    }
+                                                }
+                                            />
                                         </div>
                                     </Modal>
                                 </div>
@@ -267,7 +277,7 @@ function VehicleListPage() {
                             <VehicleCalendar />
                         </div>
                         <div className={classes.details}>
-                            <VehicleDetails />
+                            <VehicleDetails updater={viewUpdater} />
                         </div>
                     </div>
                 }
