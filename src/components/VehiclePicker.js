@@ -45,7 +45,7 @@ export default function VehiclePicker(props) {
                 setVehicleList(sorted);
             })
         //dispatch(setSelected(0));
-    }, [props.url, dispatch]);
+    }, [props.url, props.updater]);
 
 
     if (!vehicleList) {

@@ -5,8 +5,8 @@ import { getAllBrandModels } from "../../services/BrandModel";
 import { addVehicle, editVehicle, getAllVehicles, getVehicle } from "../../services/Vehicle";
 import { getAllVehiclePurposes } from "../../services/VehiclePurpose";
 import { getAllVehicleTypes } from "../../services/VehicleType";
-import { useSelector } from 'react-redux';
-import { selectSelectedVehicleId } from '../../redux/VehiclePickerSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectSelectedVehicleId, setSelected } from '../../redux/VehiclePickerSlice';
 import { Alert } from '@material-ui/lab';
 
 
@@ -46,6 +46,8 @@ function getSmallestFreeVehicleId(vehicleArray) {
 export default function AddVehicleDialog(props) {
     const classes = useStyles();
     const selectedVehicleId = useSelector(selectSelectedVehicleId);
+    const dispatch = useDispatch();
+
     const [snackbarOpenFlag, setSnackbarOpenFlag] = useState(false);
 
     const [avgFuelConsumption, setAvgFuelConsumption] = useState(null);
@@ -75,11 +77,12 @@ export default function AddVehicleDialog(props) {
             typeId: typeId,
             vin: vin
         }).then(() => {
-            window.location.reload();
+            dispatch(setSelected(id));
+            props.onClose(true);
         }).catch(() => {
             setSnackbarOpenFlag(true);
         })
-    }, [avgFuelConsumption, brandModelId, equipmentLevel, id, mileage, plates, purposeId, typeId, vin])
+    }, [avgFuelConsumption, brandModelId, equipmentLevel, id, mileage, plates, purposeId, typeId, vin, props, dispatch])
 
     const doEdit = useCallback(() => {
         editVehicle(id, {
@@ -93,11 +96,11 @@ export default function AddVehicleDialog(props) {
             typeId: typeId,
             vin: vin
         }).then(() => {
-            window.location.reload();
+            props.onClose(true);
         }).catch(() => {
             setSnackbarOpenFlag(true);
         })
-    }, [avgFuelConsumption, brandModelId, equipmentLevel, id, mileage, plates, purposeId, typeId, vin])
+    }, [avgFuelConsumption, brandModelId, equipmentLevel, id, mileage, plates, purposeId, typeId, vin, props, dispatch])
 
     const handleSnackbarClose = (event, reason) => {
         if (reason === 'clickaway') {
@@ -311,6 +314,13 @@ export default function AddVehicleDialog(props) {
                     onClick={props.edit ? doEdit : doAdd}
                 >
                     Confirm
+                </Button>
+                <Button
+                    className={classes.spaceAround}
+                    variant="contained"
+                    onClick={() => {props.onClose(false)}}
+                >
+                    Cancel
                 </Button>
             </div>
             <Snackbar
