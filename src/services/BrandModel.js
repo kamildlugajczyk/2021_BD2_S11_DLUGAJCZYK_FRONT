@@ -3,18 +3,18 @@ import config from '../config';
 
 
 
-// params:
+// data:
 // {
 //     "brand": "string",
 //     "id": 0,
 //     "model": "string",
 //     "modelYear": "string"
 // }
-export function addBrandModel(params) {
+export function addBrandModel(data) {
     return axios({
         method: "POST",
         url: `${config.API_URL}/vehicle/brandmodel`,
-        data: params,
+        data: data,
         headers: {
             "Authorization": `Bearer ${localStorage.getItem("AUTH_TOKEN")}`
         }
@@ -41,18 +41,18 @@ export function getAllBrandModels() {
     })
 }
 
-// params:
+// data:
 // {
 //     "brand": "string",
 //     "id": 0,
 //     "model": "string",
 //     "modelYear": "string"
 // }
-export function editBrandModel(id, params) {
+export function editBrandModel(id, data) {
     return axios({
         method: "PUT",
         url: `${config.API_URL}/vehicle/brandmodel/${id}`,
-        data: params,
+        data: data,
         headers: {
             "Authorization": `Bearer ${localStorage.getItem("AUTH_TOKEN")}`
         }

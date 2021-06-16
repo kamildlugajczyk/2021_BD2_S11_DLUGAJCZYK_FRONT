@@ -100,7 +100,7 @@ export default function AddVehicleDialog(props) {
         }).catch(() => {
             setSnackbarOpenFlag(true);
         })
-    }, [avgFuelConsumption, brandModelId, equipmentLevel, id, mileage, plates, purposeId, typeId, vin, props, dispatch])
+    }, [avgFuelConsumption, brandModelId, equipmentLevel, id, mileage, plates, purposeId, typeId, vin, props])
 
     const handleSnackbarClose = (event, reason) => {
         if (reason === 'clickaway') {

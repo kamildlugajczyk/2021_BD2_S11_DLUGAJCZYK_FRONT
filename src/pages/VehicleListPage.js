@@ -184,6 +184,7 @@ function VehicleListPage() {
                                     >
                                         <div className={classes.modal}>
                                             <AddVehicleDialog
+                                                edit
                                                 onClose={
                                                     (isListChanged) => {
                                                         setIsEditModalOpen(false)

@@ -46,7 +46,7 @@ export default function DeleteVehicleDialog(props) {
             .catch(() => {
                 setSnackbarOpenFlag(true);
             })
-    }, [props, selectedVehicleId])
+    }, [props, selectedVehicleId, dispatch])
 
     const handleSnackbarClose = (event, reason) => {
         if (reason === 'clickaway') {
@@ -58,12 +58,19 @@ export default function DeleteVehicleDialog(props) {
     return (
         <form className={classes.root}>
             <div className={classes.flexRow}>
-                <Typography variant="h6" color="textSecondary">
+                <Typography 
+                    className={classes.spaceAround}
+                    variant="h6" 
+                    color="textSecondary"
+                >
                     Delete vehicle
                 </Typography>
             </div>
             <div className={classes.flexRow}>
-                <Typography variant="body">
+                <Typography 
+                    className={classes.spaceAround}
+                    variant="body2"
+                >
                     Are you sure you want to delete this vehicle?<br />
                     <strong>This operation is irreversible!</strong>
                 </Typography>
