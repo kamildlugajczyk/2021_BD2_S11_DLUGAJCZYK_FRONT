@@ -44,7 +44,7 @@ export default function VehicleDetails(props) {
             })
     }, [selectedVehicleId, props.updater])
 
-    if (!vehicle) {
+    if (!vehicle || !keeper) {
         return (
             <div className={classes.loading}>
                 <CircularProgress />
