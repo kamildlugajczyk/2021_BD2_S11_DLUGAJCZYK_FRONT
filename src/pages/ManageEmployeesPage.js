@@ -30,7 +30,10 @@ const useStyles = makeStyles((theme) => ({
         alignItems: "center",
         justifyContent: "space-around",
         paddingTop: 20,
-        paddingBottom: 30
+        paddingBottom: 30,
+        width: "50%",
+        marginLeft: "50%",
+        transform: "translate(-50%)"
     },
     loading: {
         position: "fixed",
@@ -98,14 +101,14 @@ function ManageEmployeesPage(props) {
                     >
                         Add employee
                     </Button>
-                    {selectedEmployeeId &&
+                    {selectedEmployeeId !== 0 &&
                         <Button
                             variant="contained"
                         >
                             Edit employee
                         </Button>
                     }
-                    {
+                    {selectedEmployeeId !== 0 &&
                         <Button
                             variant="contained"
                         >

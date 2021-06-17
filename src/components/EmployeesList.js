@@ -10,6 +10,7 @@ const columns = [
     { field: 'firstName', headerName: 'First name', width: 200 },
     { field: 'lastName', headerName: 'Last name', width: 200 },
     { field: 'phoneNumber', headerName: 'Phone', width: 200 },
+    { field: 'username', headerName: 'Username', width: 200 },
     { field: 'function', headerName: 'Function', width: 150 },
 ];
 
@@ -50,6 +51,7 @@ export default function EmployeesList(props) {
             firstName: employee.firstname,
             lastName: employee.lastname,
             phoneNumber: employee.phoneNumber,
+            username: employee.username,
             function: employee.function.name,
         }]);
     });
