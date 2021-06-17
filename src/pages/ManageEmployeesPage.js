@@ -1,7 +1,9 @@
 import { CircularProgress, makeStyles, Button } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import EmployeesList from '../components/EmployeesList';
 import MenuBar from '../components/MenuBar';
+import { selectSelectedEmployeeId } from '../redux/EmployeesListSlice';
 import { getMyPermissions } from '../services/UserAccount';
 import LoginPage from './LoginPage';
 
@@ -78,8 +80,10 @@ export default function ManageEmployeesGate() {
     )
 }
 
-function ManageEmployeesPage() {
+function ManageEmployeesPage(props) {
     const classes = useStyles();
+    const selectedEmployeeId = useSelector(selectSelectedEmployeeId);
+    
 
     return (
         <div className={classes.root}>
@@ -92,8 +96,22 @@ function ManageEmployeesPage() {
                     <Button
                         variant="contained"
                     >
-                        test
+                        Add employee
                     </Button>
+                    {selectedEmployeeId &&
+                        <Button
+                            variant="contained"
+                        >
+                            Edit employee
+                        </Button>
+                    }
+                    {
+                        <Button
+                            variant="contained"
+                        >
+                            Delete employee
+                        </Button>
+                    }
                 </div>
             </div>
         </div>

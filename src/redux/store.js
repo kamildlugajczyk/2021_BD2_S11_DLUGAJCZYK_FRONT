@@ -4,7 +4,7 @@ import employeesListReducer from './EmployeesListSlice';
 
 export const rootReducer = combineReducers({
     vehiclePicker: vehiclePickerReducer,
-    employeeList: employeesListReducer
+    employeesList: employeesListReducer
 })
 
 export const store = configureStore({
