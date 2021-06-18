@@ -1,6 +1,8 @@
-import { CircularProgress, makeStyles, Button } from '@material-ui/core';
+import { CircularProgress, makeStyles, Button, Modal } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import AddEmployeeDialog from '../components/dialogs/AddEmployeeDialog';
+import DeleteEmployeeDialog from '../components/dialogs/DeleteEmployeeDialog';
 import EmployeesList from '../components/EmployeesList';
 import MenuBar from '../components/MenuBar';
 import { selectSelectedEmployeeId } from '../redux/EmployeesListSlice';
@@ -44,6 +46,17 @@ const useStyles = makeStyles((theme) => ({
         alignItems: "center",
         justifyContent: "center"
     },
+    modal: {
+        position: 'fixed',
+        width: "25%",
+        backgroundColor: theme.palette.background.paper,
+        border: '1px solid #000',
+        boxShadow: theme.shadows[5],
+        padding: theme.spacing(3, 4, 3),
+        top: "50%",
+        left: "50%",
+        transform: "translate(-50%, -50%)"
+    },
 }))
 
 
@@ -83,37 +96,104 @@ export default function ManageEmployeesGate() {
     )
 }
 
+
+
 function ManageEmployeesPage(props) {
     const classes = useStyles();
     const selectedEmployeeId = useSelector(selectSelectedEmployeeId);
-    
+
+    const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+
+    const [viewUpdater, setViewUpdater] = useState(false);
+
 
     return (
         <div className={classes.root}>
             <MenuBar selected="manage-employees" />
             <div className={classes.content}>
                 <div className={classes.list}>
-                    <EmployeesList />
+                    <EmployeesList updater={viewUpdater} />
                 </div>
                 <div className={classes.buttons}>
                     <Button
                         variant="contained"
+                        onClick={() => { setIsAddModalOpen(true) }}
                     >
                         Add employee
                     </Button>
+                    <Modal
+                        open={isAddModalOpen}
+                        onClose={() => { setIsAddModalOpen(false) }}
+                    >
+                        <div className={classes.modal}>
+                            <AddEmployeeDialog
+                                onClose={
+                                    (isListChanged) => {
+                                        setIsAddModalOpen(false)
+                                        if (isListChanged) {
+                                            setViewUpdater(!viewUpdater);
+                                        }
+                                    }
+                                }
+                            />
+                        </div>
+                    </Modal>
                     {selectedEmployeeId !== 0 &&
-                        <Button
-                            variant="contained"
-                        >
-                            Edit employee
-                        </Button>
+                        <div>
+                            <Button
+                                variant="contained"
+                                onClick={() => { setIsEditModalOpen(true) }}
+                            >
+                                Edit employee
+                            </Button>
+                            <Modal
+                                open={isEditModalOpen}
+                                onClose={() => { setIsEditModalOpen(false) }}
+                            >
+                                <div className={classes.modal}>
+                                    <AddEmployeeDialog
+                                        edit
+                                        onClose={
+                                            (isListChanged) => {
+                                                setIsEditModalOpen(false)
+                                                if (isListChanged) {
+                                                    setViewUpdater(!viewUpdater);
+                                                }
+                                            }
+                                        }
+                                    />
+                                </div>
+                            </Modal>
+                        </div>
                     }
                     {selectedEmployeeId !== 0 &&
-                        <Button
-                            variant="contained"
-                        >
-                            Delete employee
-                        </Button>
+                        <div>
+                            <Button
+                                variant="contained"
+                                onClick={() => { setIsDeleteModalOpen(true) }}
+                            >
+                                Delete employee
+                            </Button>
+                            <Modal
+                                open={isDeleteModalOpen}
+                                onClose={() => { setIsDeleteModalOpen(false) }}
+                            >
+                                <div className={classes.modal}>
+                                    <DeleteEmployeeDialog
+                                        onClose={
+                                            (isListChanged) => {
+                                                setIsDeleteModalOpen(false)
+                                                if (isListChanged) {
+                                                    setViewUpdater(!viewUpdater);
+                                                }
+                                            }
+                                        }
+                                    />
+                                </div>
+                            </Modal>
+                        </div>
                     }
                 </div>
             </div>

@@ -140,8 +140,7 @@ export default function AddVehicleDialog(props) {
                 const sorted = [...response.data].sort((a, b) => { return a.id - b.id })
                 setId(getSmallestFreeVehicleId(sorted));
             })
-        }
-        if (props.edit) {
+        } else {
             getVehicle(selectedVehicleId).then((response) => {
                 setAvgFuelConsumption(response.data.avgFuelConsumption);
                 setBrandModelId(response.data.brandmodel.id);
@@ -318,7 +317,7 @@ export default function AddVehicleDialog(props) {
                 <Button
                     className={classes.spaceAround}
                     variant="contained"
-                    onClick={() => {props.onClose(false)}}
+                    onClick={() => { props.onClose(false) }}
                 >
                     Cancel
                 </Button>

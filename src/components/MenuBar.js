@@ -65,6 +65,14 @@ export default function MenuBar(props) {
                         <ListItemText primary="Admin panel" />
                     </ListItem>
                 }
+                {isAdmin === true &&
+                    <ListItem button key="service-requests" selected={props.selected === "service-requests"}>
+                        <ListItemText primary="Service requests" />
+                    </ListItem>
+                }
+                <ListItem button key="change-password" onClick={console.log("change password")}>
+                    <ListItemText primary="Change password" />
+                </ListItem>
                 <ListItem button key="logout" onClick={logout}>
                     <ListItemText primary="Logout" />
                 </ListItem>

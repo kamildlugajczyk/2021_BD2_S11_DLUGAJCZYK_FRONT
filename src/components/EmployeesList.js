@@ -31,7 +31,8 @@ export default function EmployeesList(props) {
     useEffect(() => {
         getAllEmployees()
             .then((response) => {
-                setEmployeesArray(response.data);
+                const sorted = [...response.data].sort((a, b) => { return a.id - b.id });
+                setEmployeesArray(sorted);
             })
         dispatch(setSelected(0));
     }, [dispatch, props.updater]);
