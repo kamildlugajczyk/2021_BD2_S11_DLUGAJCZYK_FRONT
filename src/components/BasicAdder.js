@@ -23,7 +23,6 @@ const useStyles = makeStyles((theme) => ({
 export default function BasicAdder(props) {
     const classes = useStyles();
     const [input, setInput] = useState("");
-    const [newId, setNewId] = useState(0);
     var path = '/';
     var windowHeader = 'Add '
     switch(props.item){
@@ -53,28 +52,13 @@ export default function BasicAdder(props) {
     }
     console.log(path);
     console.log(windowHeader);
-    useEffect(() => {
-        axios({
-            method: 'GET',
-            url: `${config.API_URL}${path}`,
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem("AUTH_TOKEN")}`
-            }
-        })
-        .then((response) => {
-            setNewId(Array.length(response.data));     
-        })
-        .catch(() => {
-
-        });
-    });
+    console.log(`${config.API_URL}${path}`);
     const addItem = useCallback((path) => {
         axios({
             method: 'post',
             url: `${config.API_URL}${path}`,
             data: {
-                id: newId,
+                id: null,
                 name: input,
             },
             headers: {
@@ -109,12 +93,12 @@ export default function BasicAdder(props) {
       }, [addItem]);
 
     return (
-        <div alignItems='center'>
+        <div>
             <Container >
                 <CssBaseline />
                 <div className={classes.paper}>
                     <form>
-                        <h1 alignItems='center'>{windowHeader}</h1>
+                        <h1>{windowHeader}</h1>
                         <TextField
                             className={classes.textInput}
                             id="input"
@@ -130,7 +114,6 @@ export default function BasicAdder(props) {
                             onClick={addItem}
                             variant="contained"
                             fullWidth
-                            bottomMargin='50px'
                         >
                             Add
                         </Button>

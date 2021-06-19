@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { makeStyles, Modal } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import BasicAdder from './BasicAdder';
-import Modal from '@material-ui/core/Modal';
 
 const useStyles = makeStyles((theme) => ({
     page: {
@@ -43,7 +42,7 @@ export default function AdminControlPanel() {
 
     }
     const handleClose = () => {
-        setOpenBasic(false);
+        setIsModalOpen(false);
     }
     return (
         <div className={classes.page}>
