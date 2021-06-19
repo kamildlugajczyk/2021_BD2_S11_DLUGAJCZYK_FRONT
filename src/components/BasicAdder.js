@@ -5,6 +5,12 @@ import Button from '@material-ui/core/Button';
 import axios from 'axios';
 import { Container, CssBaseline, makeStyles } from '@material-ui/core';
 import config from '../config';
+import { addVehicleType } from '../services/VehicleType';
+import { addFunction } from '../services/Functions';
+import { addVehiclePurpose } from '../services/VehiclePurpose';
+import { addOperationType } from '../services/OperationType';
+import { addServiceType } from '../services/ServiceType';
+
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -58,7 +64,6 @@ export default function BasicAdder(props) {
             method: 'post',
             url: `${config.API_URL}${path}`,
             data: {
-                id: null,
                 name: input,
             },
             headers: {
@@ -66,17 +71,13 @@ export default function BasicAdder(props) {
             }
         })
         .then((response) => {
-            console.log(response.data);
             window.location.reload();         
         })
         .catch(() => {
             
         });
-    }, [newId, input])
+    }, [input])
 
-    const cancelAdding = (() => {
-        
-    });
 
     // support for the enter key without reloading the page
     useEffect(() => {
@@ -111,18 +112,11 @@ export default function BasicAdder(props) {
                             onChange={(l) => { setInput(l.target.value) }}
                         />
                         <Button
-                            onClick={addItem}
+                            onClick={() => addItem()}
                             variant="contained"
                             fullWidth
                         >
                             Add
-                        </Button>
-                        <Button
-                            onClick={cancelAdding}
-                            variant="contained"
-                            fullWidth
-                        >
-                            Cancel
                         </Button>
                     </form>
                 </div>
