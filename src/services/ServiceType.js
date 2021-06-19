@@ -3,10 +3,10 @@ import config from '../config';
 
 
 
-export function getOperationTypes() {
+export function getServiceTypes() {
     return axios({
         method: "GET",
-        url: `${config.API_URL}/operation/type`,
+        url: `${config.API_URL}/service/type`,
         headers: {
             "Authorization": `Bearer ${localStorage.getItem("AUTH_TOKEN")}`
         }
@@ -17,10 +17,10 @@ export function getOperationTypes() {
 // {
 //     "name": "string"
 // }
-export function addOperationType(data) {
+export function addServiceType(data) {
     return axios({
         method: "POST",
-        url: `${config.API_URL}/operation/type`,
+        url: `${config.API_URL}/service/type`,
         data: data,
         headers: {
             "Authorization": `Bearer ${localStorage.getItem("AUTH_TOKEN")}`
@@ -28,10 +28,10 @@ export function addOperationType(data) {
     })
 }
 
-export function getOperationType(id) {
+export function getServiceType(id) {
     return axios({
         method: "GET",
-        url: `${config.API_URL}/operation/type/${id}`,
+        url: `${config.API_URL}/service/type/${id}`,
         headers: {
             "Authorization": `Bearer ${localStorage.getItem("AUTH_TOKEN")}`
         }
@@ -42,10 +42,10 @@ export function getOperationType(id) {
 // {
 //     "name": "string"
 // }
-export function updateOperationType(id, data) {
+export function updateServiceType(id, data) {
     return axios({
         method: "PUT",
-        url: `${config.API_URL}/operation/type/${id}`,
+        url: `${config.API_URL}/service/type/${id}`,
         data: data,
         headers: {
             "Authorization": `Bearer ${localStorage.getItem("AUTH_TOKEN")}`
@@ -53,10 +53,10 @@ export function updateOperationType(id, data) {
     })
 }
 
-export function deleteOperationType(id) {
+export function deleteServiceType(id) {
     return axios({
         method: "DELETE",
-        url: `${config.API_URL}/operation/type/${id}`,
+        url: `${config.API_URL}/service/type/${id}`,
         headers: {
             "Authorization": `Bearer ${localStorage.getItem("AUTH_TOKEN")}`
         }
