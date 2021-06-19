@@ -2,16 +2,16 @@ import axios from 'axios';
 import config from '../config';
 
 
-// params:
+// data:
 // {
 //     "id": 0,
 //     "name": "string"
 // }
-export function addVehiclePurpose(params) {
+export function addVehiclePurpose(data) {
     return axios({
         method: "POST",
         url: `${config.API_URL}/vehicle/purpose`,
-        data: params,
+        data: data,
         headers: {
             "Authorization": `Bearer ${localStorage.getItem("AUTH_TOKEN")}`
         }
@@ -38,16 +38,16 @@ export function getAllVehiclePurposes() {
     })
 }
 
-// params:
+// data:
 // {
 //     "id": 0,
 //     "name": "string"
 // }
-export function editVehiclePurpose(id, params) {
+export function editVehiclePurpose(id, data) {
     return axios({
         method: "PUT",
         url: `${config.API_URL}/vehicle/purpose/${id}`,
-        data: params,
+        data: data,
         headers: {
             "Authorization": `Bearer ${localStorage.getItem("AUTH_TOKEN")}`
         }

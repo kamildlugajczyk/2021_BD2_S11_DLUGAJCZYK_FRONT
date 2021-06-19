@@ -5,7 +5,7 @@ import VehicleListGate from "../pages/VehicleListPage";
 import BookVehicleGate from "../pages/BookVehiclePage";
 import MyBookingsGate from "../pages/MyBookingsPage";
 import MyVehiclesGate from "../pages/MyVehiclesPage";
-import ManageEmployeesPage from "../pages/ManageEmployeesPage";
+import ManageEmployeesGate from "../pages/ManageEmployeesPage";
 import AdminPanelPage from "../pages/AdminPanelPage";
 
 export default function App() {
@@ -24,7 +24,7 @@ export default function App() {
         <MyVehiclesGate />
       </Route>
       <Route exact path="/manage-employees">
-        <ManageEmployeesPage />
+        <ManageEmployeesGate />
       </Route>
       <Route exact path="/admin-panel">
         <AdminPanelPage />

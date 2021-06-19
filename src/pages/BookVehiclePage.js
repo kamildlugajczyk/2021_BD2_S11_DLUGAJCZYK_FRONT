@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import MenuBar from '../components/MenuBar';
 import VehiclePicker from '../components/VehiclePicker';
 import LoginPage from './LoginPage';
 import { CircularProgress, makeStyles } from '@material-ui/core';
-import config from '../config';
 import { useSelector } from 'react-redux';
 import { selectSelectedVehicleId } from '../redux/VehiclePickerSlice';
 import VehicleCalendar from '../components/VehicleCalendar';
+import { getMyPermissions } from '../services/UserAccount';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -48,13 +47,7 @@ export default function BookVehicleGate() {
 
     //fetching user permissions to check if the locally stored token is still valid
     useEffect(() => {
-        axios({
-            method: "GET",
-            url: `${config.API_URL}/authorities`,
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem("AUTH_TOKEN")}`
-            }
-        })
+        getMyPermissions()
             .then((response) => {
                 localStorage.setItem("user-permissions", response.data[0].authority);
                 setIsTokenValid(true);

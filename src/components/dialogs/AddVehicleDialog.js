@@ -1,12 +1,12 @@
 import clsx from 'clsx';
-import { Button, CircularProgress, FormControl, InputAdornment, InputLabel, makeStyles, MenuItem, Select, Snackbar, TextField } from "@material-ui/core";
+import { Button, CircularProgress, FormControl, InputAdornment, InputLabel, makeStyles, MenuItem, Select, Snackbar, TextField, Typography } from "@material-ui/core";
 import { useCallback, useEffect, useState } from "react";
 import { getAllBrandModels } from "../../services/BrandModel";
 import { addVehicle, editVehicle, getAllVehicles, getVehicle } from "../../services/Vehicle";
 import { getAllVehiclePurposes } from "../../services/VehiclePurpose";
 import { getAllVehicleTypes } from "../../services/VehicleType";
-import { useSelector } from 'react-redux';
-import { selectSelectedVehicleId } from '../../redux/VehiclePickerSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectSelectedVehicleId, setSelected } from '../../redux/VehiclePickerSlice';
 import { Alert } from '@material-ui/lab';
 
 
@@ -18,13 +18,16 @@ const useStyles = makeStyles((theme) => ({
         alignItems: "center"
     },
     flexRow: {
-        display: "flex"
+        display: "flex",
+        width: "90%"
     },
     spaceAround: {
-        margin: "10px"
+        margin: "10px",
+        flex: "3"
     },
     idField: {
-        width: "50px"
+        width: "50px",
+        flex: "1"
     },
     select: {
         minWidth: "100px"
@@ -37,18 +40,16 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 function getSmallestFreeVehicleId(vehicleArray) {
-    for (let i = 0; i < vehicleArray.length; i++) {
-        if (i + 1 < vehicleArray[i].id) {
-            return i + 1;
-        }
-    }
-    return vehicleArray.length + 1;
+    return vehicleArray[vehicleArray.length - 1].id + 1;
 }
 
 export default function AddVehicleDialog(props) {
     const classes = useStyles();
     const selectedVehicleId = useSelector(selectSelectedVehicleId);
+    const dispatch = useDispatch();
+
     const [snackbarOpenFlag, setSnackbarOpenFlag] = useState(false);
+    const [isConfirmButtonDisabled, setIsConfirmButtonDisabled] = useState(false);
 
     const [avgFuelConsumption, setAvgFuelConsumption] = useState(null);
     const [brandModelId, setBrandModelId] = useState(null);
@@ -66,6 +67,7 @@ export default function AddVehicleDialog(props) {
 
 
     const doAdd = useCallback(() => {
+        setIsConfirmButtonDisabled(true);
         addVehicle({
             avgFuelConsumption: avgFuelConsumption,
             brandModelId: brandModelId,
@@ -77,13 +79,16 @@ export default function AddVehicleDialog(props) {
             typeId: typeId,
             vin: vin
         }).then(() => {
-            window.location.reload();
+            dispatch(setSelected(id));
+            props.onClose(true);
         }).catch(() => {
             setSnackbarOpenFlag(true);
+            setIsConfirmButtonDisabled(false);
         })
-    }, [avgFuelConsumption, brandModelId, equipmentLevel, id, mileage, plates, purposeId, typeId, vin])
+    }, [avgFuelConsumption, brandModelId, equipmentLevel, id, mileage, plates, purposeId, typeId, vin, props, dispatch])
 
     const doEdit = useCallback(() => {
+        setIsConfirmButtonDisabled(true);
         editVehicle(id, {
             avgFuelConsumption: avgFuelConsumption,
             brandModelId: brandModelId,
@@ -95,11 +100,12 @@ export default function AddVehicleDialog(props) {
             typeId: typeId,
             vin: vin
         }).then(() => {
-            window.location.reload();
+            props.onClose(true);
         }).catch(() => {
             setSnackbarOpenFlag(true);
+            setIsConfirmButtonDisabled(false);
         })
-    }, [avgFuelConsumption, brandModelId, equipmentLevel, id, mileage, plates, purposeId, typeId, vin])
+    }, [avgFuelConsumption, brandModelId, equipmentLevel, id, mileage, plates, purposeId, typeId, vin, props])
 
     const handleSnackbarClose = (event, reason) => {
         if (reason === 'clickaway') {
@@ -139,8 +145,7 @@ export default function AddVehicleDialog(props) {
                 const sorted = [...response.data].sort((a, b) => { return a.id - b.id })
                 setId(getSmallestFreeVehicleId(sorted));
             })
-        }
-        if (props.edit) {
+        } else {
             getVehicle(selectedVehicleId).then((response) => {
                 setAvgFuelConsumption(response.data.avgFuelConsumption);
                 setBrandModelId(response.data.brandmodel.id);
@@ -166,6 +171,11 @@ export default function AddVehicleDialog(props) {
     return (
         <form className={classes.root}>
             <div className={classes.flexRow}>
+                <Typography variant="h6" color="textSecondary">
+                    {props.edit ? "Edit vehicle" : "Add vehicle"}
+                </Typography>
+            </div>
+            <div className={classes.flexRow}>
                 <TextField
                     className={clsx(classes.spaceAround, classes.idField)}
                     disabled
@@ -174,7 +184,6 @@ export default function AddVehicleDialog(props) {
                     InputLabelProps={{
                         shrink: true
                     }}
-                    size="small"
                 />
                 <FormControl className={clsx(classes.spaceAround, classes.select)}>
                     <InputLabel shrink>Model</InputLabel>
@@ -304,11 +313,18 @@ export default function AddVehicleDialog(props) {
                     variant="contained"
                     disabled={
                         !avgFuelConsumption || !brandModelId || !equipmentLevel || !id || !mileage || !plates
-                        || !purposeId || !typeId || !vin
+                        || !purposeId || !typeId || !vin || isConfirmButtonDisabled
                     }
                     onClick={props.edit ? doEdit : doAdd}
                 >
                     Confirm
+                </Button>
+                <Button
+                    className={classes.spaceAround}
+                    variant="contained"
+                    onClick={() => { props.onClose(false) }}
+                >
+                    Cancel
                 </Button>
             </div>
             <Snackbar

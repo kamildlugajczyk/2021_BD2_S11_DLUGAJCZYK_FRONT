@@ -1,10 +1,9 @@
 import { CircularProgress, List, ListItem, ListItemIcon, ListItemText, makeStyles } from "@material-ui/core";
-import { AccountTree, Build, DirectionsCar, Event, Gavel, LocalGasStation, SwapHoriz, Work } from "@material-ui/icons";
-import axios from "axios";
+import { AccountTree, Build, DirectionsCar, Event, Gavel, LocalGasStation, Person, SwapHoriz, Work } from "@material-ui/icons";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import config from "../config";
 import { selectSelectedVehicleId } from "../redux/VehiclePickerSlice";
+import { getVehicle, getVehicleKeeper } from "../services/Vehicle";
 
 
 const useStyles = makeStyles(() => ({
@@ -21,25 +20,31 @@ const useStyles = makeStyles(() => ({
 }))
 
 
-export default function VehicleDetails() {
+export default function VehicleDetails(props) {
     const [vehicle, setVehicle] = useState(null);
+    const [keeper, setKeeper] = useState(null);
     const selectedVehicleId = useSelector(selectSelectedVehicleId);
     const classes = useStyles();
 
     useEffect(() => {
-        axios({
-            method: 'GET',
-            url: `${config.API_URL}/vehicle/${selectedVehicleId}`,
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem("AUTH_TOKEN")}`
-            }
-        })
+        getVehicle(selectedVehicleId)
             .then((response) => {
                 setVehicle(response.data);
             })
-    }, [selectedVehicleId])
 
-    if (vehicle === null) {
+        getVehicleKeeper(selectedVehicleId)
+            .then((response) => {
+                setKeeper(response.data);
+            })
+            .catch(() => {
+                setKeeper({
+                    firstname: "<!no",
+                    lastname: "keeper!>"
+                });
+            })
+    }, [selectedVehicleId, props.updater])
+
+    if (!vehicle || !keeper) {
         return (
             <div className={classes.loading}>
                 <CircularProgress />
@@ -53,16 +58,16 @@ export default function VehicleDetails() {
                 <ListItemIcon>
                     <DirectionsCar />
                 </ListItemIcon>
-                <ListItemText 
+                <ListItemText
                     primary={[vehicle.brandmodel.brand, vehicle.brandmodel.model].join(" ")}
-                    secondary="Model"    
+                    secondary="Model"
                 />
             </ListItem>
             <ListItem>
                 <ListItemIcon>
                     <Event />
                 </ListItemIcon>
-                <ListItemText 
+                <ListItemText
                     primary={vehicle.brandmodel.modelYear}
                     secondary="Production year"
                 />
@@ -71,7 +76,7 @@ export default function VehicleDetails() {
                 <ListItemIcon>
                     <Gavel />
                 </ListItemIcon>
-                <ListItemText 
+                <ListItemText
                     primary={vehicle.plates}
                     secondary="License plates"
                 />
@@ -80,7 +85,7 @@ export default function VehicleDetails() {
                 <ListItemIcon>
                     <SwapHoriz />
                 </ListItemIcon>
-                <ListItemText 
+                <ListItemText
                     primary={`${vehicle.mileage} km`}
                     secondary="Mileage"
                 />
@@ -89,7 +94,7 @@ export default function VehicleDetails() {
                 <ListItemIcon>
                     <LocalGasStation />
                 </ListItemIcon>
-                <ListItemText 
+                <ListItemText
                     primary={`${vehicle.avgFuelConsumption} l/100 km`}
                     secondary="Average fuel consumption"
                 />
@@ -98,7 +103,7 @@ export default function VehicleDetails() {
                 <ListItemIcon>
                     <AccountTree />
                 </ListItemIcon>
-                <ListItemText 
+                <ListItemText
                     primary={vehicle.type.name}
                     secondary="Type"
                 />
@@ -107,7 +112,7 @@ export default function VehicleDetails() {
                 <ListItemIcon>
                     <Work />
                 </ListItemIcon>
-                <ListItemText 
+                <ListItemText
                     primary={vehicle.purpose.name}
                     secondary="Purpose"
                 />
@@ -116,9 +121,18 @@ export default function VehicleDetails() {
                 <ListItemIcon>
                     <Build />
                 </ListItemIcon>
-                <ListItemText 
+                <ListItemText
                     primary={vehicle.vin}
                     secondary="VIN"
+                />
+            </ListItem>
+            <ListItem>
+                <ListItemIcon>
+                    <Person />
+                </ListItemIcon>
+                <ListItemText
+                    primary={`${keeper.firstname} ${keeper.lastname}`}
+                    secondary="Keeper"
                 />
             </ListItem>
         </List>
