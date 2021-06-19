@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
+import ChangePasswordDialog from './dialogs/ChangePasswordDialog';
 import {
     Drawer,
     List,
@@ -7,6 +8,7 @@ import {
     makeStyles,
     ListItemText
 } from '@material-ui/core';
+import { Modal } from '@material-ui/core';
 
 const drawerWidth = 200;
 const useStyles = makeStyles((theme) => ({
@@ -17,11 +19,24 @@ const useStyles = makeStyles((theme) => ({
     drawerPaper: {
         width: drawerWidth,
     },
+    modal: {
+        position: 'fixed',
+        width: "25%",
+        backgroundColor: theme.palette.background.paper,
+        border: '1px solid #000',
+        boxShadow: theme.shadows[5],
+        padding: theme.spacing(3, 4, 3),
+        top: "50%",
+        left: "50%",
+        transform: "translate(-50%, -50%)"
+    },
 }))
 
 export default function MenuBar(props) {
     const classes = useStyles();
     const isAdmin = (localStorage.getItem("user-permissions") === "ROLE_ADMIN");
+
+    const [isChangePasswordModalOpen ,setIsChangePasswordModalOpen] = useState(false);
 
     function logout() {
         localStorage.removeItem("AUTH_TOKEN");
@@ -70,13 +85,27 @@ export default function MenuBar(props) {
                         <ListItemText primary="Service requests" />
                     </ListItem>
                 }
-                <ListItem button key="change-password" onClick={console.log("change password")}>
+                <ListItem button key="change-password" onClick={() => {setIsChangePasswordModalOpen(true)}}>
                     <ListItemText primary="Change password" />
                 </ListItem>
                 <ListItem button key="logout" onClick={logout}>
                     <ListItemText primary="Logout" />
                 </ListItem>
             </List>
+            <Modal
+                open={isChangePasswordModalOpen}
+                onClose={() => {setIsChangePasswordModalOpen(false)}}
+            >
+                <div className={classes.modal}>
+                    <ChangePasswordDialog
+                        onClose={
+                            () => {
+                                setIsChangePasswordModalOpen(false);
+                            }
+                        }
+                    />
+                </div>
+            </Modal>
         </Drawer>
     )
 }
