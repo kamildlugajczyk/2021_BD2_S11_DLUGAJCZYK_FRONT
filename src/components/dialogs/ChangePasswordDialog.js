@@ -26,12 +26,14 @@ export default function ChangePasswordDialog(props) {
     const classes = useStyles();
 
     const [snackbarOpenFlag, setSnackbarOpenFlag] = useState(false);
+    const [isConfirmButtonDisabled, setIsConfirmButtonDisabled] = useState(false);
 
     const [currentPassword, setCurrentPassword] = useState(null);
     const [newPassword, setNewPassword] = useState(null);
     const [newPasswordConfirm, setNewPasswordConfirm] = useState(null);
 
     const doChange = useCallback(() => {
+        setIsConfirmButtonDisabled(true);
         changeMyPasssword({
             newPassword: newPassword,
             oldPassword: currentPassword
@@ -41,6 +43,7 @@ export default function ChangePasswordDialog(props) {
             })
             .catch(() => {
                 setSnackbarOpenFlag(true);
+                setIsConfirmButtonDisabled(false);
             })
     }, [newPassword, currentPassword, props])
 
@@ -96,7 +99,7 @@ export default function ChangePasswordDialog(props) {
                     className={classes.spaceAround}
                     variant="contained"
                     disabled={
-                        !currentPassword || !newPassword || (newPassword !== newPasswordConfirm)
+                        !currentPassword || !newPassword || (newPassword !== newPasswordConfirm) || isConfirmButtonDisabled
                     }
                     onClick={doChange}
                 >

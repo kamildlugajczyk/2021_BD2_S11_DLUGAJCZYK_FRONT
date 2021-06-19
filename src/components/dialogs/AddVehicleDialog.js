@@ -49,6 +49,7 @@ export default function AddVehicleDialog(props) {
     const dispatch = useDispatch();
 
     const [snackbarOpenFlag, setSnackbarOpenFlag] = useState(false);
+    const [isConfirmButtonDisabled, setIsConfirmButtonDisabled] = useState(false);
 
     const [avgFuelConsumption, setAvgFuelConsumption] = useState(null);
     const [brandModelId, setBrandModelId] = useState(null);
@@ -66,6 +67,7 @@ export default function AddVehicleDialog(props) {
 
 
     const doAdd = useCallback(() => {
+        setIsConfirmButtonDisabled(true);
         addVehicle({
             avgFuelConsumption: avgFuelConsumption,
             brandModelId: brandModelId,
@@ -81,10 +83,12 @@ export default function AddVehicleDialog(props) {
             props.onClose(true);
         }).catch(() => {
             setSnackbarOpenFlag(true);
+            setIsConfirmButtonDisabled(false);
         })
     }, [avgFuelConsumption, brandModelId, equipmentLevel, id, mileage, plates, purposeId, typeId, vin, props, dispatch])
 
     const doEdit = useCallback(() => {
+        setIsConfirmButtonDisabled(true);
         editVehicle(id, {
             avgFuelConsumption: avgFuelConsumption,
             brandModelId: brandModelId,
@@ -99,6 +103,7 @@ export default function AddVehicleDialog(props) {
             props.onClose(true);
         }).catch(() => {
             setSnackbarOpenFlag(true);
+            setIsConfirmButtonDisabled(false);
         })
     }, [avgFuelConsumption, brandModelId, equipmentLevel, id, mileage, plates, purposeId, typeId, vin, props])
 
@@ -308,7 +313,7 @@ export default function AddVehicleDialog(props) {
                     variant="contained"
                     disabled={
                         !avgFuelConsumption || !brandModelId || !equipmentLevel || !id || !mileage || !plates
-                        || !purposeId || !typeId || !vin
+                        || !purposeId || !typeId || !vin || isConfirmButtonDisabled
                     }
                     onClick={props.edit ? doEdit : doAdd}
                 >

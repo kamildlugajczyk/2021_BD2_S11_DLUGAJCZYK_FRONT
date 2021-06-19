@@ -46,6 +46,7 @@ export default function AddEmployeeDialog(props) {
     const selectedEmployeeId = useSelector(selectSelectedEmployeeId);
 
     const [snackbarOpenFlag, setSnackbarOpenFlag] = useState(false);
+    const [isConfirmButtonDisabled, setIsConfirmButtonDisabled] = useState(false);
 
     const [firstName, setFirstName] = useState(null);
     const [lastName, setLastName] = useState(null);
@@ -58,6 +59,7 @@ export default function AddEmployeeDialog(props) {
     const [functions, setFunctions] = useState(null);
 
     const doAdd = useCallback(() => {
+        setIsConfirmButtonDisabled(true);
         addEmployee({
             firstname: firstName,
             functionId: functionId,
@@ -72,10 +74,12 @@ export default function AddEmployeeDialog(props) {
             })
             .catch(() => {
                 setSnackbarOpenFlag(true);
+                setIsConfirmButtonDisabled(false);
             })
     }, [firstName, functionId, id, lastName, password, phoneNumber, username, props])
 
     const doEdit = useCallback(() => {
+        setIsConfirmButtonDisabled(true);
         editEmployee(id, {
             firstname: firstName,
             functionId: functionId,
@@ -85,10 +89,12 @@ export default function AddEmployeeDialog(props) {
             username: username
         })
             .then(() => {
+                setIsConfirmButtonDisabled(false);
                 props.onClose(true);
             })
             .catch(() => {
                 setSnackbarOpenFlag(true);
+                setIsConfirmButtonDisabled(false);
             })
     }, [firstName, functionId, id, lastName, phoneNumber, username, props])
 
@@ -236,7 +242,8 @@ export default function AddEmployeeDialog(props) {
                     className={classes.spaceAround}
                     variant="contained"
                     disabled={
-                        !firstName || !lastName || !id || !functionId || !phoneNumber || !username || (!props.edit && !password)
+                        !firstName || !lastName || !id || !functionId || !phoneNumber || !username 
+                        || (!props.edit && !password) || isConfirmButtonDisabled
                     }
                     onClick={props.edit ? doEdit : doAdd}
                 >

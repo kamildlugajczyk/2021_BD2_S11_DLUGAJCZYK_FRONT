@@ -41,10 +41,13 @@ export default function ChangeKeeperDialog(props) {
 
     const [employeeList, setEmployeeList] = useState(null);
     const [keeperId, setKeeperId] = useState(null);
+
     const [snackbarOpenFlag, setSnackbarOpenFlag] = useState(false);
+    const [isConfirmButtonDisabled, setIsConfirmButtonDisabled] = useState(false);
 
 
     const doChangeKeeper = useCallback(() => {
+        setIsConfirmButtonDisabled(true);
         changeVehicleKeeper(selectedVehicleId, {
             personId: keeperId
         })
@@ -53,6 +56,7 @@ export default function ChangeKeeperDialog(props) {
             })
             .catch(() => {
                 setSnackbarOpenFlag(true);
+                setIsConfirmButtonDisabled(false);
             })
     }, [props, keeperId, selectedVehicleId]) 
 
@@ -119,7 +123,7 @@ export default function ChangeKeeperDialog(props) {
                 <Button
                     className={classes.spaceAround}
                     variant="contained"
-                    disabled={!keeperId}
+                    disabled={!keeperId || isConfirmButtonDisabled}
                     onClick={doChangeKeeper}
                 >
                     Confirm
