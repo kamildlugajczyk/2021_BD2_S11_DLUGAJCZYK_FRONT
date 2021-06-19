@@ -20,7 +20,6 @@ const useStyles = makeStyles((theme) => ({
         width: 350,
         height: 50,
         marginBottom: '5%'
-
     }
 }))
 
@@ -42,7 +41,9 @@ export default function AdminControlPanel() {
     const addModel = () => {
 
     }
-
+    const handleClose = () => {
+        setIsModalOpen(false);
+    }
     return (
         <div className={classes.page}>
             <div className={classes.buttonsColumn}>
