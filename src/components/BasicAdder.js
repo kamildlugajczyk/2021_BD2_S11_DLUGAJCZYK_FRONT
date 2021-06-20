@@ -9,6 +9,8 @@ import { addFunction } from '../services/Functions';
 import { addVehiclePurpose } from '../services/VehiclePurpose';
 import { addOperationType } from '../services/OperationType';
 import { addServiceType } from '../services/ServiceType';
+import { addBrandModel } from '../services/BrandModel';
+import { addSubcontractor } from '../services/Subcontractor';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -60,7 +62,10 @@ export default function BasicAdder(props) {
             break;
     }
     
-
+    function addClicked(data){
+        addItem(data);
+        window.location.reload();
+    }
 
     // support for the enter key without reloading the page
     useEffect(() => {
@@ -95,7 +100,7 @@ export default function BasicAdder(props) {
                             onChange={(l) => { setInput(l.target.value) }}
                         />
                         <Button
-                            onClick={() => addItem(data)}
+                            onClick={() => addClicked(data)}
                             variant="contained"
                             fullWidth
                         >
