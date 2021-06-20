@@ -1,8 +1,7 @@
 import React from 'react';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import axios from 'axios';
 import { Container, CssBaseline, makeStyles } from '@material-ui/core';
 import config from '../config';
 import { addVehicleType } from '../services/VehicleType';
@@ -27,56 +26,40 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function BasicAdder(props) {
+    var addItem;
     const classes = useStyles();
     const [input, setInput] = useState("");
-    var path = '/';
+    var data = {
+        id: 0,
+        name: input,
+    };
     var windowHeader = 'Add '
     switch(props.item){
         case 'Type':
-            path+='vehicle/type';
             windowHeader+='vehicle type';
+            addItem = addVehicleType;
             break;
         case 'Purpose':
-            path+='vehicle/purpose';
             windowHeader+='vehicle purpose';
+            addItem = addVehiclePurpose;
             break;
         case 'OperationType':
-            path+='operation/type';
             windowHeader+='operation type';
+            addItem = addOperationType;
             break;
         case 'ServiceTypes':
-            path+='service/type';
             windowHeader+='service type';
+            addItem = addServiceType;
             break;
         case 'Function':
-            path+='person/function';
             windowHeader+='employee\'s function';
+            addItem = addFunction;
             break;
         default:
             windowHeader+='default';
             break;
     }
-    console.log(path);
-    console.log(windowHeader);
-    console.log(`${config.API_URL}${path}`);
-    const addItem = useCallback((path) => {
-        axios({
-            method: 'post',
-            url: `${config.API_URL}${path}`,
-            data: {
-                name: input,
-            },
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-        .then((response) => {
-            window.location.reload();         
-        })
-        .catch(() => {
-            
-        });
-    }, [input])
+    
 
 
     // support for the enter key without reloading the page
@@ -84,7 +67,7 @@ export default function BasicAdder(props) {
         const listener = event => {
           if (event.code === "Enter" || event.code === "NumpadEnter") {
             event.preventDefault();
-            addItem();
+            addItem(data);
           }
         };
         document.addEventListener("keydown", listener);
@@ -112,7 +95,7 @@ export default function BasicAdder(props) {
                             onChange={(l) => { setInput(l.target.value) }}
                         />
                         <Button
-                            onClick={() => addItem()}
+                            onClick={() => addItem(data)}
                             variant="contained"
                             fullWidth
                         >
