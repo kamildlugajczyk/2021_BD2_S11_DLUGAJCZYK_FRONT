@@ -35,19 +35,13 @@ export default function AdminControlPanel() {
     const genericDelete = (item) => {
 
     }
-    const addSubcontractor = () => {
-
-    }
-    const addModel = () => {
-
-    }
     const handleClose = () => {
         setIsModalOpen(false);
     }
     return (
         <div className={classes.page}>
             <div className={classes.buttonsColumn}>
-                <Button onClick={() => addModel()} className={classes.button} variant="contained">
+                <Button onClick={() => genericAdd('BrandModel')} className={classes.button} variant="contained">
                     Add model
                 </Button>
                 <Button onClick={() => genericAdd('Type')} className={classes.button} variant="contained">
@@ -65,7 +59,7 @@ export default function AdminControlPanel() {
                 <Button onClick={() => genericAdd('Function')} className={classes.button} variant="contained">
                     Add employee's function
                 </Button>
-                <Button onClick={() => addSubcontractor()} className={classes.button} variant="contained">
+                <Button onClick={() => genericAdd('Subcontractor')} className={classes.button} variant="contained">
                     Add subcontractor
                 </Button>
             </div>

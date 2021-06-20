@@ -31,10 +31,15 @@ export default function BasicAdder(props) {
     var addItem;
     const classes = useStyles();
     const [input, setInput] = useState("");
+    const [modelInput, setModelInput] = useState("");
+    const [yearInput, setYearInput] = useState("");
+    var isBasic = true;
     var data = {
         id: 0,
         name: input,
     };
+    var labels = ['Name', 'Model', 'Year'];
+    
     var windowHeader = 'Add '
     switch(props.item){
         case 'Type':
@@ -56,6 +61,27 @@ export default function BasicAdder(props) {
         case 'Function':
             windowHeader+='employee\'s function';
             addItem = addFunction;
+            break;
+        case 'BrandModel':
+            windowHeader+= 'model';
+            isBasic = false;
+            labels[0] = 'Brand';
+            data = {
+                brand: input,
+                id: 0,
+                model: modelInput,
+                modelYear: yearInput,
+            };
+            break;
+        case 'Subcontractor':
+            windowHeader+= 'subcontractor';
+            isBasic = false;
+            labels = ['Name', 'Address', 'Phone number'];
+            data = {
+                address: modelInput,
+                name: input,
+                phoneNumber: yearInput,
+            };
             break;
         default:
             windowHeader+='default';
@@ -91,14 +117,36 @@ export default function BasicAdder(props) {
                         <TextField
                             className={classes.textInput}
                             id="input"
-                            label="Name"
+                            label={labels[0]}
                             name="name"
                             variant="outlined"
                             required
                             fullWidth
-                            autoComplete="name"
                             onChange={(l) => { setInput(l.target.value) }}
                         />
+                        {!isBasic &&
+                            <TextField
+                            className={classes.textInput}
+                            id="modelInput"
+                            label={labels[1]}
+                            name="model"
+                            variant="outlined"
+                            required
+                            fullWidth
+                            onChange={(l) => { setModelInput(l.target.value) }}
+                        />}
+                        {!isBasic &&
+                            <TextField
+                            className={classes.textInput}
+                            id="yearInput"
+                            label={labels[2]}
+                            name="year"
+                            variant="outlined"
+                            required
+                            fullWidth
+                            onChange={(l) => { setYearInput(l.target.value) }}
+                            />
+                        }
                         <Button
                             onClick={() => addClicked(data)}
                             variant="contained"
