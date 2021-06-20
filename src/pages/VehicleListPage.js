@@ -11,6 +11,7 @@ import AddVehicleDialog from '../components/dialogs/AddVehicleDialog';
 import DeleteVehicleDialog from '../components/dialogs/DeleteVehicleDialog';
 import ChangeKeeperDialog from '../components/dialogs/ChangeKeeperDialog';
 import { getMyPermissions } from '../services/UserAccount';
+import ServiceRequestDialog from '../components/dialogs/ServiceRequestDialog';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -120,6 +121,7 @@ function VehicleListPage() {
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
     const [isKeeperModalOpen, setIsKeeperModalOpen] = useState(false);
+    const [isServiceModalOpen, setIsServiceModalOpen] = useState(false);
 
     // switch for updating VehiclePicker, listened to for changes by the internal useEffect of VehiclePicker
     const [viewUpdater, setViewUpdater] = useState(false);
@@ -132,136 +134,145 @@ function VehicleListPage() {
                     <div className={classes.picker}>
                         <VehiclePicker url="/vehicle" updater={viewUpdater} />
                     </div>
-                    {isAdmin &&
-                        <div className={classes.adminButtons}>
-                            <Button
-                                variant="contained"
-                                onClick={() => { setIsAddModalOpen(true) }}
-                            >
-                                Add vehicle
-                            </Button>
-                            <Modal
-                                open={isAddModalOpen}
-                                onClose={() => { setIsAddModalOpen(false) }}
-                            >
-                                <div className={classes.modal}>
-                                    <AddVehicleDialog
-                                        onClose={
-                                            (isListChanged) => {
-                                                setIsAddModalOpen(false)
-                                                if (isListChanged) {
-                                                    // flip the switch to update VehiclePicker
-                                                    setViewUpdater(!viewUpdater);
+                    <div className={classes.adminButtons}>
+                        {isAdmin &&
+                            <div>
+                                <Button
+                                    variant="contained"
+                                    onClick={() => { setIsAddModalOpen(true) }}
+                                >
+                                    Add vehicle
+                                </Button>
+                                <Modal
+                                    open={isAddModalOpen}
+                                    onClose={() => { setIsAddModalOpen(false) }}
+                                >
+                                    <div className={classes.modal}>
+                                        <AddVehicleDialog
+                                            onClose={
+                                                (isListChanged) => {
+                                                    setIsAddModalOpen(false)
+                                                    if (isListChanged) {
+                                                        // flip the switch to update VehiclePicker
+                                                        setViewUpdater(!viewUpdater);
+                                                    }
                                                 }
                                             }
-                                        }
-                                    />
-                                </div>
-                            </Modal>
-                            {/* <ButtonModal buttonLabel="Add vehicle">
-                                <div>
-                                    <AddVehicleDialog />
-                                </div>
-                            </ButtonModal> */}
-                            {selectedVehicleId !== 0 &&
-                                <div>
-                                    <Button
-                                        variant="contained"
-                                        onClick={() => { setIsEditModalOpen(true) }}
-                                    >
-                                        Edit vehicle
-                                    </Button>
-                                    <Modal
-                                        open={isEditModalOpen}
-                                        onClose={() => { setIsEditModalOpen(false) }}
-                                    >
-                                        <div className={classes.modal}>
-                                            <AddVehicleDialog
-                                                edit
-                                                onClose={
-                                                    (isListChanged) => {
-                                                        setIsEditModalOpen(false)
-                                                        if (isListChanged) {
-                                                            setViewUpdater(!viewUpdater);
-                                                        }
+                                        />
+                                    </div>
+                                </Modal>
+                            </div>
+                        }
+                        {isAdmin && selectedVehicleId !== 0 &&
+                            <div>
+                                <Button
+                                    variant="contained"
+                                    onClick={() => { setIsEditModalOpen(true) }}
+                                >
+                                    Edit vehicle
+                                </Button>
+                                <Modal
+                                    open={isEditModalOpen}
+                                    onClose={() => { setIsEditModalOpen(false) }}
+                                >
+                                    <div className={classes.modal}>
+                                        <AddVehicleDialog
+                                            edit
+                                            onClose={
+                                                (isListChanged) => {
+                                                    setIsEditModalOpen(false)
+                                                    if (isListChanged) {
+                                                        setViewUpdater(!viewUpdater);
                                                     }
                                                 }
-                                            />
-                                        </div>
-                                    </Modal>
-                                </div>
-                                // <ButtonModal buttonLabel="Edit vehicle">
-                                //     <div>
-                                //         <AddVehicleDialog edit />
-                                //     </div>
-                                // </ButtonModal>
-                            }
-                            {selectedVehicleId !== 0 &&
-                                <div>
-                                    <Button
-                                        variant="contained"
-                                        onClick={() => { setIsDeleteModalOpen(true) }}
-                                    >
-                                        Delete vehicle
-                                    </Button>
-                                    <Modal
-                                        open={isDeleteModalOpen}
-                                        onClose={() => { setIsDeleteModalOpen(false) }}
-                                    >
-                                        <div className={classes.modal}>
-                                            <DeleteVehicleDialog 
-                                                onClose={
-                                                    (isListChanged) => {
-                                                        setIsDeleteModalOpen(false);
-                                                        if (isListChanged) {
-                                                            setViewUpdater(!viewUpdater);
-                                                        }
+                                            }
+                                        />
+                                    </div>
+                                </Modal>
+                            </div>
+                        }
+                        {isAdmin && selectedVehicleId !== 0 &&
+                            <div>
+                                <Button
+                                    variant="contained"
+                                    onClick={() => { setIsDeleteModalOpen(true) }}
+                                >
+                                    Delete vehicle
+                                </Button>
+                                <Modal
+                                    open={isDeleteModalOpen}
+                                    onClose={() => { setIsDeleteModalOpen(false) }}
+                                >
+                                    <div className={classes.modal}>
+                                        <DeleteVehicleDialog
+                                            onClose={
+                                                (isListChanged) => {
+                                                    setIsDeleteModalOpen(false);
+                                                    if (isListChanged) {
+                                                        setViewUpdater(!viewUpdater);
                                                     }
                                                 }
-                                            />
-                                        </div>
-                                    </Modal>
-                                </div>
-                                // <ButtonModal buttonLabel="Delete vehicle">
-                                //     <div>
-                                //         delet
-                                //     </div>
-                                // </ButtonModal>
-                            }
-                            {selectedVehicleId !== 0 &&
-                                <div>
-                                    <Button
-                                        variant="contained"
-                                        onClick={() => { setIsKeeperModalOpen(true) }}
-                                    >
-                                        Change keeper
-                                    </Button>
-                                    <Modal
-                                        open={isKeeperModalOpen}
-                                        onClose={() => { setIsKeeperModalOpen(false) }}
-                                    >
-                                        <div className={classes.modal}>
-                                            <ChangeKeeperDialog 
-                                                onClose={
-                                                    (isListChanged) => {
-                                                        setIsKeeperModalOpen(false);
-                                                        if (isListChanged) {
-                                                            setViewUpdater(!viewUpdater);
-                                                        }
+                                            }
+                                        />
+                                    </div>
+                                </Modal>
+                            </div>
+                        }
+                        {isAdmin && selectedVehicleId !== 0 &&
+                            <div>
+                                <Button
+                                    variant="contained"
+                                    onClick={() => { setIsKeeperModalOpen(true) }}
+                                >
+                                    Change keeper
+                                </Button>
+                                <Modal
+                                    open={isKeeperModalOpen}
+                                    onClose={() => { setIsKeeperModalOpen(false) }}
+                                >
+                                    <div className={classes.modal}>
+                                        <ChangeKeeperDialog
+                                            onClose={
+                                                (isListChanged) => {
+                                                    setIsKeeperModalOpen(false);
+                                                    if (isListChanged) {
+                                                        setViewUpdater(!viewUpdater);
                                                     }
                                                 }
-                                            />
-                                        </div>
-                                    </Modal>
-                                </div>
-                                // <ButtonModal buttonLabel="Change keeper">
-                                //     <div>
-                                //         change keper xd
-                                //     </div>
-                                // </ButtonModal>
-                            }
-                        </div>
-                    }
+                                            }
+                                        />
+                                    </div>
+                                </Modal>
+                            </div>
+                        }
+                        {selectedVehicleId !== 0 &&
+                            <div>
+                                <Button
+                                    variant="contained"
+                                    onClick={() => { setIsServiceModalOpen(true) }}
+                                >
+                                    Request service
+                                </Button>
+                                <Modal
+                                    open={isServiceModalOpen}
+                                    onClose={() => { setIsServiceModalOpen(false) }}
+                                >
+                                    <div className={classes.modal}>
+                                        <ServiceRequestDialog
+                                            onClose={
+                                                (isListChanged) => {
+                                                    setIsServiceModalOpen(false);
+                                                    if (isListChanged) {
+                                                        setViewUpdater(!viewUpdater);
+                                                    }
+                                                }
+                                            }
+                                        />
+                                    </div>
+                                </Modal>
+                            </div>
+                        }
+                    </div>
                 </div>
                 {selectedVehicleId !== 0 &&
                     <div className={classes.calendarDetailsBlock}>
