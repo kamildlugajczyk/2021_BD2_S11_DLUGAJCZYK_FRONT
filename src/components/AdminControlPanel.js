@@ -78,7 +78,7 @@ export default function AdminControlPanel() {
                 <Button onClick={() => genericDelete('OperationType')} className={classes.button} variant="contained">
                     Delete operation type
                 </Button>
-                <Button onClick={() => genericDelete('ServiceType')} className={classes.button} variant="contained">
+                <Button onClick={() => genericDelete('ServiceTypes')} className={classes.button} variant="contained">
                     Delete service type
                 </Button>
                 <Button onClick={() => genericDelete('Function')} className={classes.button} variant="contained">
