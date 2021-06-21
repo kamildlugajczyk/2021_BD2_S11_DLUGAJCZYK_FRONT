@@ -56,7 +56,7 @@ export function updateSubcontractor(id, data) {
     })
 }
 
-export function deleteSubcontractorById(id) {
+export function deleteSubcontractor(id) {
     return axios({
         method: "DELETE",
         url: `${config.API_URL}/service/subcontractor/${id}`,

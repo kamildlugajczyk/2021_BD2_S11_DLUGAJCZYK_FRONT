@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { makeStyles, Modal } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import BasicAdder from './BasicAdder';
+import BasicRemover from './BasicRemover';
 
 const useStyles = makeStyles((theme) => ({
     page: {
@@ -28,16 +29,17 @@ export default function AdminControlPanel() {
     const classes = useStyles();
     const [itemType, setItemType] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [removeItemType, setRemoveItemType] = useState(null);
+    const [isRemoveModalOpen, setIsRemoveModalOpen] = useState(false);
     const genericAdd = (itemType) => {
         setItemType(itemType);
         setIsModalOpen(true);
     }
-    const genericDelete = (item) => {
+    const genericDelete = (removeItemType) => {
+        setRemoveItemType(removeItemType);
+        setIsRemoveModalOpen(true);
+    }
 
-    }
-    const handleClose = () => {
-        setIsModalOpen(false);
-    }
     return (
         <div className={classes.page}>
             <div className={classes.buttonsColumn}>
@@ -93,6 +95,16 @@ export default function AdminControlPanel() {
                         onClose={() => { setIsModalOpen(false) }}
                     >
                         <BasicAdder item={itemType} onClose={() => setIsModalOpen(false)}/>
+                    </Modal>
+                }
+            </div>
+            <div>
+                {removeItemType !== null &&
+                    <Modal
+                        open={isRemoveModalOpen}
+                        onClose={() => { setIsRemoveModalOpen(false) }}
+                    >
+                        <BasicRemover item={removeItemType} onClose={() => setIsRemoveModalOpen(false)}/>
                     </Modal>
                 }
             </div>
