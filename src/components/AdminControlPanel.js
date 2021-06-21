@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { makeStyles, Modal } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import BasicAdder from './BasicAdder';
+import BasicRemover from './BasicRemover';
 
 const useStyles = makeStyles((theme) => ({
     page: {
@@ -28,26 +29,21 @@ export default function AdminControlPanel() {
     const classes = useStyles();
     const [itemType, setItemType] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [removeItemType, setRemoveItemType] = useState(null);
+    const [isRemoveModalOpen, setIsRemoveModalOpen] = useState(false);
     const genericAdd = (itemType) => {
         setItemType(itemType);
         setIsModalOpen(true);
     }
-    const genericDelete = (item) => {
+    const genericDelete = (removeItemType) => {
+        setRemoveItemType(removeItemType);
+        setIsRemoveModalOpen(true);
+    }
 
-    }
-    const addSubcontractor = () => {
-
-    }
-    const addModel = () => {
-
-    }
-    const handleClose = () => {
-        setIsModalOpen(false);
-    }
     return (
         <div className={classes.page}>
             <div className={classes.buttonsColumn}>
-                <Button onClick={() => addModel()} className={classes.button} variant="contained">
+                <Button onClick={() => genericAdd('BrandModel')} className={classes.button} variant="contained">
                     Add model
                 </Button>
                 <Button onClick={() => genericAdd('Type')} className={classes.button} variant="contained">
@@ -65,7 +61,7 @@ export default function AdminControlPanel() {
                 <Button onClick={() => genericAdd('Function')} className={classes.button} variant="contained">
                     Add employee's function
                 </Button>
-                <Button onClick={() => addSubcontractor()} className={classes.button} variant="contained">
+                <Button onClick={() => genericAdd('Subcontractor')} className={classes.button} variant="contained">
                     Add subcontractor
                 </Button>
             </div>
@@ -98,7 +94,17 @@ export default function AdminControlPanel() {
                         open={isModalOpen}
                         onClose={() => { setIsModalOpen(false) }}
                     >
-                        <BasicAdder item={itemType} />
+                        <BasicAdder item={itemType} onClose={() => setIsModalOpen(false)}/>
+                    </Modal>
+                }
+            </div>
+            <div>
+                {removeItemType !== null &&
+                    <Modal
+                        open={isRemoveModalOpen}
+                        onClose={() => { setIsRemoveModalOpen(false) }}
+                    >
+                        <BasicRemover item={removeItemType} onClose={() => setIsRemoveModalOpen(false)}/>
                     </Modal>
                 }
             </div>

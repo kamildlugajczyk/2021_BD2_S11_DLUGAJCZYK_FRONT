@@ -1,8 +1,7 @@
 import React from 'react';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import axios from 'axios';
 import { Container, CssBaseline, makeStyles } from '@material-ui/core';
 import config from '../config';
 import { addVehicleType } from '../services/VehicleType';
@@ -10,6 +9,8 @@ import { addFunction } from '../services/Functions';
 import { addVehiclePurpose } from '../services/VehiclePurpose';
 import { addOperationType } from '../services/OperationType';
 import { addServiceType } from '../services/ServiceType';
+import { addBrandModel } from '../services/BrandModel';
+import { addSubcontractor } from '../services/Subcontractor';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -27,71 +28,72 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function BasicAdder(props) {
+    var addItem;
     const classes = useStyles();
     const [input, setInput] = useState("");
-    var path = '/';
+    const [modelInput, setModelInput] = useState("");
+    const [yearInput, setYearInput] = useState("");
+    var isBasic = true;
+    var data = {
+        id: 0,
+        name: input,
+    };
+    var labels = ['Name', 'Model', 'Year'];
+    
     var windowHeader = 'Add '
     switch(props.item){
         case 'Type':
-            path+='vehicle/type';
             windowHeader+='vehicle type';
+            addItem = addVehicleType;
             break;
         case 'Purpose':
-            path+='vehicle/purpose';
             windowHeader+='vehicle purpose';
+            addItem = addVehiclePurpose;
             break;
         case 'OperationType':
-            path+='operation/type';
             windowHeader+='operation type';
+            addItem = addOperationType;
             break;
         case 'ServiceTypes':
-            path+='service/type';
             windowHeader+='service type';
+            addItem = addServiceType;
             break;
         case 'Function':
-            path+='person/function';
             windowHeader+='employee\'s function';
+            addItem = addFunction;
+            break;
+        case 'BrandModel':
+            windowHeader+= 'model';
+            isBasic = false;
+            labels[0] = 'Brand';
+            data = {
+                brand: input,
+                id: 0,
+                model: modelInput,
+                modelYear: yearInput,
+            };
+            addItem = addBrandModel;
+            break;
+        case 'Subcontractor':
+            windowHeader+= 'subcontractor';
+            isBasic = false;
+            labels = ['Name', 'Address', 'Phone number'];
+            data = {
+                address: modelInput,
+                name: input,
+                phoneNumber: yearInput,
+            };
+            addItem = addSubcontractor;
             break;
         default:
             windowHeader+='default';
             break;
     }
-    console.log(path);
-    console.log(windowHeader);
-    console.log(`${config.API_URL}${path}`);
-    const addItem = useCallback((path) => {
-        axios({
-            method: 'post',
-            url: `${config.API_URL}${path}`,
-            data: {
-                name: input,
-            },
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-        .then((response) => {
-            window.location.reload();         
-        })
-        .catch(() => {
-            
-        });
-    }, [input])
-
-
-    // support for the enter key without reloading the page
-    useEffect(() => {
-        const listener = event => {
-          if (event.code === "Enter" || event.code === "NumpadEnter") {
-            event.preventDefault();
-            addItem();
-          }
-        };
-        document.addEventListener("keydown", listener);
-        return () => {
-          document.removeEventListener("keydown", listener);
-        };
-      }, [addItem]);
+    
+    function addClicked(data){
+        addItem(data);
+        props.onClose();
+    }
 
     return (
         <div>
@@ -103,16 +105,38 @@ export default function BasicAdder(props) {
                         <TextField
                             className={classes.textInput}
                             id="input"
-                            label="Name"
+                            label={labels[0]}
                             name="name"
                             variant="outlined"
                             required
                             fullWidth
-                            autoComplete="name"
                             onChange={(l) => { setInput(l.target.value) }}
                         />
+                        {!isBasic &&
+                            <TextField
+                            className={classes.textInput}
+                            id="modelInput"
+                            label={labels[1]}
+                            name="model"
+                            variant="outlined"
+                            required
+                            fullWidth
+                            onChange={(l) => { setModelInput(l.target.value) }}
+                        />}
+                        {!isBasic &&
+                            <TextField
+                            className={classes.textInput}
+                            id="yearInput"
+                            label={labels[2]}
+                            name="year"
+                            variant="outlined"
+                            required
+                            fullWidth
+                            onChange={(l) => { setYearInput(l.target.value) }}
+                            />
+                        }
                         <Button
-                            onClick={() => addItem()}
+                            onClick={() => addClicked(data)}
                             variant="contained"
                             fullWidth
                         >
