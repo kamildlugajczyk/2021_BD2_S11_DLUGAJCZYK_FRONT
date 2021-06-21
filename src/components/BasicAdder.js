@@ -72,6 +72,7 @@ export default function BasicAdder(props) {
                 model: modelInput,
                 modelYear: yearInput,
             };
+            addItem = addBrandModel;
             break;
         case 'Subcontractor':
             windowHeader+= 'subcontractor';
@@ -82,6 +83,7 @@ export default function BasicAdder(props) {
                 name: input,
                 phoneNumber: yearInput,
             };
+            addItem = addSubcontractor;
             break;
         default:
             windowHeader+='default';
@@ -90,22 +92,8 @@ export default function BasicAdder(props) {
     
     function addClicked(data){
         addItem(data);
-        window.location.reload();
+        props.onClose();
     }
-
-    // support for the enter key without reloading the page
-    useEffect(() => {
-        const listener = event => {
-          if (event.code === "Enter" || event.code === "NumpadEnter") {
-            event.preventDefault();
-            addItem(data);
-          }
-        };
-        document.addEventListener("keydown", listener);
-        return () => {
-          document.removeEventListener("keydown", listener);
-        };
-      }, [addItem]);
 
     return (
         <div>

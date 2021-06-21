@@ -92,7 +92,7 @@ export default function AdminControlPanel() {
                         open={isModalOpen}
                         onClose={() => { setIsModalOpen(false) }}
                     >
-                        <BasicAdder item={itemType} />
+                        <BasicAdder item={itemType} onClose={() => setIsModalOpen(false)}/>
                     </Modal>
                 }
             </div>
