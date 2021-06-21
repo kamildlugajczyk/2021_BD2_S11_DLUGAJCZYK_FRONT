@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import clsx from "clsx";
 import { useState } from 'react';
 import { Container, CssBaseline, makeStyles } from '@material-ui/core';
 import { Button, FormControl, InputLabel, Select, MenuItem, CircularProgress } from "@material-ui/core";
@@ -103,7 +102,8 @@ export default function BasicRemover(props) {
                         <FormControl>
                             <InputLabel shrink>Item</InputLabel>
                             <Select
-                                fullWidth
+
+                                autoWidth
                                 required
                                 value={id}
                                 onChange={(event) => { setId(event.target.value) }}
@@ -111,9 +111,9 @@ export default function BasicRemover(props) {
                                 {
                                     items.map((i) => {
                                         return (
-                                            <MenuItem fullWidth value={i.id}>
+                                            <MenuItem value={i.id}>
                                                 {props.item !== 'BrandModel' && i.name}
-                                                {props.item === 'BrandModel' && `${i.brand} ${i.model} (${i.year})`}
+                                                {props.item === 'BrandModel' && `${i.brand} ${i.model} (${i.modelYear})`}
                                             </MenuItem>
                                         )
                                     })
