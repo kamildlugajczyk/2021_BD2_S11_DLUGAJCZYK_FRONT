@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import { selectSelectedVehicleId } from "../../redux/VehiclePickerSlice";
 import { getServiceTypes } from "../../services/ServiceType";
 import { Alert } from '@material-ui/lab';
+import { addServiceRequest } from "../../services/ServiceRequest";
 
 
 
@@ -52,8 +53,20 @@ export default function ServiceRequestDialog(props) {
     const [serviceTypes, setServiceTypes] = useState(null);
 
     const doRequest = useCallback(() => {
-        
-    }, [])
+        setIsConfirmButtonDisabled(true);
+        addServiceRequest({
+            description: description,
+            serviceTypesId: serviceTypeId,
+            vehiclesId: selectedVehicleId
+        })
+            .then(() => {
+                props.onClose(false);
+            })
+            .catch(() => {
+                setIsConfirmButtonDisabled(false);
+                setSnackbarOpenFlag(true);
+            })
+    }, [description, selectedVehicleId, serviceTypeId, props])
 
     const handleSnackbarClose = (event, reason) => {
         if (reason === 'clickaway') {
@@ -96,6 +109,7 @@ export default function ServiceRequestDialog(props) {
                     <Select
                         autoWidth
                         required
+                        value={serviceTypeId}
                         onChange={(event) => { setServiceTypeId(event.target.value) }}
                     >
                         {
@@ -115,6 +129,7 @@ export default function ServiceRequestDialog(props) {
                     className={classes.spaceAround}
                     multiline
                     label="Description"
+                    value={description}
                     onChange={(event) => { setDescription(event.target.value) }}
                     InputLabelProps={{
                         shrink: true
