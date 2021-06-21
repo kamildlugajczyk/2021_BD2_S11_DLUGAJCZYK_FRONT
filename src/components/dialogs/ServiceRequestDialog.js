@@ -48,15 +48,16 @@ export default function ServiceRequestDialog(props) {
     const [isConfirmButtonDisabled, setIsConfirmButtonDisabled] = useState(false);
 
     const [description, setDescription] = useState(null);
-    const [serviceTypeId, setServiceTypeId] = useState(null);
+    // const [serviceTypeId, setServiceTypeId] = useState(null);
 
-    const [serviceTypes, setServiceTypes] = useState(null);
+    // const [serviceTypes, setServiceTypes] = useState(null);
 
     const doRequest = useCallback(() => {
         setIsConfirmButtonDisabled(true);
         addServiceRequest({
             description: description,
-            serviceTypesId: serviceTypeId,
+            // serviceTypesId: serviceTypeId,
+            serviceTypeId: 0,
             vehiclesId: selectedVehicleId
         })
             .then(() => {
@@ -66,7 +67,7 @@ export default function ServiceRequestDialog(props) {
                 setIsConfirmButtonDisabled(false);
                 setSnackbarOpenFlag(true);
             })
-    }, [description, selectedVehicleId, serviceTypeId, props])
+    }, [description, selectedVehicleId, /*serviceTypeId,*/ props])
 
     const handleSnackbarClose = (event, reason) => {
         if (reason === 'clickaway') {
@@ -76,25 +77,25 @@ export default function ServiceRequestDialog(props) {
     }
 
 
-    useEffect(() => {
-        getServiceTypes()
-            .then((response) => {
-                const sorted = [...response.data].sort((a, b) => {
-                    let alower = `${a.name}`.toLowerCase();
-                    let blower = `${b.name}`.toLowerCase();
-                    return (alower > blower) ? 1 : (alower < blower) ? -1 : 0
-                })
-                setServiceTypes(sorted);
-            })
-    }, [])
+    // useEffect(() => {
+    //     getServiceTypes()
+    //         .then((response) => {
+    //             const sorted = [...response.data].sort((a, b) => {
+    //                 let alower = `${a.name}`.toLowerCase();
+    //                 let blower = `${b.name}`.toLowerCase();
+    //                 return (alower > blower) ? 1 : (alower < blower) ? -1 : 0
+    //             })
+    //             setServiceTypes(sorted);
+    //         })
+    // }, [])
 
-    if (serviceTypes === null) {
-        return (
-            <div className={classes.loading}>
-                <CircularProgress />
-            </div>
-        )
-    }
+    // if (serviceTypes === null) {
+    //     return (
+    //         <div className={classes.loading}>
+    //             <CircularProgress />
+    //         </div>
+    //     )
+    // }
 
     return (
         <form className={classes.root}>
@@ -103,7 +104,7 @@ export default function ServiceRequestDialog(props) {
                     Request service
                 </Typography>
             </div>
-            <div className={classes.flexRow}>
+            {/* <div className={classes.flexRow}>
                 <FormControl className={clsx(classes.spaceAround, classes.select)}>
                     <InputLabel shrink>Service type</InputLabel>
                     <Select
@@ -123,7 +124,7 @@ export default function ServiceRequestDialog(props) {
                         }
                     </Select>
                 </FormControl>
-            </div>
+            </div> */}
             <div className={classes.flexRow}>
                 <TextField
                     className={classes.spaceAround}
@@ -140,7 +141,7 @@ export default function ServiceRequestDialog(props) {
                 <Button
                     className={classes.spaceAround}
                     variant="contained"
-                    disabled={!serviceTypeId || !description || isConfirmButtonDisabled}
+                    disabled={/*!serviceTypeId ||*/ !description || isConfirmButtonDisabled}
                     onClick={doRequest}
                 >
                     Confirm

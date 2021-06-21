@@ -22,3 +22,13 @@ export function getServiceRequest(id) {
         }
     })
 }
+
+export function getServiceRequestsForMyVehicles() {
+    return axios({
+        method: "GET",
+        url: `${config.API_URL}/service/request/unprocessed/personal`,
+        headers: {
+            "Authorization": `Bearer ${localStorage.getItem("AUTH_TOKEN")}`
+        }
+    })
+}

@@ -7,6 +7,7 @@ import MyBookingsGate from "../pages/MyBookingsPage";
 import MyVehiclesGate from "../pages/MyVehiclesPage";
 import ManageEmployeesGate from "../pages/ManageEmployeesPage";
 import AdminPanelPage from "../pages/AdminPanelPage";
+import ServiceRequestsGate from '../pages/ServiceRequestsPage';
 
 export default function App() {
   return (
@@ -28,6 +29,9 @@ export default function App() {
       </Route>
       <Route exact path="/admin-panel">
         <AdminPanelPage />
+      </Route>
+      <Route exact path="/service-requests">
+        <ServiceRequestsGate />
       </Route>
     </BrowserRouter>
   )

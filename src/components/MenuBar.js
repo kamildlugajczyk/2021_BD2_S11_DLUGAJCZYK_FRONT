@@ -81,7 +81,7 @@ export default function MenuBar(props) {
                     </ListItem>
                 }
                 {isAdmin === true &&
-                    <ListItem button key="service-requests" selected={props.selected === "service-requests"}>
+                    <ListItem button key="service-requests" selected={props.selected === "service-requests"} to="/service-requests" component={RouterLink}>
                         <ListItemText primary="Service requests" />
                     </ListItem>
                 }
