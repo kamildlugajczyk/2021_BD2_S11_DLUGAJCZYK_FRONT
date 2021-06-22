@@ -16,7 +16,7 @@ export function addServiceRequest(data) {
 export function getServiceRequest(id) {
     return axios({
         method: "GET",
-        url: `${config.API_URL}/service/reuqest/${id}`,
+        url: `${config.API_URL}/service/request/${id}`,
         headers: {
             "Authorization": `Bearer ${localStorage.getItem("AUTH_TOKEN")}`
         }

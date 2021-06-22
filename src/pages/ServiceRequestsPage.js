@@ -1,9 +1,10 @@
 import { CircularProgress, makeStyles, Button, Modal } from "@material-ui/core";
 import { DataGrid } from "@material-ui/data-grid";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import ApproveServiceRequestDialog from "../components/dialogs/ApproveServiceRequestDialog";
 import MenuBar from "../components/MenuBar";
+import { selectSelectedServiceRequestId, setSelectedServiceRequestId } from "../redux/ServiceRequesListSlice";
 import { setSelected } from "../redux/VehiclePickerSlice";
 import { getServiceRequestsForMyVehicles } from "../services/ServiceRequest";
 import { getMyPermissions } from "../services/UserAccount";
@@ -94,10 +95,14 @@ export default function ServiceRequestsGate() {
 function ServiceRequestsPage(props) {
     const classes = useStyles();
     const dispatch = useDispatch();
+    const selectedServiceRequestId = useSelector(selectSelectedServiceRequestId);
 
     const columns = [
         { field: "id", headerName: "ID", width: 100 },
-        { field: "vehicleId", headerName: "Vehicle ID", width: 200 },
+        { field: "vehicleId", headerName: "Vehicle ID", width: 150 },
+        { field: "vehicleModel", headerName: "Vehicle", width: 200 },
+        { field: "requester", headerName: "Requested by", width: 200 },
+        { field: "serviceType", headerName: "Service type", width: 200 },
         { field: "description", headerName: "Description", width: 500 }
     ]
 
@@ -126,6 +131,9 @@ function ServiceRequestsPage(props) {
         rows = rows.concat([{
             id: request.id,
             vehicleId: request.vehiclesId,
+            vehicleModel: `${request.vehicleDTO.brandmodel.brand} ${request.vehicleDTO.brandmodel.model} (${request.vehicleDTO.brandmodel.modelYear})`,
+            requester: `${request.personDTO.firstname} ${request.personDTO.lastname}`,
+            serviceType: request.serviceType.name,
             description: request.description
         }])
     })
@@ -143,6 +151,7 @@ function ServiceRequestsPage(props) {
                         onRowSelected={(row) => {
                             dispatch(setSelected(row.data.vehicleId));
                             setSelectedRequestId(row.data.id);
+                            dispatch(setSelectedServiceRequestId(row.data.id));
                         }}
                     />
                 </div>
