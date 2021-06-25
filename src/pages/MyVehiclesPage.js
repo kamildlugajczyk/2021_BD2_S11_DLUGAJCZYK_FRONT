@@ -9,6 +9,7 @@ import { useSelector } from 'react-redux';
 import { selectSelectedVehicleId } from '../redux/VehiclePickerSlice';
 import { Modal } from '@material-ui/core';
 import FinishServiceDialog from '../components/dialogs/FinishServiceDialog';
+import { selectSelectedServiceId } from '../redux/ServiceListSlice';
 
 
 
@@ -101,6 +102,7 @@ export default function MyVehiclesGate() {
 function MyVehiclesPage() {
     const classes = useStyles();
     const selectedVehicleId = useSelector(selectSelectedVehicleId);
+    const selectedServiceId = useSelector(selectSelectedServiceId);
 
     const [viewUpdater, setViewUpdater] = useState(false);
     const [isFinishModalOpen, setIsFinishModalOpen] = useState(false);
@@ -117,31 +119,33 @@ function MyVehiclesPage() {
                         <div className={classes.servicePicker}>
                             <ServiceList updater={viewUpdater} />
                         </div>
-                        <div className={classes.buttons}>
-                            <Button
-                                variant="contained"
-                                onClick={() => { setIsFinishModalOpen(true) }}
-                            >
-                                Finish service
-                            </Button>
-                            <Modal
-                                open={isFinishModalOpen}
-                                onClose={() => { setIsFinishModalOpen(false) }}
-                            >
-                                <div className={classes.modal}>
-                                    <FinishServiceDialog
-                                        onClose={
-                                            (isListChanged) => {
-                                                setIsFinishModalOpen(false);
-                                                if (isListChanged) {
-                                                    setViewUpdater(!viewUpdater);
+                        {selectedServiceId !== 0 &&
+                            <div className={classes.buttons}>
+                                <Button
+                                    variant="contained"
+                                    onClick={() => { setIsFinishModalOpen(true) }}
+                                >
+                                    Finish service
+                                </Button>
+                                <Modal
+                                    open={isFinishModalOpen}
+                                    onClose={() => { setIsFinishModalOpen(false) }}
+                                >
+                                    <div className={classes.modal}>
+                                        <FinishServiceDialog
+                                            onClose={
+                                                (isListChanged) => {
+                                                    setIsFinishModalOpen(false);
+                                                    if (isListChanged) {
+                                                        setViewUpdater(!viewUpdater);
+                                                    }
                                                 }
                                             }
-                                        }
-                                    />
-                                </div>
-                            </Modal>
-                        </div>
+                                        />
+                                    </div>
+                                </Modal>
+                            </div>
+                        }
                     </div>
                 }
             </div>
