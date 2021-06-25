@@ -8,6 +8,37 @@ import { getMyPermissions } from '../services/UserAccount';
 
 
 const useStyles = makeStyles((theme) => ({
+    root: {
+        display: "flex",
+        position: "fixed",
+        height: "100%",
+        width: "100%"
+    },
+    content: {
+        display: 'flex',
+        flex: "1"
+    },
+    vehiclePicker: {
+        height: "100%",
+        flex: "1"
+    },
+    serviceBlock: {
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+        flex: "1"
+    },
+    servicePicker:{
+        height: "100%",
+        flex: "1",
+    },
+    buttons: {
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-around",
+        paddingTop: 20,
+        paddingBottom: 30
+    },
     loading: {
         position: "fixed",
         top: "50%",
@@ -16,8 +47,19 @@ const useStyles = makeStyles((theme) => ({
         display: "flex",
         alignItems: "center",
         justifyContent: "center"
-    }
-}))
+    },
+    modal: {
+        position: 'fixed',
+        width: "25%",
+        backgroundColor: theme.palette.background.paper,
+        border: '1px solid #000',
+        boxShadow: theme.shadows[5],
+        padding: theme.spacing(3, 4, 3),
+        top: "50%",
+        left: "50%",
+        transform: "translate(-50%, -50%)"
+    },
+}));
 
 export default function MyVehiclesGate() {
 
@@ -52,11 +94,16 @@ export default function MyVehiclesGate() {
 }
 
 function MyVehiclesPage() {
+    const classes = useStyles();
 
     return (
-        <div>
+        <div className={classes.root}>
             <MenuBar selected="my-vehicles" />
-            <VehiclePicker url="/get-my-vehicles" />
+            <div className={classes.content}>
+                <div className={classes.vehiclePicker}>
+                    <VehiclePicker url="sdadd"/>
+                </div>
+            </div>
         </div>
     )
 }

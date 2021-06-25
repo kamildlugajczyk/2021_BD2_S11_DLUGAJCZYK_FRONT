@@ -51,9 +51,9 @@ export default function VehicleCalendar(props) {
 
     unavailabilityList.forEach((entry) => {
         events = events.concat([{
-            title: "Unavailable",
+            title: entry.servicingId ? "Service" : (entry.rentingId ? "Booking" : "Unavailable"),
             start: entry.startDate,
-            end: entry.endDate,
+            end: entry.endDate ? entry.endDate : entry.endPredictDate,
             allDay: true
         }])
     })
