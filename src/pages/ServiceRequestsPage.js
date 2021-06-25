@@ -106,7 +106,6 @@ function ServiceRequestsPage(props) {
         { field: "description", headerName: "Description", width: 500 }
     ]
 
-    const [selectedRequestId, setSelectedRequestId] = useState(0);
     const [isExecuteModalOpen, setIsExecuteModalOpen] = useState(false);
     const [viewUpdater, setViewUpdater] = useState(false);
     const [serviceRequests, setServiceRequests] = useState(null);
@@ -150,12 +149,11 @@ function ServiceRequestsPage(props) {
                         disableMultipleSelection={true}
                         onRowSelected={(row) => {
                             dispatch(setSelected(row.data.vehicleId));
-                            setSelectedRequestId(row.data.id);
                             dispatch(setSelectedServiceRequestId(row.data.id));
                         }}
                     />
                 </div>
-                {selectedRequestId !== 0 &&
+                {selectedServiceRequestId !== 0 &&
                     <div className={classes.buttons}>
                         <Button
                             variant="contained"

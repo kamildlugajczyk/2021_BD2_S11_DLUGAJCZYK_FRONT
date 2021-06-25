@@ -32,3 +32,33 @@ export function getServiceRequestsForMyVehicles() {
         }
     })
 }
+
+// data:
+// {
+//     "description": "string",
+//     "endDate": "2021-06-25T12:14:10.088Z",
+//     "price": 0,
+//     "serviceTypesId": 0,
+//     "startDate": "2021-06-25T12:14:10.088Z",
+//     "subcontractorsId": 0
+// }
+export function approveServiceRequest(id, data) {
+    return axios({
+        method: "PATCH",
+        url: `${config.API_URL}/service/request/keeper/execute/${id}`,
+        data: data,
+        headers: {
+            "Authorization": `Bearer ${localStorage.getItem("AUTH_TOKEN")}`
+        }
+    })
+}
+
+export function deleteServiceRequest(id) {
+    return axios({
+        method: "DELETE",
+        url: `${config.API_URL}/service/request/keeper/delete/${id}`,
+        headers: {
+            "Authorization": `Bearer ${localStorage.getItem("AUTH_TOKEN")}`
+        }
+    })
+}
