@@ -35,15 +35,18 @@ export default function DeleteVehicleDialog(props) {
     const classes = useStyles();
 
     const [snackbarOpenFlag, setSnackbarOpenFlag] = useState(false);
+    const [isConfirmButtonDisabled, setIsConfirmButtonDisabled] = useState(false);
 
 
     const doDelete = useCallback(() => {
+        setIsConfirmButtonDisabled(true);
         deleteVehicle(selectedVehicleId)
             .then(() => {
                 dispatch(setSelectedVehicleId(0));
                 props.onClose(true);
             })
             .catch(() => {
+                setIsConfirmButtonDisabled(false);
                 setSnackbarOpenFlag(true);
             })
     }, [props, selectedVehicleId, dispatch])
@@ -80,6 +83,7 @@ export default function DeleteVehicleDialog(props) {
                     className={classes.spaceAround}
                     variant="contained"
                     onClick={doDelete}
+                    disabled={isConfirmButtonDisabled}
                 >
                     Confirm
                 </Button>

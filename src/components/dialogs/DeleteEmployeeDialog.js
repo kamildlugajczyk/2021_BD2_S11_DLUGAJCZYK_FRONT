@@ -35,15 +35,18 @@ export default function DeleteEmployeeDialog(props) {
     const classes = useStyles();
 
     const [snackbarOpenFlag, setSnackbarOpenFlag] = useState(false);
+    const [isConfirmButtonDisabled, setIsConfirmButtonDisabled] = useState(false);
 
 
     const doDelete = useCallback(() => {
+        setIsConfirmButtonDisabled(true);
         deleteEmployee(selectedEmployeeId)
             .then(() => {
                 dispatch(setSelectedEmployeeId(0));
                 props.onClose(true);
             })
             .catch(() => {
+                setIsConfirmButtonDisabled(false);
                 setSnackbarOpenFlag(true);
             })
     }, [props, selectedEmployeeId, dispatch])
@@ -80,6 +83,7 @@ export default function DeleteEmployeeDialog(props) {
                     className={classes.spaceAround}
                     variant="contained"
                     onClick={doDelete}
+                    disabled={isConfirmButtonDisabled}
                 >
                     Confirm
                 </Button>
