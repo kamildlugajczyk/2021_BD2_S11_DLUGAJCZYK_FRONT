@@ -2,7 +2,7 @@ import { Button, makeStyles, Snackbar, Typography } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
 import { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { selectSelectedVehicleId, setSelected } from "../../redux/VehiclePickerSlice";
+import { selectSelectedVehicleId, setSelectedVehicleId } from "../../redux/VehiclePickerSlice";
 import { deleteVehicle } from "../../services/Vehicle";
 
 
@@ -40,7 +40,7 @@ export default function DeleteVehicleDialog(props) {
     const doDelete = useCallback(() => {
         deleteVehicle(selectedVehicleId)
             .then(() => {
-                dispatch(setSelected(0));
+                dispatch(setSelectedVehicleId(0));
                 props.onClose(true);
             })
             .catch(() => {

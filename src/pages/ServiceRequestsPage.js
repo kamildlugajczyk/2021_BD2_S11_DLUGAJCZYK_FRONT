@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import ApproveServiceRequestDialog from "../components/dialogs/ApproveServiceRequestDialog";
 import MenuBar from "../components/MenuBar";
 import { selectSelectedServiceRequestId, setSelectedServiceRequestId } from "../redux/ServiceRequesListSlice";
-import { setSelected } from "../redux/VehiclePickerSlice";
+import { setSelectedVehicleId } from "../redux/VehiclePickerSlice";
 import { getServiceRequestsForMyVehicles } from "../services/ServiceRequest";
 import { getMyPermissions } from "../services/UserAccount";
 import LoginPage from "./LoginPage";
@@ -148,7 +148,7 @@ function ServiceRequestsPage(props) {
                         columns={columns}
                         disableMultipleSelection={true}
                         onRowSelected={(row) => {
-                            dispatch(setSelected(row.data.vehicleId));
+                            dispatch(setSelectedVehicleId(row.data.vehicleId));
                             dispatch(setSelectedServiceRequestId(row.data.id));
                         }}
                     />

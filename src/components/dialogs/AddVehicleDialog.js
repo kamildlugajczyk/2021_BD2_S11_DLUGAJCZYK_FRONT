@@ -6,7 +6,7 @@ import { addVehicle, editVehicle, getAllVehicles, getVehicle } from "../../servi
 import { getAllVehiclePurposes } from "../../services/VehiclePurpose";
 import { getAllVehicleTypes } from "../../services/VehicleType";
 import { useDispatch, useSelector } from 'react-redux';
-import { selectSelectedVehicleId, setSelected } from '../../redux/VehiclePickerSlice';
+import { selectSelectedVehicleId, setSelectedVehicleId } from '../../redux/VehiclePickerSlice';
 import { Alert } from '@material-ui/lab';
 
 
@@ -79,7 +79,7 @@ export default function AddVehicleDialog(props) {
             typeId: typeId,
             vin: vin
         }).then(() => {
-            dispatch(setSelected(id));
+            dispatch(setSelectedVehicleId(id));
             props.onClose(true);
         }).catch(() => {
             setSnackbarOpenFlag(true);

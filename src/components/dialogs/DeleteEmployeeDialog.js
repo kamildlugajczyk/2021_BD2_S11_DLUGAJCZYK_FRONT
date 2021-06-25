@@ -2,7 +2,7 @@ import { Button, makeStyles, Snackbar, Typography } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
 import { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { selectSelectedEmployeeId, setSelected } from "../../redux/EmployeesListSlice";
+import { selectSelectedEmployeeId, setSelectedEmployeeId } from "../../redux/EmployeesListSlice";
 import { deleteEmployee } from "../../services/Employee";
 
 
@@ -40,7 +40,7 @@ export default function DeleteEmployeeDialog(props) {
     const doDelete = useCallback(() => {
         deleteEmployee(selectedEmployeeId)
             .then(() => {
-                dispatch(setSelected(0));
+                dispatch(setSelectedEmployeeId(0));
                 props.onClose(true);
             })
             .catch(() => {

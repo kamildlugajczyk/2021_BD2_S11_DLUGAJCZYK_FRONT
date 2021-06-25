@@ -6,12 +6,12 @@ export const employeesListSlice = createSlice({
         selectedEmployeeId: 0
     },
     reducers: {
-        setSelected: (state, action) => {
+        setSelectedEmployeeId: (state, action) => {
             state.selectedEmployeeId = action.payload;
         }
     }
 })
 
-export const { setSelected } = employeesListSlice.actions;
+export const { setSelectedEmployeeId } = employeesListSlice.actions;
 export default employeesListSlice.reducer;
 export const selectSelectedEmployeeId = (state) => state.rootReducer.employeesList.selectedEmployeeId;

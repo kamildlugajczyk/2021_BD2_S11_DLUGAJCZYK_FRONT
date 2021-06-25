@@ -3,7 +3,7 @@ import { DataGrid } from '@material-ui/data-grid';
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectSelectedVehicleId, setSelected } from '../redux/VehiclePickerSlice';
+import { selectSelectedVehicleId, setSelectedVehicleId } from '../redux/VehiclePickerSlice';
 import config from '../config';
 import { CircularProgress, makeStyles } from '@material-ui/core';
 
@@ -72,7 +72,7 @@ export default function VehiclePicker(props) {
             disableMultipleSelection={true}
             onRowSelected={
                 (row) => {
-                    dispatch(setSelected(row.data.id))
+                    dispatch(setSelectedVehicleId(row.data.id))
                 }
             }
             selectionModel={[selectedVehicleId]}

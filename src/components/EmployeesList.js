@@ -1,7 +1,7 @@
 import { DataGrid } from '@material-ui/data-grid';
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { setSelected } from '../redux/EmployeesListSlice';
+import { setSelectedEmployeeId } from '../redux/EmployeesListSlice';
 import { CircularProgress, makeStyles } from '@material-ui/core';
 import { getAllEmployees } from '../services/Employee';
 
@@ -34,7 +34,7 @@ export default function EmployeesList(props) {
                 const sorted = [...response.data].sort((a, b) => { return a.id - b.id });
                 setEmployeesArray(sorted);
             })
-        dispatch(setSelected(0));
+        dispatch(setSelectedEmployeeId(0));
     }, [dispatch, props.updater]);
 
     if (!employeesArray) {
@@ -62,7 +62,7 @@ export default function EmployeesList(props) {
             rows={rows}
             columns={columns}
             disableMultipleSelection={true}
-            onRowSelected={(row) => { dispatch(setSelected(row.data.id)) }}
+            onRowSelected={(row) => { dispatch(setSelectedEmployeeId(row.data.id)) }}
         />
     );
 }
