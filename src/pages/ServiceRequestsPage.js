@@ -3,6 +3,7 @@ import { DataGrid } from "@material-ui/data-grid";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ApproveServiceRequestDialog from "../components/dialogs/ApproveServiceRequestDialog";
+import DeleteServiceRequestDialog from "../components/dialogs/DeleteServiceRequestDialog";
 import MenuBar from "../components/MenuBar";
 import { selectSelectedServiceRequestId, setSelectedServiceRequestId } from "../redux/ServiceRequesListSlice";
 import { setSelectedVehicleId } from "../redux/VehiclePickerSlice";
@@ -107,6 +108,7 @@ function ServiceRequestsPage(props) {
     ]
 
     const [isExecuteModalOpen, setIsExecuteModalOpen] = useState(false);
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
     const [viewUpdater, setViewUpdater] = useState(false);
     const [serviceRequests, setServiceRequests] = useState(null);
 
@@ -169,6 +171,27 @@ function ServiceRequestsPage(props) {
                                 <ApproveServiceRequestDialog
                                     onClose={(isListUpdated) => {
                                         setIsExecuteModalOpen(false);
+                                        if (isListUpdated) {
+                                            setViewUpdater(!viewUpdater);
+                                        }
+                                    }}
+                                />
+                            </div>
+                        </Modal>
+                        <Button
+                            variant="contained"
+                            onClick={() => { setIsDeleteModalOpen(true) }}
+                        >
+                            Delete request
+                        </Button>
+                        <Modal
+                            open={isDeleteModalOpen}
+                            onClose={() => { setIsDeleteModalOpen(false) }}
+                        >
+                            <div className={classes.modal}>
+                                <DeleteServiceRequestDialog
+                                    onClose={(isListUpdated) => {
+                                        setIsDeleteModalOpen(false);
                                         if (isListUpdated) {
                                             setViewUpdater(!viewUpdater);
                                         }

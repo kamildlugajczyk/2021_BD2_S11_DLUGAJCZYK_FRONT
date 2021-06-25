@@ -56,7 +56,7 @@ export function approveServiceRequest(id, data) {
 export function deleteServiceRequest(id) {
     return axios({
         method: "DELETE",
-        url: `${config.API_URL}/service/request/keeper/delete/${id}`,
+        url: `${config.API_URL}/service/request/keeper/${id}`,
         headers: {
             "Authorization": `Bearer ${localStorage.getItem("AUTH_TOKEN")}`
         }
