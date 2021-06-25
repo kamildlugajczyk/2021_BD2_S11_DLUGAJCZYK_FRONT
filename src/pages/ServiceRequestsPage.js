@@ -101,7 +101,7 @@ function ServiceRequestsPage(props) {
 
     return (
         <div className={classes.root}>
-            <MenuBar selected="service-reuqests" />
+            <MenuBar selected="service-requests" />
             <div className={classes.content}>
                 <div className={classes.list}>
                     <ServiceRequestList updater={viewUpdater} />
