@@ -2,8 +2,13 @@ import React, { useState, useEffect } from 'react';
 import MenuBar from '../components/MenuBar';
 import VehiclePicker from '../components/VehiclePicker';
 import LoginPage from './LoginPage';
-import { CircularProgress, makeStyles } from '@material-ui/core';
+import { Button, CircularProgress, makeStyles } from '@material-ui/core';
 import { getMyPermissions } from '../services/UserAccount';
+import ServiceList from '../components/ServiceList';
+import { useSelector } from 'react-redux';
+import { selectSelectedVehicleId } from '../redux/VehiclePickerSlice';
+import { Modal } from '@material-ui/core';
+import FinishServiceDialog from '../components/dialogs/FinishServiceDialog';
 
 
 
@@ -28,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
         flexDirection: "column",
         flex: "1"
     },
-    servicePicker:{
+    servicePicker: {
         height: "100%",
         flex: "1",
     },
@@ -95,14 +100,50 @@ export default function MyVehiclesGate() {
 
 function MyVehiclesPage() {
     const classes = useStyles();
+    const selectedVehicleId = useSelector(selectSelectedVehicleId);
+
+    const [viewUpdater, setViewUpdater] = useState(false);
+    const [isFinishModalOpen, setIsFinishModalOpen] = useState(false);
 
     return (
         <div className={classes.root}>
             <MenuBar selected="my-vehicles" />
             <div className={classes.content}>
                 <div className={classes.vehiclePicker}>
-                    <VehiclePicker url="sdadd"/>
+                    <VehiclePicker url="/keeper/vehicle" />
                 </div>
+                {selectedVehicleId !== 0 &&
+                    <div className={classes.serviceBlock}>
+                        <div className={classes.servicePicker}>
+                            <ServiceList updater={viewUpdater} />
+                        </div>
+                        <div className={classes.buttons}>
+                            <Button
+                                variant="contained"
+                                onClick={() => { setIsFinishModalOpen(true) }}
+                            >
+                                Finish service
+                            </Button>
+                            <Modal
+                                open={isFinishModalOpen}
+                                onClose={() => { setIsFinishModalOpen(false) }}
+                            >
+                                <div className={classes.modal}>
+                                    <FinishServiceDialog
+                                        onClose={
+                                            (isListChanged) => {
+                                                setIsFinishModalOpen(false);
+                                                if (isListChanged) {
+                                                    setViewUpdater(!viewUpdater);
+                                                }
+                                            }
+                                        }
+                                    />
+                                </div>
+                            </Modal>
+                        </div>
+                    </div>
+                }
             </div>
         </div>
     )
