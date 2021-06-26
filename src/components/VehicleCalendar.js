@@ -54,7 +54,6 @@ export default function VehicleCalendar(props) {
             title: entry.servicingId ? "Service" : (entry.rentingId ? "Booking" : "Unavailable"),
             start: entry.startDate,
             end: entry.endDate ? entry.endDate : entry.endPredictDate,
-            allDay: true
         }])
     })
 

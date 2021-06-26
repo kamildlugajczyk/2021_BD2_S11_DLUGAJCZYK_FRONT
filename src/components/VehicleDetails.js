@@ -119,15 +119,6 @@ export default function VehicleDetails(props) {
             </ListItem>
             <ListItem>
                 <ListItemIcon>
-                    <Build />
-                </ListItemIcon>
-                <ListItemText
-                    primary={vehicle.vin}
-                    secondary="VIN"
-                />
-            </ListItem>
-            <ListItem>
-                <ListItemIcon>
                     <Person />
                 </ListItemIcon>
                 <ListItemText
@@ -135,6 +126,16 @@ export default function VehicleDetails(props) {
                     secondary="Keeper"
                 />
             </ListItem>
+            <ListItem>
+                <ListItemIcon>
+                    <Build />
+                </ListItemIcon>
+                <ListItemText
+                    primary={vehicle.vin}
+                    secondary="VIN"
+                />
+            </ListItem>
+            
         </List>
     )
 }

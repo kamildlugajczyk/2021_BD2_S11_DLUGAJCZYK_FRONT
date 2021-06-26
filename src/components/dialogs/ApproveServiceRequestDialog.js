@@ -131,7 +131,8 @@ export default function ApproveServiceRequestDialog(props) {
                     onChange={setStartDate}
                     label="Start date"
                     variant="inline"
-                    format="DD/MM/yyyy"
+                    format="DD/MM/yyyy HH:mm"
+                    ampm={false}
                 />
                 <DateTimePicker
                     className={classes.spaceAround}
@@ -139,7 +140,8 @@ export default function ApproveServiceRequestDialog(props) {
                     onChange={setEndDate}
                     label="End date"
                     variant="inline"
-                    format="DD/MM/yyyy"
+                    format="DD/MM/yyyy HH:mm"
+                    ampm={false}
                 />
             </div>
             <div className={classes.flexRow}>
