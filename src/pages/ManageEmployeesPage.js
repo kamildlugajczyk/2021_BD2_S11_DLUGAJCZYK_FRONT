@@ -5,6 +5,7 @@ import AddEmployeeDialog from '../components/dialogs/AddEmployeeDialog';
 import DeleteEmployeeDialog from '../components/dialogs/DeleteEmployeeDialog';
 import EmployeesList from '../components/EmployeesList';
 import MenuBar from '../components/MenuBar';
+import config from '../config';
 import { selectSelectedEmployeeId } from '../redux/EmployeesListSlice';
 import { getMyPermissions } from '../services/UserAccount';
 import LoginPage from './LoginPage';
@@ -194,6 +195,15 @@ function ManageEmployeesPage(props) {
                                 </div>
                             </Modal>
                         </div>
+                    }
+                    {selectedEmployeeId !== 0 &&
+                        <Button
+                            variant="contained"
+                            href={`${config.API_URL}/employee/report/${selectedEmployeeId}`}
+                            target="_blank"
+                        >
+                            Employee report (PDF)
+                        </Button>
                     }
                 </div>
             </div>

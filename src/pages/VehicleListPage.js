@@ -12,6 +12,7 @@ import DeleteVehicleDialog from '../components/dialogs/DeleteVehicleDialog';
 import ChangeKeeperDialog from '../components/dialogs/ChangeKeeperDialog';
 import { getMyPermissions } from '../services/UserAccount';
 import ServiceRequestDialog from '../components/dialogs/ServiceRequestDialog';
+import config from '../config';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -271,6 +272,15 @@ function VehicleListPage() {
                                     </div>
                                 </Modal>
                             </div>
+                        }
+                        {selectedVehicleId !== 0 &&
+                            <Button
+                                variant="contained"
+                                href={`${config.API_URL}/keeping/report/vehicle-keeper?vehicleId=${selectedVehicleId}`}
+                                target="_blank"
+                            >
+                                Vehicle report (PDF)
+                            </Button>
                         }
                     </div>
                 </div>
