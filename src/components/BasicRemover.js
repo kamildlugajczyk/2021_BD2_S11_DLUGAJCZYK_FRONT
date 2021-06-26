@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { Container, CssBaseline, makeStyles } from '@material-ui/core';
@@ -19,7 +20,14 @@ const useStyles = makeStyles((theme) => ({
         background: 'white',
         flexDirection: 'column',
         alignItems: 'center'
-    }
+    },
+    spaceAround: {
+        margin: "10px",
+        flex: "3"
+    },
+    select: {
+        minWidth: "100%"
+    },
 }));
 
 export default function BasicRemover(props) {
@@ -97,9 +105,9 @@ export default function BasicRemover(props) {
             <Container >
                 <CssBaseline />
                 <div className={classes.paper}>
-                    <form>
+                    <form fullWidth>
                         <h1>{windowHeader}</h1>
-                        <FormControl>
+                        <FormControl className={clsx(classes.spaceAround, classes.select)}>
                             <InputLabel shrink>Item</InputLabel>
                             <Select
 
