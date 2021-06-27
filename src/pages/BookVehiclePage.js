@@ -7,9 +7,8 @@ import { useSelector } from 'react-redux';
 import { selectSelectedVehicleId } from '../redux/VehiclePickerSlice';
 import VehicleCalendar from '../components/VehicleCalendar';
 import { getMyPermissions } from '../services/UserAccount';
-import DatePicker from 'react-datepicker';
+import { DateTimePicker } from "@material-ui/pickers";
 import Button from '@material-ui/core/Button';
-import "react-datepicker/dist/react-datepicker.css";
 import { Alert } from '@material-ui/lab';
 
 const useStyles = makeStyles((theme) => ({
@@ -112,7 +111,7 @@ function BookVehiclePage() {
     const selectedVehicleId = useSelector(selectSelectedVehicleId);
     const classes = useStyles();
     const [startDate, setStartDate] = useState(new Date());
-    const [endDate, setEndDate] = useState(null);
+    const [endDate, setEndDate] = useState(new Date());
     const [snackbarOpenFlag, setSnackbarOpenFlag] = useState(false);
     const [errorMessage, setErrorMessage] = useState("Error");
 
@@ -126,7 +125,7 @@ function BookVehiclePage() {
     const confirmBooking = useCallback(() => {
         console.log(`${selectedVehicleId} ${startDate} ${endDate}`);
         if(startDate > endDate){
-            setErrorMessage("Wrong date; start after finish");
+            setErrorMessage("Wrong date");
             setSnackbarOpenFlag(true);
             return;
         }
@@ -147,17 +146,23 @@ function BookVehiclePage() {
                             <VehicleCalendar />
                         </div>
                         <div className={classes.bookingDialog}>
-                        <DatePicker
-                            required
-                            dateFormat="dd/MM/yyyy"
+                        <DateTimePicker
+                            
                             onChange={setStartDate}
-                            selected={startDate}
+                            value={startDate}
+                            label="Start date"
+                            variant="inline"
+                            format="DD/MM/yyyy HH:mm"
+                            ampm={false}
                         />
-                        <DatePicker
-                            required
-                            dateFormat="dd/MM/yyyy"
+                        <DateTimePicker
+                            
                             onChange={setEndDate}
-                            selected={endDate}
+                            value={endDate}
+                            label="End date"
+                            variant="inline"
+                            format="DD/MM/yyyy HH:mm"
+                            ampm={false}
                         />
                         <Button
                             variant="contained"
