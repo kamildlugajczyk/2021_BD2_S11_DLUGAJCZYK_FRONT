@@ -2,15 +2,14 @@ import React, { useState, useEffect } from 'react';
 import MenuBar from '../components/MenuBar';
 import VehiclePicker from '../components/VehiclePicker';
 import LoginPage from './LoginPage';
-import { CircularProgress, makeStyles, TextField } from '@material-ui/core';
+import { CircularProgress, makeStyles } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import { selectSelectedVehicleId } from '../redux/VehiclePickerSlice';
 import VehicleCalendar from '../components/VehicleCalendar';
 import { getMyPermissions } from '../services/UserAccount';
-import DatePicker from 'react-date-picker';
+import DatePicker from 'react-datepicker';
 import Button from '@material-ui/core/Button';
-import { fontSize } from '@material-ui/system';
-
+import "react-datepicker/dist/react-datepicker.css";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -108,15 +107,15 @@ export default function BookVehicleGate() {
     )
 }
 
-function confirmBooking() {
-    
+function confirmBooking(id, start, end) {
+    console.log(`${id} ${start} ${end}`);
 }
 
 function BookVehiclePage() {
     const selectedVehicleId = useSelector(selectSelectedVehicleId);
     const classes = useStyles();
-    const [startDate, setStartDate] = useState(null);
-    const [endDate, setEndDate] = useState(null);
+    const [startDate, setStartDate] = useState(new Date());
+    const [endDate, setEndDate] = useState(new Date());
 
     return (
         <div className={classes.root}>
@@ -133,22 +132,22 @@ function BookVehiclePage() {
                             <VehicleCalendar />
                         </div>
                         <div className={classes.bookingDialog}>
-                        <DatePicker className={classes.datePicker}
+                        <DatePicker
                             required
-                            showLeadingZeros
+                            dateFormat="dd/MM/yyyy"
                             onChange={setStartDate}
-                            value={startDate}
+                            selected={startDate}
                         />
-                        <DatePicker className={classes.datePicker}
+                        <DatePicker
                             required
-                            showLeadingZeros
+                            dateFormat="dd/MM/yyyy"
                             onChange={setEndDate}
-                            value={endDate}
+                            selected={endDate}
                         />
                         <Button
                             variant="contained"
                             fullWidth
-                            onClick={confirmBooking}
+                            onClick={()=>confirmBooking(selectedVehicleId, startDate, endDate)}
                         >
                             Book vehicle
                         </Button>
