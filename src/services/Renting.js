@@ -44,3 +44,14 @@ export function cancelVehicleRenting(id) {
         }
     })
 }
+
+export function addOperationCost(data) {
+    return axios({
+        method: "POST",
+        url: `${config.API_URL}/operations`,
+        data: data,
+        headers: {
+            "Authorization": `Bearer ${localStorage.getItem("AUTH_TOKEN")}`
+        }
+    })
+}
