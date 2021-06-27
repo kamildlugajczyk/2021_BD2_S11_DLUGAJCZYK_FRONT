@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import MenuBar from '../components/MenuBar';
 import VehiclePicker from '../components/VehiclePicker';
 import LoginPage from './LoginPage';
-import { CircularProgress, makeStyles } from '@material-ui/core';
+import { CircularProgress, makeStyles, Snackbar } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import { selectSelectedVehicleId } from '../redux/VehiclePickerSlice';
 import VehicleCalendar from '../components/VehicleCalendar';
@@ -10,6 +10,7 @@ import { getMyPermissions } from '../services/UserAccount';
 import DatePicker from 'react-datepicker';
 import Button from '@material-ui/core/Button';
 import "react-datepicker/dist/react-datepicker.css";
+import { Alert } from '@material-ui/lab';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -107,15 +108,29 @@ export default function BookVehicleGate() {
     )
 }
 
-function confirmBooking(id, start, end) {
-    console.log(`${id} ${start} ${end}`);
-}
-
 function BookVehiclePage() {
     const selectedVehicleId = useSelector(selectSelectedVehicleId);
     const classes = useStyles();
     const [startDate, setStartDate] = useState(new Date());
-    const [endDate, setEndDate] = useState(new Date());
+    const [endDate, setEndDate] = useState(null);
+    const [snackbarOpenFlag, setSnackbarOpenFlag] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("Error");
+
+    const handleSnackbarClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setSnackbarOpenFlag(false);
+    }
+    
+    const confirmBooking = useCallback(() => {
+        console.log(`${selectedVehicleId} ${startDate} ${endDate}`);
+        if(startDate > endDate){
+            setErrorMessage("Wrong date; start after finish");
+            setSnackbarOpenFlag(true);
+            return;
+        }
+    }, [selectedVehicleId, startDate, endDate])
 
     return (
         <div className={classes.root}>
@@ -151,6 +166,15 @@ function BookVehiclePage() {
                         >
                             Book vehicle
                         </Button>
+                        <Snackbar
+                            open={snackbarOpenFlag}
+                            autoHideDuration={2000}
+                            onClose={handleSnackbarClose}
+                        >
+                            <Alert onClose={handleSnackbarClose} severity="error">
+                                {errorMessage}
+                            </Alert>
+                        </Snackbar>
                         </div>
                     </div>
                 }
