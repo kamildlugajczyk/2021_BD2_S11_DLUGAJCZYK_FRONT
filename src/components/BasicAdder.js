@@ -35,7 +35,7 @@ export default function BasicAdder(props) {
     const [yearInput, setYearInput] = useState("");
     var isBasic = true;
     var data = {
-        string: input,
+        name: input,
     };
     var labels = ['Name', 'Model', 'Year'];
     
