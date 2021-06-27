@@ -7,6 +7,9 @@ import { useSelector } from 'react-redux';
 import { selectSelectedVehicleId } from '../redux/VehiclePickerSlice';
 import VehicleCalendar from '../components/VehicleCalendar';
 import { getMyPermissions } from '../services/UserAccount';
+import DatePicker from 'react-date-picker';
+import Button from '@material-ui/core/Button';
+import { fontSize } from '@material-ui/system';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -50,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
     },
     bookingDialog: {
         height: "50%",
-        width: "30%",
+        width: "50%",
         paddingTop: "15px",
         paddingBottom: "15px",
         display: "flex",
@@ -65,7 +68,11 @@ const useStyles = makeStyles((theme) => ({
         display: "flex",
         alignItems: "center",
         justifyContent: "center"
-    }
+    },
+    datePicker: {
+        width: "100%",
+        fontFamily: "Arial"
+    },
 }));
 
 
@@ -101,11 +108,15 @@ export default function BookVehicleGate() {
     )
 }
 
-
+function confirmBooking() {
+    
+}
 
 function BookVehiclePage() {
     const selectedVehicleId = useSelector(selectSelectedVehicleId);
     const classes = useStyles();
+    const [startDate, setStartDate] = useState(null);
+    const [endDate, setEndDate] = useState(null);
 
     return (
         <div className={classes.root}>
@@ -122,7 +133,25 @@ function BookVehiclePage() {
                             <VehicleCalendar />
                         </div>
                         <div className={classes.bookingDialog}>
-                            vehicle dialog goes here
+                        <DatePicker className={classes.datePicker}
+                            required
+                            showLeadingZeros
+                            onChange={setStartDate}
+                            value={startDate}
+                        />
+                        <DatePicker className={classes.datePicker}
+                            required
+                            showLeadingZeros
+                            onChange={setEndDate}
+                            value={endDate}
+                        />
+                        <Button
+                            variant="contained"
+                            fullWidth
+                            onClick={confirmBooking}
+                        >
+                            Book vehicle
+                        </Button>
                         </div>
                     </div>
                 }
