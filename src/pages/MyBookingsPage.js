@@ -8,6 +8,7 @@ import { selectSelectedRentingId } from '../redux/RentingListSlice';
 import RentingList from '../components/RentingList';
 import { Modal } from '@material-ui/core';
 import AddOperationalCostDialog from '../components/dialogs/AddOperationalCostDialog';
+import FinishRentingDialog from '../components/dialogs/FinishRentingDialog';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -142,7 +143,16 @@ function MyBookingsPage() {
                             onClose={() => { setIsFinishModalOpen(false) }}
                         >
                             <div className={classes.modal}>
-                                tets
+                                <FinishRentingDialog
+                                    onClose={
+                                        (isListChanged) => {
+                                            setIsFinishModalOpen(false);
+                                            if (isListChanged) {
+                                                setViewUpdater(!viewUpdater);
+                                            }
+                                        }
+                                    }
+                                />
                             </div>
                         </Modal>
                     </div>
