@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import axios from 'axios';
+import config from '../config';
 import MenuBar from '../components/MenuBar';
 import VehiclePicker from '../components/VehiclePicker';
 import LoginPage from './LoginPage';
@@ -8,6 +10,7 @@ import { selectSelectedVehicleId } from '../redux/VehiclePickerSlice';
 import VehicleCalendar from '../components/VehicleCalendar';
 import { getMyPermissions } from '../services/UserAccount';
 import { DateTimePicker } from "@material-ui/pickers";
+import { rentVehicle } from '../services/Renting';
 import Button from '@material-ui/core/Button';
 import { Alert } from '@material-ui/lab';
 
@@ -114,6 +117,7 @@ function BookVehiclePage() {
     const [endDate, setEndDate] = useState(new Date());
     const [snackbarOpenFlag, setSnackbarOpenFlag] = useState(false);
     const [errorMessage, setErrorMessage] = useState("Error");
+    const [unavailabilityList, setUnavailabilityList] = useState(null);
 
     const handleSnackbarClose = (event, reason) => {
         if (reason === 'clickaway') {
@@ -122,13 +126,42 @@ function BookVehiclePage() {
         setSnackbarOpenFlag(false);
     }
     
+    useEffect(() => {
+        axios({
+            method: "GET",
+            url: `${config.API_URL}/unavailability/${selectedVehicleId}`,
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("AUTH_TOKEN")}`
+            }
+        })
+        .then((response) => {
+            setUnavailabilityList(response.data);
+            console.log(unavailabilityList);
+        })
+    }, [selectedVehicleId])
+    
     const confirmBooking = useCallback(() => {
-        console.log(`${selectedVehicleId} ${startDate} ${endDate}`);
         if(startDate > endDate){
             setErrorMessage("Wrong date");
             setSnackbarOpenFlag(true);
             return;
         }
+        unavailabilityList.forEach(element => {
+            console.log(`${element.startDate} ${element.endPredictDate}`);
+            if(endDate >= element.startDate && endDate <= element.endPredictDate
+            || startDate >= element.startDate && startDate <= element.endPredictDate){
+                setErrorMessage("Overlap");
+                setSnackbarOpenFlag(true);
+                return;
+            }
+        });
+        const data = {
+            business: true,
+            predictEndDate: endDate,
+            startDate: startDate
+        }
+        rentVehicle(selectedVehicleId, data);
+
     }, [selectedVehicleId, startDate, endDate])
 
     return (
