@@ -136,7 +136,6 @@ function BookVehiclePage() {
         })
         .then((response) => {
             setUnavailabilityList(response.data);
-            console.log(unavailabilityList);
         })
     }, [selectedVehicleId])
     
@@ -148,12 +147,6 @@ function BookVehiclePage() {
             return;
         }
         unavailabilityList.forEach(element => {
-            console.log('input');
-            console.log(startDate);
-            console.log(endDate);
-            console.log('arr');
-            console.log(`${element.startDate}`);
-            console.log(` ${element.endPredictDate}`);
             start = Date.parse(element.startDate);
             end = Date.parse(element.endPredictDate);
             if(endDate > start && endDate < end
