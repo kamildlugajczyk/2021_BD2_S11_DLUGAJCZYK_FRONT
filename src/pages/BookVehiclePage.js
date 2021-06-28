@@ -141,6 +141,7 @@ function BookVehiclePage() {
     
     const confirmBooking = useCallback(() => {
         var start, end;
+        var isValid = true;
         if(startDate > endDate){
             setErrorMessage("Wrong date");
             setSnackbarOpenFlag(true);
@@ -154,7 +155,7 @@ function BookVehiclePage() {
             || startDate <= start && endDate >= end){
                 setErrorMessage("Overlap");
                 setSnackbarOpenFlag(true);
-                return;
+                isValid = false;
             }
         });
         const data = {
@@ -162,7 +163,9 @@ function BookVehiclePage() {
             predictEndDate: endDate,
             startDate: startDate
         }
-        rentVehicle(selectedVehicleId, data);
+        if(isValid){
+            rentVehicle(selectedVehicleId, data);
+        }
 
     }, [selectedVehicleId, startDate, endDate])
 
