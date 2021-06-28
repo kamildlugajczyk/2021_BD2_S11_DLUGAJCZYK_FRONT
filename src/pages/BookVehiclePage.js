@@ -113,8 +113,8 @@ export default function BookVehicleGate() {
 function BookVehiclePage() {
     const selectedVehicleId = useSelector(selectSelectedVehicleId);
     const classes = useStyles();
-    const [startDate, setStartDate] = useState(new Date());
-    const [endDate, setEndDate] = useState(new Date());
+    const [startDate, setStartDate] = useState(null);
+    const [endDate, setEndDate] = useState(null);
     const [snackbarOpenFlag, setSnackbarOpenFlag] = useState(false);
     const [errorMessage, setErrorMessage] = useState("Error");
     const [unavailabilityList, setUnavailabilityList] = useState(null);
@@ -141,15 +141,24 @@ function BookVehiclePage() {
     }, [selectedVehicleId])
     
     const confirmBooking = useCallback(() => {
+        var start, end;
         if(startDate > endDate){
             setErrorMessage("Wrong date");
             setSnackbarOpenFlag(true);
             return;
         }
         unavailabilityList.forEach(element => {
-            console.log(`${element.startDate} ${element.endPredictDate}`);
-            if(endDate >= element.startDate && endDate <= element.endPredictDate
-            || startDate >= element.startDate && startDate <= element.endPredictDate){
+            console.log('input');
+            console.log(startDate);
+            console.log(endDate);
+            console.log('arr');
+            console.log(`${element.startDate}`);
+            console.log(` ${element.endPredictDate}`);
+            start = Date.parse(element.startDate);
+            end = Date.parse(element.endPredictDate);
+            if(endDate > start && endDate < end
+            || startDate > start && startDate < end
+            || startDate <= start && endDate >= end){
                 setErrorMessage("Overlap");
                 setSnackbarOpenFlag(true);
                 return;
